@@ -23,7 +23,7 @@ export default function ProjectCard({ title, category, caseStudy, image, liveLin
     <>
       <motion.div
         onClick={() => setIsModalOpen(true)}
-        className={`group block relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem] border bg-neutral-900/40 backdrop-blur-md transition-all duration-700 hover:bg-neutral-900/60 cursor-pointer w-full mx-auto
+        className={`group block relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem] border bg-neutral-900/40 backdrop-blur-md transition-all duration-700 hover:bg-neutral-900/60 cursor-pointer w-full mx-auto will-change-transform
         ${featured ? "md:col-span-2 min-h-[400px] md:min-h-[600px] max-w-6xl border-white/10 hover:border-white/30 shadow-[0_0_40px_rgba(245,158,11,0.05)]" : "md:col-span-2 min-h-[350px] md:min-h-[500px] max-w-5xl border-white/5 hover:border-white/20"}
         `}
         initial={{ opacity: 0, y: 40 }}

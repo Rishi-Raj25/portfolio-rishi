@@ -14,8 +14,10 @@ import { useRef } from "react";
 
 export default function Home() {
   const containerRef = useRef(null);
+  const heroRef = useRef(null);
+
   const { scrollYProgress } = useScroll({
-    target: containerRef,
+    target: heroRef,
     offset: ["start start", "end start"]
   });
 
@@ -28,16 +30,16 @@ export default function Home() {
       <Navbar />
       
       {/* Refined Hero Section */}
-      <section className="relative min-h-[90vh] flex flex-col items-center justify-center overflow-hidden pt-20">
+      <section ref={heroRef} className="relative min-h-[90vh] flex flex-col items-center justify-center overflow-hidden pt-20">
         {/* Parallax Background Gradients */}
-        <div className="absolute inset-0 z-0 overflow-hidden">
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           <motion.div 
             style={{ y: y1 }}
-            className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" 
+            className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px] will-change-transform" 
           />
           <motion.div 
             style={{ y: y2 }}
-            className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none" 
+            className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-[120px] will-change-transform" 
           />
         </div>
 
