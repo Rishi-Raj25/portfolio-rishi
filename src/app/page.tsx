@@ -43,17 +43,17 @@ export default function Home() {
 
         <motion.div 
           style={{ opacity }}
-          className="container mx-auto px-6 relative z-10 text-center max-w-4xl flex flex-col items-center"
+          className="container mx-auto px-5 md:px-6 relative z-10 text-center max-w-4xl flex flex-col items-center"
         >
           {/* Intriguing & Balanced Brand Identity */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="group mb-16 cursor-default flex flex-col items-center gap-4"
+            className="group mb-8 md:mb-16 cursor-default flex flex-col items-center gap-4"
           >
             <div className="relative">
-              <span className="text-sm md:text-base font-bold tracking-[0.4em] uppercase text-white/30 group-hover:text-white transition-all duration-700 ease-in-out">
+              <span className="text-xs sm:text-sm md:text-base font-bold tracking-[0.4em] uppercase text-white/30 group-hover:text-white transition-all duration-700 ease-in-out">
                 Rishi Raj
               </span>
               {/* Dynamic Expanding Underline */}
@@ -71,7 +71,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <h1 className="text-5xl md:text-8xl font-bold tracking-tighter mb-10 leading-[1.1]">
+            <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold tracking-tighter mb-6 md:mb-10 leading-[1.1]">
               <span className="block text-white">Most people learn AI.</span>
               <span className="block text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40">I build with it.</span>
             </h1>
@@ -82,7 +82,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            <p className="text-xl md:text-2xl text-neutral-500 max-w-xl mx-auto mb-14 leading-relaxed font-light">
+            <p className="text-lg sm:text-xl md:text-2xl text-neutral-500 max-w-xl mx-auto mb-10 md:mb-14 leading-relaxed font-light">
               Focused on real-time systems, speed, and making things actually usable.
             </p>
           </motion.div>
@@ -91,11 +91,11 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex flex-col sm:flex-row items-center gap-8"
+            className="flex flex-col sm:flex-row items-center gap-6 md:gap-8"
           >
             <a 
               href="#projects" 
-              className="group flex items-center gap-2 bg-white text-black px-10 py-5 rounded-full font-bold transition-all hover:bg-neutral-200 shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+              className="group flex items-center gap-2 bg-white text-black px-8 py-4 md:px-10 md:py-5 rounded-full font-bold transition-all hover:bg-neutral-200 shadow-[0_0_20px_rgba(255,255,255,0.1)]"
             >
               View My Work
               <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />

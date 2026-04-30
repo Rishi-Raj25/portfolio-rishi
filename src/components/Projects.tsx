@@ -37,18 +37,18 @@ const PROJECTS = [
 
 export default function Projects() {
   return (
-    <section id="projects" className="py-32 px-6 relative">
+    <section id="projects" className="py-16 md:py-32 px-5 md:px-6 relative">
       <div className="max-w-6xl mx-auto relative z-10">
         <motion.div 
-          className="mb-24 text-center md:text-left"
+          className="mb-12 md:mb-24 text-center md:text-left"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
           <span className="text-blue-500 font-bold tracking-[0.3em] uppercase text-xs mb-4 block">Portfolio</span>
-          <h2 className="text-5xl md:text-7xl font-bold tracking-tighter mb-8 text-white">Selected Engineering</h2>
-          <p className="text-neutral-500 text-xl max-w-2xl font-light leading-relaxed">
+          <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tighter mb-4 md:mb-8 text-white">Selected Engineering</h2>
+          <p className="text-neutral-500 text-lg sm:text-xl max-w-2xl font-light leading-relaxed">
             A focused collection of systems and applications where AI meets real-world utility.
           </p>
         </motion.div>

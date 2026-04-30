@@ -24,16 +24,16 @@ export default function Navbar() {
       <motion.nav 
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className="fixed top-0 w-full z-[100] transition-all duration-500 py-6"
+        className="fixed top-0 w-full z-[100] transition-all duration-500 py-4 md:py-6"
       >
-        <div className="max-w-5xl mx-auto px-6">
+        <div className="max-w-5xl mx-auto px-5 md:px-6">
           <div className={`
-            flex items-center justify-between transition-all duration-500 rounded-full px-6 py-3
+            flex items-center justify-between transition-all duration-500 rounded-full px-4 sm:px-6 py-3
             ${isScrolled ? "bg-neutral-900/80 backdrop-blur-md border border-white/10 shadow-2xl scale-[0.98]" : "bg-transparent border-transparent"}
           `}>
             <Link href="/" className="group flex items-center gap-2">
               <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-              <span className="text-lg font-bold tracking-tight text-white/90 group-hover:text-white transition-colors duration-300">
+              <span className="text-base sm:text-lg font-bold tracking-tight text-white/90 group-hover:text-white transition-colors duration-300">
                 Rishi Raj
               </span>
             </Link>
@@ -52,7 +52,7 @@ export default function Navbar() {
 
             {/* Mobile Toggle */}
             <button 
-              className="md:hidden p-2 text-white/60 hover:text-white"
+              className="md:hidden p-3 text-white/60 hover:text-white -mr-2"
               onClick={() => setMobileMenuOpen(true)}
             >
               <Menu size={20} />

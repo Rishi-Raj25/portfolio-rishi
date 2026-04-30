@@ -26,8 +26,8 @@ export default function About() {
   ];
 
   return (
-    <section id="about" className="py-24 px-6 relative">
-      <div className="max-w-3xl mx-auto border-l-2 border-blue-500/10 pl-8">
+    <section id="about" className="py-16 md:py-24 px-5 md:px-6 relative">
+      <div className="max-w-3xl mx-auto border-l-2 border-blue-500/10 pl-6 md:pl-8">
         {/* Confident & Clean Intro Line */}
         <div className="relative inline-block mb-12">
           {/* Floating Text Reveal */}
@@ -40,7 +40,7 @@ export default function About() {
                 transition={{ duration: 0.15 }}
                 className="absolute left-0 bottom-full mb-3 px-4 py-2 bg-neutral-900 border border-white/10 rounded-xl shadow-lg z-50 pointer-events-none"
               >
-                <p className="text-sm md:text-base font-bold text-blue-400 tracking-tight whitespace-nowrap">
+                <p className="text-xs sm:text-sm md:text-base font-bold text-blue-400 tracking-tight whitespace-nowrap">
                   I learn by building, not waiting.
                 </p>
               </motion.div>
@@ -57,7 +57,7 @@ export default function About() {
             className="relative cursor-pointer py-1"
           >
             <span className={`
-              text-xs md:text-sm font-medium tracking-widest uppercase transition-colors duration-300
+              text-[10px] sm:text-xs md:text-sm font-medium tracking-widest uppercase transition-colors duration-300
               ${isHovered ? "text-white" : "text-white/60"}
             `}>
               I'm a first-year student
@@ -89,8 +89,8 @@ export default function About() {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: i * 0.08 }}
               className={`
-                ${line.type === "main" ? "text-xl md:text-3xl font-bold text-white/90 leading-tight tracking-tight" : ""}
-                ${line.type === "sub" ? "text-base md:text-xl text-white/40 font-medium italic" : ""}
+                ${line.type === "main" ? "text-lg sm:text-xl md:text-3xl font-bold text-white/90 leading-tight tracking-tight" : ""}
+                ${line.type === "sub" ? "text-sm sm:text-base md:text-xl text-white/40 font-medium italic" : ""}
               `}
             >
               {line.text}

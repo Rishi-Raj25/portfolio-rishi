@@ -77,30 +77,30 @@ const tagVariants: Variants = {
 
 export default function Skills() {
   return (
-    <section id="skills" className="py-32 px-6 relative overflow-hidden">
+    <section id="skills" className="py-16 md:py-32 px-5 md:px-6 relative overflow-hidden">
       {/* Ambient glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-purple-500/5 rounded-full blur-[160px] pointer-events-none" />
 
       <div className="max-w-5xl mx-auto relative z-10">
         {/* Header */}
         <motion.div
-          className="mb-20 text-center md:text-left"
+          className="mb-12 md:mb-20 text-center md:text-left"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tighter mb-5 text-white">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tighter mb-4 md:mb-5 text-white">
             Builder's Toolkit
           </h2>
-          <p className="text-neutral-400 text-xl max-w-2xl leading-relaxed">
+          <p className="text-neutral-400 text-lg sm:text-xl max-w-2xl leading-relaxed">
             Not a resume. A snapshot of how I think, build, and ship.
           </p>
         </motion.div>
 
         {/* Skill Groups */}
         <motion.div
-          className="flex flex-col gap-16"
+          className="flex flex-col gap-12 md:gap-16"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -109,22 +109,22 @@ export default function Skills() {
           {skills.map((group) => (
             <motion.div key={group.category} variants={sectionVariants}>
               {/* Category label */}
-              <div className="flex items-center gap-4 mb-5">
+              <div className="flex items-center gap-4 mb-4 md:mb-5">
                 <div
-                  className="w-1 h-8 rounded-full flex-shrink-0"
+                  className="w-1 h-6 md:h-8 rounded-full flex-shrink-0"
                   style={{ backgroundColor: group.accent }}
                 />
                 <div>
-                  <h3 className="text-white font-semibold text-xl tracking-tight">
+                  <h3 className="text-white font-semibold text-lg sm:text-xl tracking-tight">
                     {group.category}
                   </h3>
-                  <p className="text-neutral-500 text-sm mt-0.5">{group.description}</p>
+                  <p className="text-neutral-500 text-xs sm:text-sm mt-0.5">{group.description}</p>
                 </div>
               </div>
 
               {/* Tags */}
               <motion.div
-                className="flex flex-wrap gap-3 pl-5"
+                className="flex flex-wrap gap-2 sm:gap-3 pl-0 sm:pl-5"
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="visible"

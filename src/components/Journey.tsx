@@ -58,20 +58,20 @@ export default function Journey() {
   ];
 
   return (
-    <section id="journey" ref={containerRef} className="py-32 px-6 relative overflow-hidden">
+    <section id="journey" ref={containerRef} className="py-16 md:py-32 px-5 md:px-6 relative overflow-hidden">
       <div className="max-w-3xl mx-auto">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="mb-24"
+          className="mb-12 md:mb-24"
         >
           <span className="text-blue-500 font-bold tracking-[0.3em] uppercase text-xs mb-4 block">History</span>
-          <h2 className="text-4xl md:text-7xl font-bold tracking-tighter text-white">The Journey</h2>
+          <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tighter text-white">The Journey</h2>
         </motion.div>
 
-        <div className="relative ml-4">
+        <div className="relative ml-2 sm:ml-4">
           {/* Base Background Line */}
           <div className="absolute left-[-1px] top-4 bottom-4 w-[1px] bg-white/5" />
           
@@ -81,7 +81,7 @@ export default function Journey() {
             className="absolute left-[-1px] top-4 bottom-4 w-[1px] bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)] z-10"
           />
           
-          <div className="space-y-24">
+          <div className="space-y-16 md:space-y-24">
             {events.map((event, i) => (
               <motion.div
                 key={i}
@@ -92,7 +92,7 @@ export default function Journey() {
                 onMouseEnter={() => setHoveredIndex(i)}
                 onMouseLeave={() => setHoveredIndex(null)}
                 className={`
-                  relative pl-12 transition-all duration-500
+                  relative pl-8 md:pl-12 transition-all duration-500
                   ${hoveredIndex !== null && hoveredIndex !== i ? "opacity-30 blur-[1px] scale-[0.98]" : "opacity-100 scale-100"}
                 `}
               >
@@ -109,21 +109,21 @@ export default function Journey() {
                 />
                 
                 <span className={`
-                  text-xs font-black uppercase tracking-[0.3em] mb-4 block transition-colors duration-300
+                  text-[10px] font-black uppercase tracking-[0.3em] mb-4 block transition-colors duration-300
                   ${hoveredIndex === i ? "text-blue-400" : "text-white/20"}
                 `}>
                   {event.year}
                 </span>
                 
                 <h3 className={`
-                  text-2xl md:text-4xl font-bold mb-5 tracking-tight transition-colors duration-300
+                  text-xl sm:text-2xl md:text-4xl font-bold mb-3 md:mb-5 tracking-tight transition-colors duration-300
                   ${hoveredIndex === i ? "text-white" : "text-white/80"}
                 `}>
                   {event.title}
                 </h3>
                 
                 <p className={`
-                  font-light leading-relaxed text-lg md:text-xl max-w-xl transition-colors duration-300
+                  font-light leading-relaxed text-base sm:text-lg md:text-xl max-w-xl transition-colors duration-300
                   ${hoveredIndex === i ? "text-neutral-300" : "text-neutral-500"}
                 `}>
                   {event.description}

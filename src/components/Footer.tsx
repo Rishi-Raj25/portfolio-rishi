@@ -33,12 +33,12 @@ export default function Footer() {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 1, delay: 0.5 }}
-      className="py-24 border-t border-white/5 px-6 relative overflow-hidden"
+      className="py-16 md:py-24 border-t border-white/5 px-5 md:px-6 relative overflow-hidden"
     >
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-end justify-between gap-12">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center md:items-end justify-between gap-12">
         
         {/* Left Side: Credits */}
-        <div className="flex flex-col gap-2 items-start text-left">
+        <div className="flex flex-col gap-2 items-center md:items-start text-center md:text-left">
           <div className="flex items-center gap-2 mb-1">
             <div className="w-1 h-1 rounded-full bg-blue-500" />
             <span className="text-xl font-bold tracking-tight text-white">
@@ -48,13 +48,13 @@ export default function Footer() {
           <p className="text-white/20 text-[10px] md:text-xs font-medium tracking-widest uppercase">
             Crafted with Next.js & Framer Motion.
           </p>
-          <p className="text-white/10 text-[10px] font-medium tracking-widest uppercase mt-4">
+          <p className="text-white/10 text-[9px] sm:text-[10px] font-medium tracking-widest uppercase mt-4">
             © {new Date().getFullYear()} All Rights Reserved.
           </p>
         </div>
 
         {/* Right Side: Social Links */}
-        <div className="flex items-center gap-8 md:gap-12">
+        <div className="flex items-center gap-6 sm:gap-8 md:gap-12">
           {SOCIALS.map((social) => (
             <motion.a
               key={social.name}

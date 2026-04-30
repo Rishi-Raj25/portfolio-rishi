@@ -60,7 +60,7 @@ export default function CaseStudyModal({ isOpen, onClose, project }: CaseStudyMo
       <AnimatePresence>
         {isOpen && (
           /* 1. OVERLAY (Fixed, 100vh) */
-          <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 md:p-10 overflow-hidden bg-black/60 backdrop-blur-[4px] pointer-events-auto">
+          <div className="fixed inset-0 z-[99999] flex items-center justify-center p-2 sm:p-4 md:p-10 overflow-hidden bg-black/60 backdrop-blur-[4px] pointer-events-auto">
             {/* Backdrop click-to-close */}
             <div className="absolute inset-0" onClick={onClose} />
 
@@ -70,7 +70,7 @@ export default function CaseStudyModal({ isOpen, onClose, project }: CaseStudyMo
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.96, y: 20 }}
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="relative w-full max-w-5xl h-[90vh] bg-[#0a0a0a] border border-white/10 rounded-[1.5rem] md:rounded-[3rem] shadow-2xl overflow-hidden z-10 touch-none"
+              className="relative w-full max-w-5xl h-[90vh] bg-[#0a0a0a] border border-white/10 rounded-[1.25rem] md:rounded-[3rem] shadow-2xl overflow-hidden z-10 touch-pan-y"
             >
               {/* Close Button */}
               <button 
@@ -88,7 +88,7 @@ export default function CaseStudyModal({ isOpen, onClose, project }: CaseStudyMo
               >
                 <div className="flex flex-col">
                   {/* Hero Section */}
-                  <div className="relative w-full h-[350px] md:h-[550px] shrink-0 overflow-hidden">
+                  <div className="relative w-full h-[280px] sm:h-[400px] md:h-[550px] shrink-0 overflow-hidden">
                     <img 
                       src={project.image} 
                       alt={project.title} 
@@ -100,36 +100,36 @@ export default function CaseStudyModal({ isOpen, onClose, project }: CaseStudyMo
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
                     
-                    <div className="absolute bottom-10 left-10 md:bottom-20 md:left-20 right-10 md:right-20 z-10">
-                      <p className="text-[11px] font-black uppercase tracking-[0.5em] mb-6" style={{ color: project.color }}>
+                    <div className="absolute bottom-6 left-6 sm:bottom-10 sm:left-10 md:bottom-20 md:left-20 right-6 sm:right-10 md:right-20 z-10">
+                      <p className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.5em] mb-4 md:mb-6" style={{ color: project.color }}>
                         {project.category}
                       </p>
-                      <h2 className="text-5xl md:text-8xl font-bold text-white tracking-tighter leading-[0.85]">
+                      <h2 className="text-3xl sm:text-5xl md:text-8xl font-bold text-white tracking-tighter leading-[0.85]">
                         {project.title}
                       </h2>
                     </div>
                   </div>
 
                   {/* Content Sections */}
-                  <div className="p-10 md:p-20 lg:p-24 bg-[#0a0a0a]">
-                    <div className="max-w-3xl mx-auto flex flex-col gap-20 md:gap-32">
-                      <div className="flex flex-col gap-16 md:gap-24">
+                  <div className="p-6 sm:p-10 md:p-20 lg:p-24 bg-[#0a0a0a]">
+                    <div className="max-w-3xl mx-auto flex flex-col gap-12 md:gap-32">
+                      <div className="flex flex-col gap-10 md:gap-24">
                         {project.caseStudy.map((item, i) => (
                           <motion.div 
                             key={i} 
-                            className="flex flex-col gap-6 md:gap-8"
+                            className="flex flex-col gap-4 md:gap-8"
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-100px" }}
                             transition={{ duration: 0.8, delay: i * 0.1 }}
                           >
                             <div className="flex items-center gap-5">
-                              <div className="w-2 h-8 rounded-full" style={{ backgroundColor: project.color }} />
-                              <span className="text-[11px] font-black uppercase tracking-[0.4em] text-white/20">
+                              <div className="w-1.5 h-6 md:w-2 md:h-8 rounded-full" style={{ backgroundColor: project.color }} />
+                              <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.4em] text-white/20">
                                 {item.label}
                               </span>
                             </div>
-                            <p className="text-2xl md:text-4xl text-neutral-200 font-light leading-[1.4] tracking-tight">
+                            <p className="text-lg sm:text-2xl md:text-4xl text-neutral-200 font-light leading-[1.4] tracking-tight">
                               {item.text}
                             </p>
                           </motion.div>
@@ -137,12 +137,12 @@ export default function CaseStudyModal({ isOpen, onClose, project }: CaseStudyMo
                       </div>
 
                       {/* Bottom Actions */}
-                      <div className="pt-16 md:pt-24 border-t border-white/5 flex flex-wrap items-center gap-8 md:gap-12">
+                      <div className="pt-10 md:pt-24 border-t border-white/5 flex flex-wrap items-center gap-6 md:gap-12">
                         <a 
                           href={project.liveLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="group relative px-10 py-5 md:px-14 md:py-6 bg-white text-black rounded-full font-bold text-lg flex items-center gap-4 transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(255,255,255,0.4)]"
+                          className="group relative px-8 py-4 sm:px-10 sm:py-5 md:px-14 md:py-6 bg-white text-black rounded-full font-bold text-base sm:text-lg flex items-center gap-3 sm:gap-4 transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(255,255,255,0.4)]"
                         >
                           <span>View Live</span>
                           <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
@@ -152,7 +152,7 @@ export default function CaseStudyModal({ isOpen, onClose, project }: CaseStudyMo
                           href={project.codeLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="group relative px-2 py-4 text-white/40 hover:text-white font-bold text-lg flex items-center gap-4 transition-all duration-300"
+                          className="group relative px-2 py-4 text-white/40 hover:text-white font-bold text-base sm:text-lg flex items-center gap-3 sm:gap-4 transition-all duration-300"
                         >
                           <Github className="w-5 h-5" />
                           <span>View Code</span>

@@ -46,6 +46,12 @@ export default function SkillTag({ name, tooltip, accent, variants }: SkillTagPr
     <motion.div 
       className="relative inline-block"
       variants={variants}
+      onClick={() => {
+        // Toggle on mobile click
+        if (window.innerWidth < 768) {
+          setIsHovered(!isHovered);
+        }
+      }}
     >
       <AnimatePresence>
         {isHovered && (
@@ -54,16 +60,16 @@ export default function SkillTag({ name, tooltip, accent, variants }: SkillTagPr
             animate={{ opacity: 1, y: 0, x: "-50%" }}
             exit={{ opacity: 0, y: position === "above" ? 10 : -10, x: "-50%" }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className={`absolute left-1/2 z-[100] w-max max-w-[280px] p-4 bg-[#1a1a1a] border border-white/10 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] pointer-events-none ${
+            className={`absolute left-1/2 z-[100] w-max max-w-[220px] sm:max-w-[280px] p-3 sm:p-4 bg-[#1a1a1a] border border-white/10 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] pointer-events-none ${
               position === "above" ? "bottom-full mb-4" : "top-full mt-4"
             }`}
           >
             <div className="flex flex-col gap-1.5 text-center">
-              <p className="text-[13px] font-bold text-white leading-tight whitespace-pre-line">
+              <p className="text-[12px] sm:text-[13px] font-bold text-white leading-tight whitespace-pre-line">
                 {tech}
               </p>
               {description && (
-                <p className="text-[12px] font-medium text-neutral-400 leading-relaxed whitespace-pre-line">
+                <p className="text-[11px] sm:text-[12px] font-medium text-neutral-400 leading-relaxed whitespace-pre-line">
                   {description}
                 </p>
               )}
@@ -90,7 +96,7 @@ export default function SkillTag({ name, tooltip, accent, variants }: SkillTagPr
         }}
         whileTap={{ scale: 0.96 }}
         style={{ borderColor: `${accent}33` }}
-        className="px-6 py-3 rounded-full border bg-white/[0.04] text-neutral-300 text-sm font-medium cursor-pointer transition-all duration-300 block text-center min-w-[120px]"
+        className="px-4 py-2 sm:px-6 sm:py-3 rounded-full border bg-white/[0.04] text-neutral-300 text-xs sm:text-sm font-medium cursor-pointer transition-all duration-300 block text-center min-w-[100px] sm:min-w-[120px]"
       >
         {name}
       </motion.span>

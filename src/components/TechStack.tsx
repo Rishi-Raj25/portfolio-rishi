@@ -74,22 +74,22 @@ const badgeVariants: Variants = {
 
 export default function TechStack() {
   return (
-    <section id="stack" className="py-32 px-6 relative overflow-hidden">
+    <section id="stack" className="py-16 md:py-32 px-5 md:px-6 relative overflow-hidden">
       {/* Subtle bg glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-blue-500/5 rounded-full blur-[160px] pointer-events-none" />
 
       <div className="max-w-6xl mx-auto relative z-10">
         <motion.div
-          className="mb-20 text-center md:text-left"
+          className="mb-12 md:mb-20 text-center md:text-left"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tighter mb-6 text-white">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tighter mb-4 md:mb-6 text-white">
             Tech Stack
           </h2>
-          <p className="text-neutral-400 text-xl max-w-2xl">
+          <p className="text-neutral-400 text-lg sm:text-xl max-w-2xl">
             The technologies and concepts I work with — from systems programming to applied AI.
           </p>
         </motion.div>
@@ -105,10 +105,10 @@ export default function TechStack() {
             <motion.div
               key={group.category}
               variants={cardVariants}
-              className={`rounded-3xl border ${group.border} bg-gradient-to-br ${group.color} p-8 backdrop-blur-sm transition-all duration-500 ${group.glow} hover:-translate-y-1`}
+              className={`rounded-3xl border ${group.border} bg-gradient-to-br ${group.color} p-6 md:p-8 backdrop-blur-sm transition-all duration-500 ${group.glow} hover:-translate-y-1`}
             >
               {/* Category Header */}
-              <div className="flex items-center gap-3 mb-6">
+              <div className="flex items-center gap-3 mb-4 md:mb-6">
                 <span className={`w-2.5 h-2.5 rounded-full ${group.dot} shadow-lg`} />
                 <h3 className="text-white font-semibold text-lg tracking-wide uppercase">
                   {group.category}
