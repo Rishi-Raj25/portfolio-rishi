@@ -204,44 +204,39 @@ export default function About() {
                   <stop offset="42%" stopColor="#c4a6e8" stopOpacity=".34" />
                   <stop offset="100%" stopColor="#a7b5e7" stopOpacity="0" />
                 </radialGradient>
-                <radialGradient id="planet-tech" cx="30%" cy="24%" r="78%">
-                  <stop offset="0%" stopColor="#dcebd0" />
-                  <stop offset="34%" stopColor="#819a77" />
-                  <stop offset="72%" stopColor="#34483b" />
-                  <stop offset="100%" stopColor="#111b19" />
+                <radialGradient id="planet-tech" cx="28%" cy="22%" r="82%">
+                  <stop offset="0%" stopColor="#f2f8df" />
+                  <stop offset="42%" stopColor="#c7ddb4" />
+                  <stop offset="78%" stopColor="#9ab88d" />
+                  <stop offset="100%" stopColor="#789b80" />
                 </radialGradient>
-                <radialGradient id="planet-music" cx="30%" cy="24%" r="78%">
-                  <stop offset="0%" stopColor="#f1e5ff" />
-                  <stop offset="34%" stopColor="#a996c9" />
-                  <stop offset="72%" stopColor="#514461" />
-                  <stop offset="100%" stopColor="#17131f" />
+                <radialGradient id="planet-music" cx="28%" cy="22%" r="82%">
+                  <stop offset="0%" stopColor="#fff4ff" />
+                  <stop offset="42%" stopColor="#e3d3fb" />
+                  <stop offset="78%" stopColor="#c4b2e7" />
+                  <stop offset="100%" stopColor="#a393d1" />
                 </radialGradient>
-                <radialGradient id="planet-film" cx="30%" cy="24%" r="78%">
-                  <stop offset="0%" stopColor="#ffe7d5" />
-                  <stop offset="34%" stopColor="#c99979" />
-                  <stop offset="72%" stopColor="#624638" />
-                  <stop offset="100%" stopColor="#201510" />
+                <radialGradient id="planet-film" cx="28%" cy="22%" r="82%">
+                  <stop offset="0%" stopColor="#fff3e7" />
+                  <stop offset="42%" stopColor="#f2d2bb" />
+                  <stop offset="78%" stopColor="#dfb39b" />
+                  <stop offset="100%" stopColor="#c9937d" />
                 </radialGradient>
-                <radialGradient id="planet-nontech" cx="30%" cy="24%" r="78%">
-                  <stop offset="0%" stopColor="#dff4ff" />
-                  <stop offset="34%" stopColor="#83b4ca" />
-                  <stop offset="72%" stopColor="#355969" />
-                  <stop offset="100%" stopColor="#111b24" />
+                <radialGradient id="planet-nontech" cx="28%" cy="22%" r="82%">
+                  <stop offset="0%" stopColor="#f0fbff" />
+                  <stop offset="42%" stopColor="#c2e6f3" />
+                  <stop offset="78%" stopColor="#99ccdf" />
+                  <stop offset="100%" stopColor="#79b2cb" />
                 </radialGradient>
-                <radialGradient id="planet-shadow" cx="28%" cy="24%" r="82%">
-                  <stop offset="0%" stopColor="#fff" stopOpacity="0" />
-                  <stop offset="62%" stopColor="#000" stopOpacity="0" />
-                  <stop offset="100%" stopColor="#000" stopOpacity=".72" />
+                <radialGradient id="planet-shadow" cx="28%" cy="22%" r="84%">
+                  <stop offset="0%" stopColor="#fff" stopOpacity=".16" />
+                  <stop offset="58%" stopColor="#fff" stopOpacity="0" />
+                  <stop offset="100%" stopColor="#5d6280" stopOpacity=".12" />
                 </radialGradient>
                 <radialGradient id="planet-atmosphere">
-                  <stop offset="65%" stopColor="#d9e4f2" stopOpacity="0" />
-                  <stop offset="100%" stopColor="#d9e4f2" stopOpacity=".18" />
+                  <stop offset="68%" stopColor="#fff" stopOpacity="0" />
+                  <stop offset="100%" stopColor="#fff" stopOpacity=".22" />
                 </radialGradient>
-                <filter id="planetTexture" x="-20%" y="-20%" width="140%" height="140%">
-                  <feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="8" />
-                  <feColorMatrix type="saturate" values="0" />
-                  <feComponentTransfer><feFuncA type="table" tableValues="0 .12" /></feComponentTransfer>
-                </filter>
                 <filter id="starGlow" x="-200%" y="-200%" width="400%" height="400%">
                   <feGaussianBlur stdDeviation="4" result="blur" />
                   <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
@@ -285,11 +280,12 @@ export default function About() {
                 const isSelected = selectedWorld?.id === world.id;
                 const isHovered = hoveredWorldId === world.id;
                 const planetR = world.radius;
+                // Concentric circular tracks keep the worlds separated at every point in their orbit.
                 const orbit = [
-                  { rx: 170, ry: 92, phase: Math.PI, speed: 0.00015 },
-                  { rx: 105, ry: 145, phase: -Math.PI / 2, speed: 0.00021 },
-                  { rx: 245, ry: 112, phase: 0, speed: 0.00017 },
-                  { rx: 150, ry: 178, phase: Math.PI / 2, speed: 0.00012 },
+                  { rx: 78, ry: 78, phase: Math.PI },
+                  { rx: 118, ry: 118, phase: -Math.PI / 2 },
+                  { rx: 158, ry: 158, phase: 0 },
+                  { rx: 198, ry: 198, phase: Math.PI / 2 },
                 ][index];
                 const isUniverse = !selectedWorld;
                 // Each world stays on a fixed ellipse centered on the central star.
@@ -341,7 +337,6 @@ export default function About() {
                         <circle cx={world.x} cy={world.y} r={planetR} fill={`url(#planet-${world.id})`} stroke={world.color} strokeOpacity={isHovered || isSelected ? ".82" : ".36"} strokeWidth={isSelected ? 1.2 : .8} />
                         <circle cx={world.x} cy={world.y} r={planetR} fill="url(#planet-shadow)" />
                         <circle cx={world.x} cy={world.y} r={planetR} fill="url(#planet-atmosphere)" />
-                        <circle cx={world.x} cy={world.y} r={planetR} filter="url(#planetTexture)" opacity=".15" />
                         {world.id === "tech" && <g fill="none" stroke="#d8e8c9" strokeWidth=".8" strokeOpacity=".45"><path d={`M ${world.x - 17} ${world.y - 9} Q ${world.x - 4} ${world.y - 18} ${world.x + 4} ${world.y - 6} T ${world.x + 17} ${world.y + 3}`} /><path d={`M ${world.x - 18} ${world.y + 8} Q ${world.x - 5} ${world.y - 1} ${world.x + 1} ${world.y + 9} T ${world.x + 14} ${world.y + 10}`} strokeOpacity=".3" /></g>}
                         {world.id === "music" && <g fill="none" stroke="#f0e6ff" strokeOpacity=".48"><path d={`M ${world.x - 17} ${world.y - 3} Q ${world.x - 12} ${world.y - 15} ${world.x - 7} ${world.y - 3} T ${world.x + 3} ${world.y - 3} T ${world.x + 13} ${world.y - 3}`} strokeWidth="1.4" /><path d={`M ${world.x - 16} ${world.y + 7} Q ${world.x - 11} ${world.y - 1} ${world.x - 6} ${world.y + 7} T ${world.x + 4} ${world.y + 7} T ${world.x + 14} ${world.y + 7}`} strokeWidth="1" strokeOpacity=".32" /></g>}
                         {world.id === "film" && <g fill="none" stroke="#ffe6d2"><ellipse cx={world.x} cy={world.y + 2} rx={planetR * .83} ry={planetR * .34} transform={`rotate(-28 ${world.x} ${world.y + 2})`} strokeOpacity=".48" strokeWidth="1.2" /><ellipse cx={world.x} cy={world.y + 2} rx={planetR * .63} ry={planetR * .2} transform={`rotate(-28 ${world.x} ${world.y + 2})`} strokeOpacity=".22" strokeWidth=".8" /></g>}
@@ -357,15 +352,21 @@ export default function About() {
                       style={{ pointerEvents: "none" }}
                     >
                       <g>
-                        {/* The leader follows this planet's own orbit and points back to it. */}
-                        <path d={`M ${world.x + 28} ${world.y - 3} L ${world.x + planetR + 7} ${world.y - 3} l -4 -2 m 4 2 l -4 2`} fill="none" stroke={world.color} strokeWidth=".9" strokeOpacity=".78" />
-                        <text x={world.x + 32} y={world.y - 7} textAnchor="start" fill="#f4f1eb" fontSize="10" letterSpacing=".5" opacity={isSelected ? 0 : .88}>{world.name}</text>
+                        {/* A short leader links the label to its own moving planet. */}
+                        <path d={`M ${world.x + planetR + 3} ${world.y - 4} Q ${world.x + planetR + 8} ${world.y - 10} ${world.x + planetR + 13} ${world.y - 10}`} fill="none" stroke={world.color} strokeWidth=".9" strokeOpacity=".8" />
+                        <text x={world.x + planetR + 16} y={world.y - 7} textAnchor="start" fill="#f4f1eb" fontSize="10" letterSpacing=".4" opacity={isSelected ? 0 : .9}>{world.name}</text>
                         {isHovered && isUniverse && (
-                          <g>
-                            <rect x={world.x + 30} y={world.y + 4} width="170" height="37" rx="8" fill="#10111a" fillOpacity=".94" stroke={world.color} strokeOpacity=".4" />
-                            <text x={world.x + 40} y={world.y + 19} fill="#f4f1eb" fontSize="9.5">{world.name}</text>
-                            <text x={world.x + 40} y={world.y + 32} fill="#c9cad8" fontSize="8">{world.short}</text>
-                          </g>
+                          <motion.g
+                            initial={reduced ? false : { opacity: 0, y: 7, scale: .97 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            transition={{ duration: reduced ? 0 : .2, ease: [0.22, 1, 0.36, 1] }}
+                            style={{ transformOrigin: `${world.x + planetR + 16}px ${world.y + 12}px` }}
+                          >
+                            <rect x={world.x + planetR + 13} y={world.y + 4} width="156" height="36" rx="12" fill="#20212b" fillOpacity=".92" stroke={world.color} strokeOpacity=".42" strokeWidth=".8" />
+                            <circle cx={world.x + planetR + 25} cy={world.y + 16} r="2" fill={world.color} />
+                            <text x={world.x + planetR + 32} y={world.y + 19} fill="#f4f1eb" fontSize="9.5">{world.name}</text>
+                            <text x={world.x + planetR + 23} y={world.y + 31} fill="#c9cad8" fontSize="8">{world.short}</text>
+                          </motion.g>
                         )}
                       </g>
                     </motion.g>
