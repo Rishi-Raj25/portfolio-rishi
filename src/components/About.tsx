@@ -382,25 +382,38 @@ export default function About() {
                   {[
                     { id: "incoming-code", rx: 142, ry: 142, color: "#b9c8a9", line: "One more skill tree to unlock.", detail: "Please hold my coffee." },
                     { id: "incoming-story", rx: 188, ry: 188, color: "#c7b6e6", line: "A new creative obsession is loading…", detail: "Probably at 2 a.m." },
-                  ].map((dwarf, index) => (
-                    <motion.g key={dwarf.id} animate={reduced ? undefined : { rotate: 360 }} transition={reduced ? undefined : { duration: index === 0 ? 78 : 96, repeat: Infinity, ease: "linear" }} style={{ transformOrigin: "520px 210px" }}>
-                      <ellipse cx="520" cy="210" rx={dwarf.rx} ry={dwarf.ry} fill="none" stroke={dwarf.color} strokeOpacity=".2" strokeWidth=".8" strokeDasharray="2 8" />
-                      <g role="button" tabIndex={0} aria-label={`Skill incoming: ${dwarf.line}`} onMouseEnter={() => setHoveredDwarfId(dwarf.id)} onMouseLeave={() => setHoveredDwarfId(null)} onFocus={() => setHoveredDwarfId(dwarf.id)} onBlur={() => setHoveredDwarfId(null)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setHoveredDwarfId(hoveredDwarfId === dwarf.id ? null : dwarf.id); } }} className="cursor-pointer outline-none" style={{ pointerEvents: "all" }}>
-                        <circle cx={520 + dwarf.rx} cy="210" r="13" fill="transparent" />
-                        <circle cx={520 + dwarf.rx} cy="210" r={hoveredDwarfId === dwarf.id ? 10 : 7} fill={dwarf.color} fillOpacity=".12" />
-                        <circle cx={520 + dwarf.rx} cy="210" r={hoveredDwarfId === dwarf.id ? 5 : 4} fill={dwarf.color} fillOpacity=".78" stroke="#fff" strokeOpacity=".6" strokeWidth=".7" />
-                        <circle cx={520 + dwarf.rx - 1.2} cy="208.8" r="1" fill="#fff" fillOpacity=".9" />
-                        {hoveredDwarfId === dwarf.id && (
-                          <g pointerEvents="none">
-                            <rect x={520 + dwarf.rx - 176} y="174" width="164" height="46" rx="2" fill="#090b12" fillOpacity=".88" stroke={dwarf.color} strokeOpacity=".28" />
-                            <text x={520 + dwarf.rx - 164} y="188" fill={dwarf.color} fontSize="7.5" letterSpacing="1.1">SKILL INCOMING</text>
-                            <text x={520 + dwarf.rx - 164} y="201" fill="#f4f1eb" fontSize="8">{dwarf.line}</text>
-                            <text x={520 + dwarf.rx - 164} y="212" fill="#f4f1eb" fontSize="8">{dwarf.detail}</text>
+                  ].map((dwarf, index) => {
+                    const steps = Array.from({ length: 49 }, (_, step) => step / 48);
+                    const orbitX = steps.map((t) => dwarf.rx * Math.cos(t * Math.PI * 2) - dwarf.rx);
+                    const orbitY = steps.map((t) => dwarf.ry * Math.sin(t * Math.PI * 2));
+                    const x = 520 + dwarf.rx;
+                    const y = 210;
+                    const isHovered = hoveredDwarfId === dwarf.id;
+                    return (
+                      <g key={dwarf.id}>
+                        <ellipse cx="520" cy="210" rx={dwarf.rx} ry={dwarf.ry} fill="none" stroke={dwarf.color} strokeOpacity=".2" strokeWidth=".8" strokeDasharray="2 8" />
+                        <motion.g
+                          animate={reduced ? { x: 0, y: 0 } : { x: orbitX, y: orbitY }}
+                          transition={reduced ? { duration: 0 } : { duration: index === 0 ? 78 : 96, repeat: Infinity, ease: "linear" }}
+                        >
+                          <g role="button" tabIndex={0} aria-label={`Skill incoming: ${dwarf.line}`} onMouseEnter={() => setHoveredDwarfId(dwarf.id)} onMouseLeave={() => setHoveredDwarfId(null)} onFocus={() => setHoveredDwarfId(dwarf.id)} onBlur={() => setHoveredDwarfId(null)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setHoveredDwarfId(isHovered ? null : dwarf.id); } }} className="cursor-pointer outline-none" style={{ pointerEvents: "all" }}>
+                            <circle cx={x} cy={y} r="13" fill="transparent" />
+                            <circle cx={x} cy={y} r={isHovered ? 10 : 7} fill={dwarf.color} fillOpacity=".12" />
+                            <circle cx={x} cy={y} r={isHovered ? 5 : 4} fill={dwarf.color} fillOpacity=".78" stroke="#fff" strokeOpacity=".6" strokeWidth=".7" />
+                            <circle cx={x - 1.2} cy={y - 1.2} r="1" fill="#fff" fillOpacity=".9" />
                           </g>
-                        )}
+                          {isHovered && (
+                            <motion.g initial={reduced ? false : { opacity: 0, y: 3 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reduced ? 0 : .24, ease: [0.22, 1, 0.36, 1] }} pointerEvents="none">
+                              <path d={`M ${x - 7} ${y - 8} l -5 -5 l -5 0`} fill="none" stroke={dwarf.color} strokeWidth=".9" strokeLinecap="round" strokeLinejoin="round" />
+                              <text x={x - 21} y={y - 16} textAnchor="end" fill={dwarf.color} fontSize="7.5" fontWeight="600" letterSpacing="1.1">SKILL INCOMING</text>
+                              <text x={x - 21} y={y - 3} textAnchor="end" fill="#f4f1eb" fontSize="8">{dwarf.line}</text>
+                              <text x={x - 21} y={y + 8} textAnchor="end" fill="#f4f1eb" fontSize="8">{dwarf.detail}</text>
+                            </motion.g>
+                          )}
+                        </motion.g>
                       </g>
-                    </motion.g>
-                  ))}
+                    );
+                  })}
                 </g>
               )}
 
