@@ -203,7 +203,7 @@ export default function About() {
 
             <svg viewBox="0 0 1000 430" role="group" aria-label="Interactive map of four personal worlds and their constellation stars" className="block h-auto min-h-[250px] w-full sm:min-h-[320px] lg:min-h-[390px]">
               <defs>
-                {worlds.map((world) => { const chosen = selectedWorld?.id === world.id; return <clipPath key={world.id} id={`planet-clip-${world.id}`}><circle cx={chosen ? 245 : world.x} cy={chosen ? 212 : world.y} r={chosen ? 78 : world.radius} /></clipPath>; })}
+                {worlds.map((world) => { return <clipPath key={world.id} id={`planet-clip-${world.id}`}><circle cx={world.x} cy={world.y} r={world.radius} /></clipPath>; })}
                 <radialGradient id="cosmicCore">
                   <stop offset="0%" stopColor="#e8e2d6" stopOpacity=".95" />
                   <stop offset="45%" stopColor="#b9c8a9" stopOpacity=".7" />
@@ -255,9 +255,9 @@ export default function About() {
               {sceneWorlds.map((world) => {
                 const isSelected = selectedWorld?.id === world.id;
                 const isHovered = hoveredWorldId === world.id;
-                const planetX = isSelected ? 245 : world.x;
-                const planetY = isSelected ? 212 : world.y;
-                const planetR = isSelected ? 78 : world.radius;
+                const planetX = world.x;
+                const planetY = world.y;
+                const planetR = world.radius;
                 return (
                   <motion.g
                     key={world.id}
@@ -272,9 +272,9 @@ export default function About() {
                     onBlur={() => setHoveredWorldId(null)}
                     className="cursor-pointer outline-none"
                     initial={false}
-                    animate={{ opacity: selectedWorld && !isSelected ? 0 : 1 }}
-                    transition={{ duration: reduced ? 0 : 0.35 }}
-                    style={{ pointerEvents: selectedWorld && !isSelected ? "none" : "auto" }}
+                    animate={{ x: isSelected ? 245 - world.x : 0, y: isSelected ? 212 - world.y : 0, scale: isSelected ? 2.7 : 1, opacity: selectedWorld && !isSelected ? 0 : 1 }}
+                    transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 42, damping: 19, mass: 1.05 }}
+                    style={{ transformOrigin: `${world.x}px ${world.y}px`, pointerEvents: selectedWorld && !isSelected ? "none" : "auto" }}
                   >
                     <motion.circle cx={planetX} cy={planetY} r={planetR * 1.9} fill={world.color} opacity={isHovered || isSelected ? 0.09 : 0.035} animate={reduced ? undefined : { opacity: isHovered || isSelected ? [0.07, 0.14, 0.07] : [0.025, 0.06, 0.025] }} transition={reduced ? undefined : { duration: 4, repeat: Infinity, ease: "easeInOut" }} />
                     <motion.circle cx={planetX} cy={planetY} r={planetR + 5} fill="none" stroke={world.color} strokeOpacity={isHovered || isSelected ? ".8" : ".25"} strokeWidth="1" strokeDasharray={isSelected ? "0" : "2 6"} animate={reduced ? undefined : { rotate: 360 }} transition={reduced ? undefined : { duration: world.id === "music" ? 32 : 45, repeat: Infinity, ease: "linear" }} style={{ transformOrigin: `${planetX}px ${planetY}px` }} />
