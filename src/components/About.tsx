@@ -252,11 +252,13 @@ export default function About() {
               <AnimatePresence mode="wait">
                 {!selectedWorld && (
                   <motion.g key="universe-orbits" initial={reduced ? false : { opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduced ? 0 : 0.2 }}>
-                    {[105, 132, 180, 300].map((radius, i) => (
-                      <g key={radius}>
-                        <circle cx="520" cy="210" r={radius} fill="none" stroke={["#c7b6e6", "#e0bca4", "#a9c9dc", "#b9c8a9"][i]} strokeOpacity={i === 3 ? ".1" : ".14"} strokeWidth=".8" strokeDasharray={i % 2 ? "1 7" : "2 9"} />
-                        <circle cx="520" cy={210 - radius} r="1.6" fill="#dfe5f4" opacity=".45" />
-                      </g>
+                    {[
+                      { rx: 170, ry: 92, color: "#b9c8a9" },
+                      { rx: 105, ry: 145, color: "#c7b6e6" },
+                      { rx: 245, ry: 112, color: "#e0bca4" },
+                      { rx: 150, ry: 178, color: "#a9c9dc" },
+                    ].map((path, i) => (
+                      <ellipse key={i} cx="520" cy="210" rx={path.rx} ry={path.ry} fill="none" stroke={path.color} strokeOpacity=".22" strokeWidth=".9" strokeDasharray="2 7" />
                     ))}
                     <circle cx="520" cy="210" r="74" fill="url(#cosmicCore)" opacity=".26" />
                     <motion.circle cx="520" cy="210" r="17" fill="#f7e8c4" opacity=".85" animate={reduced ? undefined : { opacity: [.72, 1, .78], r: [15, 18, 15] }} transition={reduced ? undefined : { duration: 3.5, repeat: Infinity, ease: "easeInOut" }} />
@@ -290,6 +292,11 @@ export default function About() {
                   { rx: 150, ry: 178, phase: Math.PI / 2, speed: 0.00012 },
                 ][index];
                 const isUniverse = !selectedWorld;
+                // Each world stays on a fixed ellipse centered on the central star.
+                // Dense keyframes approximate a smooth ellipse without any drifting/bouncing.
+                const orbitSteps = Array.from({ length: 49 }, (_, step) => step / 48);
+                const orbitX = orbitSteps.map((t) => 520 + orbit.rx * Math.cos(orbit.phase + t * Math.PI * 2) - world.x);
+                const orbitY = orbitSteps.map((t) => 210 + orbit.ry * Math.sin(orbit.phase + t * Math.PI * 2) - world.y);
                 return (
                   <motion.g
                     key={world.id}
@@ -319,8 +326,7 @@ export default function About() {
                     <motion.g
                       animate={reduced || !isUniverse
                         ? { x: 0, y: 0 }
-                        : { x: [orbit.rx * Math.cos(orbit.phase), orbit.rx * Math.cos(orbit.phase + Math.PI / 2), orbit.rx * Math.cos(orbit.phase + Math.PI), orbit.rx * Math.cos(orbit.phase + Math.PI * 1.5), orbit.rx * Math.cos(orbit.phase + Math.PI * 2)],
-                            y: [orbit.ry * Math.sin(orbit.phase), orbit.ry * Math.sin(orbit.phase + Math.PI / 2), orbit.ry * Math.sin(orbit.phase + Math.PI), orbit.ry * Math.sin(orbit.phase + Math.PI * 1.5), orbit.ry * Math.sin(orbit.phase + Math.PI * 2)] }}
+                        : { x: orbitX, y: orbitY }}
                       transition={reduced || !isUniverse
                         ? { duration: 0 }
                         : { duration: [34, 25, 29, 39][index], repeat: Infinity, ease: "linear" }}
@@ -344,14 +350,16 @@ export default function About() {
                     </motion.g>
                     <motion.g
                       animate={reduced || !isUniverse ? { x: 0, y: 0 } : {
-                        x: [orbit.rx * Math.cos(orbit.phase), orbit.rx * Math.cos(orbit.phase + Math.PI / 2), orbit.rx * Math.cos(orbit.phase + Math.PI), orbit.rx * Math.cos(orbit.phase + Math.PI * 1.5), orbit.rx * Math.cos(orbit.phase + Math.PI * 2)],
-                        y: [orbit.ry * Math.sin(orbit.phase), orbit.ry * Math.sin(orbit.phase + Math.PI / 2), orbit.ry * Math.sin(orbit.phase + Math.PI), orbit.ry * Math.sin(orbit.phase + Math.PI * 1.5), orbit.ry * Math.sin(orbit.phase + Math.PI * 2)]
+                        x: orbitX,
+                        y: orbitY
                       }}
-                      transition={reduced || !isUniverse ? { duration: 0 } : { duration: 1 / orbit.speed, repeat: Infinity, ease: "linear" }}
+                      transition={reduced || !isUniverse ? { duration: 0 } : { duration: [34, 25, 29, 39][index], repeat: Infinity, ease: "linear" }}
                       style={{ pointerEvents: "none" }}
                     >
                       <g>
-                        <text x={world.x + 32} y={world.y - 4} textAnchor="start" fill="#f4f1eb" fontSize="10" letterSpacing=".5" opacity={isSelected ? 0 : .82}>{world.name}</text>
+                        {/* The leader follows this planet's own orbit and points back to it. */}
+                        <path d={`M ${world.x + 28} ${world.y - 3} L ${world.x + planetR + 7} ${world.y - 3} l -4 -2 m 4 2 l -4 2`} fill="none" stroke={world.color} strokeWidth=".9" strokeOpacity=".78" />
+                        <text x={world.x + 32} y={world.y - 7} textAnchor="start" fill="#f4f1eb" fontSize="10" letterSpacing=".5" opacity={isSelected ? 0 : .88}>{world.name}</text>
                         {isHovered && isUniverse && (
                           <g>
                             <rect x={world.x + 30} y={world.y + 4} width="170" height="37" rx="8" fill="#10111a" fillOpacity=".94" stroke={world.color} strokeOpacity=".4" />
