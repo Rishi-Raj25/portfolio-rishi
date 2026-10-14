@@ -272,14 +272,13 @@ export default function About() {
                   >
                     <motion.circle cx={planetX} cy={planetY} r={planetR * 1.9} fill={world.color} opacity={isHovered || isSelected ? 0.09 : 0.035} animate={reduced ? undefined : { opacity: isHovered || isSelected ? [0.07, 0.14, 0.07] : [0.025, 0.06, 0.025] }} transition={reduced ? undefined : { duration: 4, repeat: Infinity, ease: "easeInOut" }} />
                     <motion.circle cx={planetX} cy={planetY} r={planetR + 5} fill="none" stroke={world.color} strokeOpacity={isHovered || isSelected ? ".8" : ".25"} strokeWidth="1" strokeDasharray={isSelected ? "0" : "2 6"} animate={reduced ? undefined : { rotate: 360 }} transition={reduced ? undefined : { duration: world.id === "music" ? 32 : 45, repeat: Infinity, ease: "linear" }} style={{ transformOrigin: `${planetX}px ${planetY}px` }} />
-                    <motion.circle cx={planetX} cy={planetY} r={planetR} fill={world.color} fillOpacity=".12" stroke={world.color} strokeOpacity={isHovered || isSelected ? ".9" : ".58"} strokeWidth={isSelected ? 1.5 : 1} animate={reduced ? undefined : { cy: isSelected ? planetY : [planetY - 3, planetY + 3, planetY - 3] }} transition={reduced ? undefined : { duration: 6 + world.radius / 10, repeat: Infinity, ease: "easeInOut" }} />
-                    <circle cx={planetX - planetR * .25} cy={planetY - planetR * .24} r={planetR * .22} fill={world.color} opacity=".5" />
+                    <motion.circle cx={planetX} cy={planetY} r={planetR} fill={`url(#planet-${world.id})`} stroke={world.color} strokeOpacity={isHovered || isSelected ? ".78" : ".3"} strokeWidth={isSelected ? 1.5 : 0.8} animate={reduced ? undefined : { cy: isSelected ? planetY : [planetY - 2, planetY + 2, planetY - 2] }} transition={reduced ? undefined : { duration: 8 + world.radius / 10, repeat: Infinity, ease: "easeInOut" }} />
+                    <circle cx={planetX} cy={planetY} r={planetR} fill="url(#planet-atmosphere)" />
+                    <circle cx={planetX} cy={planetY} r={planetR} filter="url(#planetTexture)" opacity={isSelected ? ".55" : ".35"} />
+                    <path d={`M ${planetX - planetR * .72} ${planetY - planetR * .12} Q ${planetX - planetR * .1} ${planetY - planetR * .65} ${planetX + planetR * .58} ${planetY - planetR * .48}`} fill="none" stroke="#fff" strokeOpacity={isHovered || isSelected ? ".24" : ".1"} strokeWidth=".7" />
                     <text x={planetX} y={planetY + 4} textAnchor="middle" fill={world.color} fontSize={isSelected ? 10 : 8} letterSpacing="1.5" fontWeight="500">{world.name.toUpperCase()}</text>
-                    {!selectedWorld && (
-                      <g>
-                        <rect x={planetX - 72} y={planetY + planetR + 18} width="144" height="26" rx="13" fill="#0a0c13" fillOpacity={isHovered ? ".95" : ".68"} stroke={world.color} strokeOpacity={isHovered ? ".5" : ".16"} />
-                        <text x={planetX} y={planetY + planetR + 34} textAnchor="middle" fill="#f4f1eb" fillOpacity={isHovered ? ".92" : ".58"} fontSize="10">{world.short}</text>
-                      </g>
+                    {!selectedWorld && isHovered && (
+                      <text x={planetX} y={planetY + planetR + 25} textAnchor="middle" fill="#f4f1eb" fillOpacity=".9" fontSize="10" letterSpacing=".4">{world.short}</text>
                     )}
                   </motion.g>
                 );
@@ -352,8 +351,8 @@ export default function About() {
 
                 <div className="min-w-0">
                   <div className="mb-3 flex items-center justify-between gap-3">
-                    <p className="text-[9px] uppercase tracking-[0.2em] text-white/35">Connected stars</p>
-                    <span className="text-[9px] text-white/30">{selectedWorld.stars.length} signals found</span>
+                    <p className="text-[9px] uppercase tracking-[0.2em] text-white/35">In this constellation</p>
+                    <span className="text-[9px] text-white/30">{selectedWorld.stars.length} stars</span>
                   </div>
                   <div className="grid gap-2 sm:grid-cols-2">
                     {selectedWorld.stars.map((star) => (
