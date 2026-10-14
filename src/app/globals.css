@@ -333,3 +333,82 @@ body.journey-archive-open .global-cursor { display: none !important; }
 @media (prefers-reduced-motion: reduce) {
   .journey-archive-cursor { transition: none; }
 }
+
+
+/* Each diary leaf keeps the colour and star-map trace of the galaxy it came from. */
+.journey-archive-overlay {
+  background-color: #080807;
+  background-image:
+    radial-gradient(circle at 14% 22%, rgba(222, 203, 160, .055) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 78% 18%, rgba(222, 203, 160, .045) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 68% 76%, rgba(222, 203, 160, .04) 0 1px, transparent 1.5px),
+    radial-gradient(ellipse at 50% 0%, rgba(190, 177, 148, .07), transparent 48%);
+  background-size: 190px 190px, 230px 230px, 270px 270px, auto;
+}
+.galaxy-field-story { --field-ink: 194, 164, 112; }
+.galaxy-field-tech { --field-ink: 126, 159, 198; }
+.galaxy-field-mistakes { --field-ink: 178, 183, 178; }
+.galaxy-field-making { --field-ink: 205, 197, 174; }
+.galaxy-field-return { --field-ink: 169, 151, 190; }
+.galaxy-field-story,
+.galaxy-field-tech,
+.galaxy-field-mistakes,
+.galaxy-field-making,
+.galaxy-field-return {
+  background-image:
+    radial-gradient(ellipse at 12% 14%, rgba(var(--field-ink), .09), transparent 38%),
+    radial-gradient(ellipse at 87% 78%, rgba(var(--field-ink), .055), transparent 42%),
+    radial-gradient(circle at 14% 22%, rgba(222, 213, 195, .45) 0 .7px, transparent 1.2px),
+    radial-gradient(circle at 78% 18%, rgba(222, 213, 195, .38) 0 .7px, transparent 1.2px),
+    radial-gradient(circle at 68% 76%, rgba(222, 213, 195, .3) 0 .7px, transparent 1.2px),
+    #080807;
+  background-size: auto, auto, 190px 190px, 230px 230px, 270px 270px, auto;
+}
+.field-diary-shell { isolation: isolate; }
+.field-diary-context { min-height: 24px; }
+.field-diary-star {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(222, 213, 195, .85);
+  box-shadow: 0 0 0 3px rgba(222, 213, 195, .08), 0 0 12px rgba(222, 213, 195, .18);
+}
+.field-diary-paper {
+  background-color: #e5dfd2;
+  background-image:
+    linear-gradient(90deg, transparent 0, transparent 48px, rgba(154, 99, 83, .17) 48px, rgba(154, 99, 83, .17) 49px, transparent 49px),
+    repeating-linear-gradient(0deg, rgba(65, 56, 43, .025) 0, rgba(65, 56, 43, .025) 1px, transparent 1px, transparent 28px),
+    repeating-linear-gradient(91deg, rgba(67, 58, 43, .014) 0, rgba(67, 58, 43, .014) 1px, transparent 1px, transparent 6px);
+}
+.field-diary-margin {
+  position: absolute;
+  z-index: 1;
+  left: 17px;
+  top: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  transform: translateY(-50%);
+  color: rgba(91, 80, 62, .65);
+  font: 9px/1 var(--font-geist-mono), monospace;
+}
+.field-diary-margin i {
+  width: 3px;
+  height: 3px;
+  border: 1px solid rgba(91, 80, 62, .4);
+  border-radius: 50%;
+}
+.field-diary-ink-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(88, 80, 65, .75);
+}
+.field-diary-entry-mark { opacity: .9; }
+@media (max-width: 639px) {
+  .field-diary-paper { background-image: repeating-linear-gradient(0deg, rgba(65, 56, 43, .025) 0, rgba(65, 56, 43, .025) 1px, transparent 1px, transparent 28px); }
+  .field-diary-margin { left: 8px; gap: 9px; }
+}
