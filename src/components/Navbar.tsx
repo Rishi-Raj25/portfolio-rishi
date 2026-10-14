@@ -21,10 +21,11 @@ export default function Navbar() {
 
   return (
     <>
-      <motion.nav 
+      <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className="fixed top-0 w-full z-[100] transition-all duration-500 py-4 md:py-6"
+        aria-label="Main navigation"
+        className="journey-global-nav fixed top-0 w-full z-[100] transition-all duration-500 py-4 md:py-6"
       >
         <div className="max-w-5xl mx-auto px-5 md:px-6">
           <div className={`
@@ -37,8 +38,7 @@ export default function Navbar() {
                 Rishi Raj
               </span>
             </Link>
-            
-            {/* Desktop Nav */}
+
             <div className="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-widest">
               {navLinks.map((link) => (
                 <Link key={link.name} href={link.href} className="text-white/60 hover:text-white transition-colors uppercase">
@@ -50,8 +50,8 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* Mobile Toggle */}
-            <button 
+            <button
+              aria-label="Open navigation menu"
               className="md:hidden p-3 text-white/60 hover:text-white -mr-2"
               onClick={() => setMobileMenuOpen(true)}
             >
@@ -61,7 +61,6 @@ export default function Navbar() {
         </div>
       </motion.nav>
 
-      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -69,14 +68,15 @@ export default function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-[200] bg-neutral-950 flex flex-col p-8"
+            className="journey-mobile-menu fixed inset-0 z-[200] bg-neutral-950 flex flex-col p-8"
           >
             <div className="flex items-center justify-between mb-16">
               <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
                 <span className="text-xl font-bold tracking-tight">Rishi Raj</span>
               </Link>
-              <button 
+              <button
+                aria-label="Close navigation menu"
                 onClick={() => setMobileMenuOpen(false)}
                 className="p-2 text-white/60 hover:text-white bg-white/5 rounded-full"
               >
@@ -86,17 +86,17 @@ export default function Navbar() {
 
             <div className="flex flex-col gap-10">
               {navLinks.map((link) => (
-                <Link 
-                  key={link.name} 
-                  href={link.href} 
+                <Link
+                  key={link.name}
+                  href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className="text-4xl font-bold tracking-tighter text-white/60 hover:text-white transition-all hover:translate-x-2"
                 >
                   {link.name}
                 </Link>
               ))}
-              <Link 
-                href="#contact" 
+              <Link
+                href="#contact"
                 onClick={() => setMobileMenuOpen(false)}
                 className="text-4xl font-bold tracking-tighter text-blue-400 hover:text-blue-300 transition-all hover:translate-x-2"
               >
