@@ -208,6 +208,11 @@ export default function About() {
                 <radialGradient id="planet-film" cx="28%" cy="24%" r="78%"><stop offset="0%" stopColor="#ffe8d6"/><stop offset="28%" stopColor="#c99a7a"/><stop offset="70%" stopColor="#624638"/><stop offset="100%" stopColor="#201510"/></radialGradient>
                 <radialGradient id="planet-nontech" cx="28%" cy="24%" r="78%"><stop offset="0%" stopColor="#e1f5ff"/><stop offset="28%" stopColor="#83b4ca"/><stop offset="70%" stopColor="#355969"/><stop offset="100%" stopColor="#111b24"/></radialGradient>
                 <radialGradient id="planet-atmosphere"><stop offset="60%" stopColor="#d9e4f2" stopOpacity="0"/><stop offset="100%" stopColor="#d9e4f2" stopOpacity=".18"/></radialGradient>
+                <filter id="planetTexture" x="-20%" y="-20%" width="140%" height="140%">
+                  <feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="3" seed="8" />
+                  <feColorMatrix type="saturate" values="0" />
+                  <feComponentTransfer><feFuncA type="table" tableValues="0 .13" /></feComponentTransfer>
+                </filter>
                 <filter id="starGlow" x="-200%" y="-200%" width="400%" height="400%">
                   <feGaussianBlur stdDeviation="4" result="blur" />
                   <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
@@ -246,7 +251,7 @@ export default function About() {
                 const isHovered = hoveredWorldId === world.id;
                 const planetX = isSelected ? 245 : world.x;
                 const planetY = isSelected ? 212 : world.y;
-                const planetR = isSelected ? 49 : world.radius;
+                const planetR = isSelected ? 78 : world.radius;
                 return (
                   <motion.g
                     key={world.id}
@@ -335,7 +340,7 @@ export default function About() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: reduced ? 0 : 0.35 }}
-                className="grid gap-6 border-t border-white/[0.1] p-5 sm:p-7 md:grid-cols-[0.8fr_1.2fr] md:gap-10 md:p-9"
+                className="grid gap-6 border-t border-white/[0.1] py-7 sm:py-9 md:grid-cols-[0.8fr_1.2fr] md:gap-10"
               >
                 <div>
                   <p className="mb-3 flex items-center gap-2 text-[9px] uppercase tracking-[0.22em]" style={{ color: selectedWorld.color }}>
@@ -356,7 +361,7 @@ export default function About() {
                         type="button"
                         key={star.id}
                         onClick={() => setSelectedStarId(star.id)}
-                        className={`group min-w-0 border p-3 text-left transition-colors sm:p-4 ${selectedStarId === star.id ? "border-white/35 bg-white/[0.07]" : "border-white/[0.1] bg-white/[0.015] hover:border-white/25 hover:bg-white/[0.04]"}`}
+                        className={`group flex w-full min-w-0 items-center justify-between gap-4 py-3 text-left transition-colors ${selectedStarId === star.id ? "text-white" : "text-white/55 hover:text-white/90"}`}
                       >
                         <span className="flex items-center justify-between gap-3">
                           <span className="truncate text-sm text-white/85">{star.name}</span>
