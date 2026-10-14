@@ -24,7 +24,6 @@ type World = {
   x: number;
   y: number;
   radius: number;
-  image: string;
   stars: Star[];
 };
 
@@ -36,9 +35,8 @@ const worlds: World[] = [
     description: "I like turning curious questions into things people can actually use—from real-time voice systems to tools built around everyday problems.",
     color: "#b9c8a9",
     x: 220,
-    y: 176,
+    y: 210,
     radius: 26,
-    image: "https://images-assets.nasa.gov/image/PIA18033/PIA18033~medium.jpg",
     stars: [
       { id: "karma", name: "Karma AI", kind: "Voice AI", description: "A real-time conversational agent designed to keep scam callers talking through natural, AI-driven voice interactions.", status: "Built · Hackathon project", link: "https://github.com/Rishi-Raj25" },
       { id: "krishilens", name: "KrishiLens", kind: "Applied AI", description: "An image-based cattle and buffalo breed recognition concept built to make Indian livestock identification more accessible.", status: "Built · Project", link: "https://github.com/Rishi-Raj25/Krishilens" },
@@ -52,10 +50,9 @@ const worlds: World[] = [
     short: "Feelings finding a sound",
     description: "Songs are where I get to be honest without explaining everything. I'm learning to write, record, and release music that feels like me.",
     color: "#c7b6e6",
-    x: 425,
+    x: 520,
     y: 105,
     radius: 22,
-    image: "https://images-assets.nasa.gov/image/PIA22946/PIA22946~medium.jpg",
     stars: [
       { id: "whenever", name: "Whenever You Go", kind: "Original song", description: "A song intended to introduce this chapter of my musical identity: raw, personal, and honest rather than polished into someone else's sound.", status: "In progress" },
       { id: "ukulele", name: "Ukulele sketches", kind: "Songwriting", description: "Small melodies and unfinished ideas built around ukulele, voice, and the feeling a simple recording can hold.", status: "Ongoing practice" },
@@ -69,9 +66,8 @@ const worlds: World[] = [
     description: "I keep coming back to storytelling: the framing, the silence, the little details that make a feeling stay with you after the screen goes dark.",
     color: "#e0bca4",
     x: 650,
-    y: 182,
+    y: 210,
     radius: 24,
-    image: "https://images-assets.nasa.gov/image/PIA17172/PIA17172~medium.jpg",
     stars: [
       { id: "jharkhand-film", name: "Jharkhand Film Festival", kind: "Short film", description: "A short film made for the 2026 Jharkhand Film Festival. It wasn't selected, but making it brought me closer to the kind of storyteller I want to become.", status: "Completed · Submission" },
       { id: "next-film", name: "The next frame", kind: "Future film", description: "More short films, more experiments, and more chances to tell a story with the tools and people I have around me.", status: "On the horizon" },
@@ -83,10 +79,9 @@ const worlds: World[] = [
     short: "People, ideas, momentum",
     description: "Not everything meaningful happens in code. I enjoy bringing people together, organizing experiences, communicating ideas, and learning by doing.",
     color: "#a9c9dc",
-    x: 820,
-    y: 112,
+    x: 520,
+    y: 390,
     radius: 20,
-    image: "https://images-assets.nasa.gov/image/PIA01492/PIA01492~medium.jpg",
     stars: [
       { id: "ambassador", name: "Gemini Student Ambassador", kind: "Community", description: "Helping bring AI tools and hands-on experiences into student spaces through events, product exploration, and community activities.", status: "Ongoing · 2026" },
       { id: "hackathons", name: "Hackathon rooms", kind: "Collaboration", description: "Building with a team under a deadline—learning how to share ideas, make trade-offs, and turn a rough concept into a working demo.", status: "Experience" },
@@ -203,22 +198,49 @@ export default function About() {
 
             <svg viewBox="0 0 1000 430" role="group" aria-label="Interactive map of four personal worlds and their constellation stars" className="block h-auto min-h-[250px] w-full sm:min-h-[320px] lg:min-h-[390px]">
               <defs>
-                {worlds.map((world) => { return <clipPath key={world.id} id={`planet-clip-${world.id}`}><circle cx={world.x} cy={world.y} r={world.radius} /></clipPath>; })}
                 <radialGradient id="cosmicCore">
-                  <stop offset="0%" stopColor="#e8e2d6" stopOpacity=".95" />
-                  <stop offset="45%" stopColor="#b9c8a9" stopOpacity=".7" />
-                  <stop offset="100%" stopColor="#b9c8a9" stopOpacity="0" />
+                  <stop offset="0%" stopColor="#fff7df" stopOpacity="1" />
+                  <stop offset="18%" stopColor="#f2d8a0" stopOpacity=".92" />
+                  <stop offset="42%" stopColor="#c4a6e8" stopOpacity=".34" />
+                  <stop offset="100%" stopColor="#a7b5e7" stopOpacity="0" />
                 </radialGradient>
-                {worlds.map((world) => { const chosen = selectedWorld?.id === world.id; return <clipPath key={world.id} id={`planet-clip-${world.id}`}><circle cx={chosen ? 245 : world.x} cy={chosen ? 212 : world.y} r={chosen ? 78 : world.radius} /></clipPath>; })}
-                <radialGradient id="planet-shadow" cx="28%" cy="24%" r="82%"><stop offset="0%" stopColor="#fff" stopOpacity="0"/><stop offset="62%" stopColor="#000" stopOpacity="0"/><stop offset="100%" stopColor="#000" stopOpacity=".72"/></radialGradient>
-
-
-
-                <radialGradient id="planet-atmosphere"><stop offset="68%" stopColor="#d9e4f2" stopOpacity="0"/><stop offset="100%" stopColor="#d9e4f2" stopOpacity=".16"/></radialGradient>
+                <radialGradient id="planet-tech" cx="30%" cy="24%" r="78%">
+                  <stop offset="0%" stopColor="#dcebd0" />
+                  <stop offset="34%" stopColor="#819a77" />
+                  <stop offset="72%" stopColor="#34483b" />
+                  <stop offset="100%" stopColor="#111b19" />
+                </radialGradient>
+                <radialGradient id="planet-music" cx="30%" cy="24%" r="78%">
+                  <stop offset="0%" stopColor="#f1e5ff" />
+                  <stop offset="34%" stopColor="#a996c9" />
+                  <stop offset="72%" stopColor="#514461" />
+                  <stop offset="100%" stopColor="#17131f" />
+                </radialGradient>
+                <radialGradient id="planet-film" cx="30%" cy="24%" r="78%">
+                  <stop offset="0%" stopColor="#ffe7d5" />
+                  <stop offset="34%" stopColor="#c99979" />
+                  <stop offset="72%" stopColor="#624638" />
+                  <stop offset="100%" stopColor="#201510" />
+                </radialGradient>
+                <radialGradient id="planet-nontech" cx="30%" cy="24%" r="78%">
+                  <stop offset="0%" stopColor="#dff4ff" />
+                  <stop offset="34%" stopColor="#83b4ca" />
+                  <stop offset="72%" stopColor="#355969" />
+                  <stop offset="100%" stopColor="#111b24" />
+                </radialGradient>
+                <radialGradient id="planet-shadow" cx="28%" cy="24%" r="82%">
+                  <stop offset="0%" stopColor="#fff" stopOpacity="0" />
+                  <stop offset="62%" stopColor="#000" stopOpacity="0" />
+                  <stop offset="100%" stopColor="#000" stopOpacity=".72" />
+                </radialGradient>
+                <radialGradient id="planet-atmosphere">
+                  <stop offset="65%" stopColor="#d9e4f2" stopOpacity="0" />
+                  <stop offset="100%" stopColor="#d9e4f2" stopOpacity=".18" />
+                </radialGradient>
                 <filter id="planetTexture" x="-20%" y="-20%" width="140%" height="140%">
-                  <feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="3" seed="8" />
+                  <feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="8" />
                   <feColorMatrix type="saturate" values="0" />
-                  <feComponentTransfer><feFuncA type="table" tableValues="0 .13" /></feComponentTransfer>
+                  <feComponentTransfer><feFuncA type="table" tableValues="0 .12" /></feComponentTransfer>
                 </filter>
                 <filter id="starGlow" x="-200%" y="-200%" width="400%" height="400%">
                   <feGaussianBlur stdDeviation="4" result="blur" />
@@ -229,18 +251,22 @@ export default function About() {
 
               <AnimatePresence mode="wait">
                 {!selectedWorld && (
-                  <motion.g key="universe-orbits" initial={reduced ? false : { opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduced ? 0 : 0.25 }}>
-                    <ellipse cx="520" cy="210" rx="370" ry="122" transform="rotate(-12 520 210)" fill="none" stroke="#9ca9c8" strokeOpacity=".13" strokeWidth="1" strokeDasharray="2 10" />
-                    <ellipse cx="520" cy="210" rx="280" ry="166" transform="rotate(24 520 210)" fill="none" stroke="#9ca9c8" strokeOpacity=".12" strokeWidth="1" />
-                    <ellipse cx="520" cy="210" rx="170" ry="195" transform="rotate(52 520 210)" fill="none" stroke="#9ca9c8" strokeOpacity=".08" strokeWidth="1" />
-                    <circle cx="520" cy="210" r="65" fill="url(#cosmicCore)" opacity=".12" />
-                    <circle cx="520" cy="210" r="3" fill="#e8e2d6" opacity=".8" />
-                    <text x="520" y="230" fill="#e8e2d6" opacity=".35" fontSize="9" letterSpacing="3" textAnchor="middle">YOU ARE HERE</text>
+                  <motion.g key="universe-orbits" initial={reduced ? false : { opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduced ? 0 : 0.2 }}>
+                    {[105, 132, 180, 300].map((radius, i) => (
+                      <g key={radius}>
+                        <circle cx="520" cy="210" r={radius} fill="none" stroke={["#c7b6e6", "#e0bca4", "#a9c9dc", "#b9c8a9"][i]} strokeOpacity={i === 3 ? ".1" : ".14"} strokeWidth=".8" strokeDasharray={i % 2 ? "1 7" : "2 9"} />
+                        <circle cx="520" cy={210 - radius} r="1.6" fill="#dfe5f4" opacity=".45" />
+                      </g>
+                    ))}
+                    <circle cx="520" cy="210" r="74" fill="url(#cosmicCore)" opacity=".26" />
+                    <motion.circle cx="520" cy="210" r="17" fill="#f7e8c4" opacity=".85" animate={reduced ? undefined : { opacity: [.72, 1, .78], r: [15, 18, 15] }} transition={reduced ? undefined : { duration: 3.5, repeat: Infinity, ease: "easeInOut" }} />
+                    <circle cx="520" cy="210" r="5" fill="#fff8e7" opacity=".95" />
+                    <text x="520" y="240" fill="#e8e2d6" opacity=".58" fontSize="9" letterSpacing="3" textAnchor="middle">YOU · THE CENTRE</text>
                   </motion.g>
                 )}
 
                 {selectedWorld && (
-                  <motion.g key={`constellation-${selectedWorld.id}`} initial={reduced ? false : { opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 38, damping: 19, mass: 1.1 }} style={{ transformOrigin: "500px 210px" }}>
+                  <motion.g key={`constellation-${selectedWorld.id}`} initial={reduced ? false : { opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 85, damping: 20, mass: 0.7 }} style={{ transformOrigin: "500px 210px" }}>
                     <motion.ellipse cx="245" cy="212" rx="100" ry="120" fill="none" stroke={selectedWorld.color} strokeOpacity=".28" strokeWidth="1" animate={reduced ? undefined : { rotate: 360 }} transition={reduced ? undefined : { duration: 100, repeat: Infinity, ease: "linear" }} style={{ transformOrigin: "245px 212px" }} />
                     <circle cx="245" cy="212" r="74" fill={selectedWorld.color} opacity=".045" />
                     <circle cx="245" cy="212" r="49" fill={selectedWorld.color} opacity=".06" />
@@ -253,7 +279,7 @@ export default function About() {
                 )}
               </AnimatePresence>
 
-              {sceneWorlds.map((world) => {
+              {sceneWorlds.map((world, index) => {
                 const isSelected = selectedWorld?.id === world.id;
                 const isHovered = hoveredWorldId === world.id;
                 const planetX = world.x;
@@ -274,20 +300,35 @@ export default function About() {
                     className="cursor-pointer outline-none"
                     initial={false}
                     animate={{ x: isSelected ? 245 - world.x : 0, y: isSelected ? 212 - world.y : 0, scale: isSelected ? 2.7 : 1, opacity: selectedWorld && !isSelected ? 0 : 1 }}
-                    transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 42, damping: 19, mass: 1.05 }}
+                    transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 92, damping: 20, mass: 0.72 }}
                     style={{ transformOrigin: `${world.x}px ${world.y}px`, pointerEvents: selectedWorld && !isSelected ? "none" : "auto" }}
                   >
-                    <motion.circle cx={planetX} cy={planetY} r={planetR * 1.9} fill={world.color} opacity={isHovered || isSelected ? 0.09 : 0.035} animate={reduced ? undefined : { opacity: isHovered || isSelected ? [0.07, 0.14, 0.07] : [0.025, 0.06, 0.025] }} transition={reduced ? undefined : { duration: 4, repeat: Infinity, ease: "easeInOut" }} />
-                    <motion.circle cx={planetX} cy={planetY} r={planetR + 5} fill="none" stroke={world.color} strokeOpacity={isHovered || isSelected ? ".8" : ".25"} strokeWidth="1" strokeDasharray={isSelected ? "0" : "2 6"} animate={reduced ? undefined : { rotate: 360 }} transition={reduced ? undefined : { duration: world.id === "music" ? 32 : 45, repeat: Infinity, ease: "linear" }} style={{ transformOrigin: `${planetX}px ${planetY}px` }} />
-                    <motion.image href={world.image} x={planetX - planetR} y={planetY - planetR} width={planetR * 2} height={planetR * 2} preserveAspectRatio="xMidYMid slice" clipPath={`url(#planet-clip-${world.id})`} initial={false} animate={{ x: 0, y: 0, opacity: 1 }} transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 48, damping: 19, mass: 0.95 }} />
-                    <motion.circle cx={planetX} cy={planetY} r={planetR} fill="url(#planet-shadow)" stroke={world.color} strokeOpacity={isHovered || isSelected ? ".78" : ".3"} strokeWidth={isSelected ? 1.5 : 0.8} animate={reduced ? undefined : { cy: isSelected ? planetY : [planetY - 2, planetY + 2, planetY - 2] }} transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 24, damping: 16, mass: 1.4 }} />
-                    <circle cx={planetX} cy={planetY} r={planetR} fill="url(#planet-atmosphere)" />
-                    <circle cx={planetX} cy={planetY} r={planetR} opacity={isSelected ? ".08" : ".04"} />
-                    <path d={`M ${planetX - planetR * .72} ${planetY - planetR * .12} Q ${planetX - planetR * .1} ${planetY - planetR * .65} ${planetX + planetR * .58} ${planetY - planetR * .48}`} fill="none" stroke="#fff" strokeOpacity={isHovered || isSelected ? ".24" : ".1"} strokeWidth=".7" />
-                    <text x={planetX} y={planetY + 4} textAnchor="middle" fill={world.color} fontSize={world.name === "Filmmaking" ? 5.2 : isSelected ? 7 : 6.5} letterSpacing=".5" fontWeight="500" opacity={isSelected ? 0 : 0.65}>{world.name.toUpperCase()}</text>
-                    {!selectedWorld && isHovered && (
-                      <text x={planetX} y={planetY + planetR + 25} textAnchor="middle" fill="#f4f1eb" fillOpacity=".9" fontSize="10" letterSpacing=".4">{world.short}</text>
-                    )}
+                    <motion.g
+                      animate={{ rotate: !reduced && !selectedWorld ? 360 : 0 }}
+                      transition={reduced ? { duration: 0 } : { rotate: { duration: [31, 23, 27, 36][index], repeat: Infinity, ease: "linear" } }}
+                      style={{ transformOrigin: "520px 210px" }}
+                    >
+                      <motion.circle cx={planetX} cy={planetY} r={planetR * 2.15} fill={world.color} initial={false} animate={{ opacity: isHovered || isSelected ? .13 : .045 }} transition={{ duration: reduced ? 0 : .22 }} />
+                      <circle cx={planetX} cy={planetY} r={planetR + 5} fill="none" stroke={world.color} strokeOpacity={isHovered || isSelected ? ".72" : ".2"} strokeWidth=".8" strokeDasharray="2 8" />
+                      <circle cx={planetX} cy={planetY} r={planetR} fill={`url(#planet-${world.id})`} stroke={world.color} strokeOpacity={isHovered || isSelected ? ".9" : ".48"} strokeWidth={isSelected ? 1.5 : 1} />
+                      <circle cx={planetX} cy={planetY} r={planetR} fill="url(#planet-shadow)" />
+                      <circle cx={planetX} cy={planetY} r={planetR} fill="url(#planet-atmosphere)" />
+                      <circle cx={planetX} cy={planetY} r={planetR} filter="url(#planetTexture)" opacity=".24" />
+                      <motion.g
+                        animate={reduced ? undefined : { rotate: 360 }}
+                        transition={reduced ? undefined : { duration: 18 + index * 4, repeat: Infinity, ease: "linear" }}
+                        style={{ transformOrigin: `${planetX}px ${planetY}px` }}
+                      >
+                        <path d={`M ${planetX - planetR * .62} ${planetY - planetR * .24} Q ${planetX} ${planetY - planetR * .5} ${planetX + planetR * .62} ${planetY - planetR * .24}`} fill="none" stroke="#fff" strokeOpacity=".19" strokeWidth={Math.max(.7, planetR * .045)} />
+                        <path d={`M ${planetX - planetR * .68} ${planetY + planetR * .2} Q ${planetX} ${planetY + planetR * .42} ${planetX + planetR * .68} ${planetY + planetR * .2}`} fill="none" stroke="#0a0d14" strokeOpacity=".24" strokeWidth={Math.max(.8, planetR * .06)} />
+                        <path d={`M ${planetX - planetR * .45} ${planetY + planetR * .48} Q ${planetX} ${planetY + planetR * .32} ${planetX + planetR * .45} ${planetY + planetR * .48}`} fill="none" stroke="#fff" strokeOpacity=".12" strokeWidth=".8" />
+                      </motion.g>
+                      <motion.path d={`M ${planetX - planetR * .72} ${planetY - planetR * .12} Q ${planetX - planetR * .1} ${planetY - planetR * .65} ${planetX + planetR * .58} ${planetY - planetR * .48}`} fill="none" stroke="#fff" strokeOpacity={isHovered || isSelected ? ".32" : ".13"} strokeWidth=".8" animate={reduced ? undefined : { opacity: [.08, .24, .08] }} transition={reduced ? undefined : { duration: 4 + index, repeat: Infinity, ease: "easeInOut" }} />
+                      <text x={planetX} y={planetY + 4} textAnchor="middle" fill="#f4f1eb" fontSize={world.name === "Filmmaking" ? 5.2 : 6.5} letterSpacing=".5" fontWeight="500" opacity={isSelected ? 0 : .78}>{world.name.toUpperCase()}</text>
+                      {!selectedWorld && isHovered && (
+                        <motion.text initial={reduced ? false : { opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reduced ? 0 : .18 }} x={planetX} y={planetY + planetR + 25} textAnchor="middle" fill="#f4f1eb" fillOpacity=".9" fontSize="10" letterSpacing=".4">{world.short}</motion.text>
+                      )}
+                    </motion.g>
                   </motion.g>
                 );
               })}
@@ -346,7 +387,7 @@ export default function About() {
                 initial={reduced ? false : { opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: reduced ? 0 : 0.35 }}
+                transition={{ duration: reduced ? 0 : 0.24 }}
                 className="grid gap-6 border-t border-white/[0.1] py-7 sm:py-9 md:grid-cols-[0.8fr_1.2fr] md:gap-10"
               >
                 <div>
