@@ -363,10 +363,10 @@ export default function Journey() {
       </div>
 
       <AnimatePresence>
-        {activeGalaxy && !activeArtifact && (
+        {activeGalaxy && (
           <motion.div
             key={activeGalaxy.id}
-            className="journey-archive-overlay fixed inset-0 z-[100] overflow-y-auto overscroll-contain bg-[#080807] text-[#eeeae1]"
+            className={`journey-archive-overlay galaxy-field-${activeGalaxy.id} fixed inset-0 z-[100] overflow-y-auto overscroll-contain text-[#eeeae1]`}
             onWheel={(event) => event.stopPropagation()}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -427,8 +427,9 @@ export default function Journey() {
         {activeArtifact && (
           <motion.div
             key={activeArtifact.id}
-            className="journey-archive-overlay fixed inset-0 z-[110] flex items-center justify-center overflow-y-auto overscroll-contain bg-[#080807] px-4 py-8 sm:px-8"
+            className={`journey-archive-overlay galaxy-field-${activeGalaxy?.id ?? "story"} fixed inset-0 z-[110] flex items-center justify-center overflow-y-auto overscroll-contain px-4 py-8 sm:px-8`}
             onWheel={(event) => event.stopPropagation()}
+            onPointerDown={(event) => event.stopPropagation()}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -438,32 +439,43 @@ export default function Journey() {
             aria-labelledby="artifact-detail-title"
           >
             <div aria-hidden="true" className="journey-archive-cursor" style={{ left: cursorPosition.x, top: cursorPosition.y }}><span /></div>
-            <button type="button" onClick={() => setActiveArtifact(null)} className="fixed right-5 top-5 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white/70 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" aria-label="Back to galaxy"><X size={17} /></button>
+            <button type="button" onClick={(event) => { event.stopPropagation(); setActiveArtifact(null); }} onPointerDown={(event) => event.stopPropagation()} className="fixed right-5 top-5 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white/70 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" aria-label="Back to galaxy"><X size={17} /></button>
+            <div className="field-diary-shell relative my-auto w-full max-w-5xl">
+              <div className="field-diary-context mb-5 flex flex-wrap items-center justify-between gap-3 px-1 font-mono text-[9px] uppercase tracking-[0.18em] text-[#d4cbb9]/65">
+                <span className="flex items-center gap-2"><span className="field-diary-star" /> UNIVERSE <span className="text-white/25">/</span> {activeGalaxy?.name ?? "Field notes"} <span className="text-white/25">/</span> {activeArtifact.label}</span>
+                <span>Personal field diary · entry {(activeGalaxy?.artifacts.findIndex((item) => item.id === activeArtifact.id) ?? 0) + 1}/{activeGalaxy?.artifacts.length ?? 3}</span>
+              </div>
             <motion.article
-              initial={reduceMotion ? false : { opacity: 0, scale: 0.76, rotate: -4, y: 25, filter: "blur(7px)" }}
-              animate={{ opacity: 1, scale: 1, rotate: 0, y: 0, filter: "blur(0px)" }}
-              exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.92, rotate: 2, y: 12, filter: "blur(4px)" }}
+              initial={reduceMotion ? false : { opacity: 0, scale: 0.92, rotate: -1.5, y: 18 }}
+              animate={{ opacity: 1, scale: 1, rotate: 0, y: 0 }}
+              exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.97, rotate: 1, y: 10 }}
               transition={{ type: "spring", stiffness: 145, damping: 18, duration: reduceMotion ? 0 : undefined }}
-              className="artifact-paper paper-ivory relative my-auto w-full max-w-3xl p-7 text-[#292720] shadow-[0_35px_100px_rgba(0,0,0,0.5)] sm:p-12 md:p-16"
+              className="artifact-paper field-diary-paper paper-ivory relative mx-auto w-full max-w-4xl p-7 text-[#292720] shadow-[0_35px_100px_rgba(0,0,0,0.38)] sm:p-12 md:p-16"
             >
               <span aria-hidden="true" className="paper-fold" />
+              <div aria-hidden="true" className="field-diary-margin"><span>{activeGalaxy?.index ?? "01"}</span><i /><i /><i /></div>
               <div className="relative z-10">
-                <div className="mb-12 flex items-center justify-between gap-4 border-b border-[#423c32]/20 pb-4 font-mono text-[9px] tracking-[0.18em] text-[#6d665a]">
-                  <span>{activeArtifact.label}</span><span>{activeArtifact.note}</span>
+                <div className="mb-9 flex flex-wrap items-center justify-between gap-4 border-b border-[#423c32]/20 pb-4 font-mono text-[9px] tracking-[0.18em] text-[#6d665a]">
+                  <span className="flex items-center gap-2"><span className="field-diary-ink-dot" /> {activeArtifact.label}</span><span>{activeArtifact.note}</span>
                 </div>
-                <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.17em] text-[#777064]">A page from the journey</p>
+                <div className="field-diary-entry-mark mb-5 flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.18em] text-[#777064]"><span>Recorded along the way</span><span className="h-px w-10 bg-[#777064]/35" /><span>{activeGalaxy?.name}</span></div>
                 <h3 id="artifact-detail-title" className="max-w-2xl font-serif text-4xl leading-[1.02] tracking-[-0.05em] sm:text-6xl">{activeArtifact.detailTitle}</h3>
                 <p className="mt-8 max-w-2xl whitespace-pre-line text-sm leading-8 text-[#575247] sm:text-base sm:leading-9">{activeArtifact.detail}</p>
                 <div className="mt-14 flex flex-wrap items-end justify-between gap-5 border-t border-[#423c32]/20 pt-4">
                   <span className="font-serif text-lg italic text-[#777064]">{activeArtifact.scribble}</span>
                   <div className="flex flex-wrap items-center gap-4 text-xs text-[#575247]">
-                    <button type="button" onClick={() => setActiveArtifact(null)} className="inline-flex items-center gap-2 underline decoration-[#575247]/30 underline-offset-4 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#302d27]"><ArrowLeft size={13} /> Back to this galaxy</button>
+                    <button type="button" onClick={(event) => { event.stopPropagation(); setActiveArtifact(null); }} onPointerDown={(event) => event.stopPropagation()} className="inline-flex items-center gap-2 underline decoration-[#575247]/30 underline-offset-4 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#302d27]"><ArrowLeft size={13} /> Back to this galaxy</button>
                     <button type="button" onClick={() => { const items = activeGalaxy?.artifacts ?? []; const index = items.findIndex((item) => item.id === activeArtifact.id); if (index > 0) setActiveArtifact(items[index - 1]); }} disabled={(activeGalaxy?.artifacts.findIndex((item) => item.id === activeArtifact.id) ?? 0) === 0} className="underline decoration-[#575247]/30 underline-offset-4 disabled:cursor-not-allowed disabled:opacity-25">Previous</button>
                     <button type="button" onClick={() => { const items = activeGalaxy?.artifacts ?? []; const index = items.findIndex((item) => item.id === activeArtifact.id); if (index >= 0 && index < items.length - 1) setActiveArtifact(items[index + 1]); }} disabled={(activeGalaxy?.artifacts.findIndex((item) => item.id === activeArtifact.id) ?? -1) >= (activeGalaxy?.artifacts.length ?? 0) - 1} className="underline decoration-[#575247]/30 underline-offset-4 disabled:cursor-not-allowed disabled:opacity-25">Next fragment</button>
                   </div>
                 </div>
               </div>
             </motion.article>
+            <div className="mt-5 flex flex-wrap items-center justify-between gap-3 px-1 font-mono text-[9px] uppercase tracking-[0.16em] text-[#d4cbb9]/55">
+              <span>Keep this fragment · return to its constellation</span>
+              <span className="flex items-center gap-2"><span className="field-diary-star" /> {activeGalaxy?.index ?? "01"} / {activeGalaxy?.name ?? "Journey"}</span>
+            </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
