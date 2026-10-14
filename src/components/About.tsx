@@ -122,8 +122,8 @@ function StarField({ reduced }: { reduced: boolean }) {
           r={star.r}
           fill="#d9dfed"
           initial={{ opacity: 0.2 }}
-          animate={reduced ? undefined : { opacity: [0.18, 0.58, 0.24] }}
-          transition={reduced ? undefined : { duration: 7 + star.delay, delay: star.delay, repeat: Infinity, ease: "easeInOut" }}
+          animate={reduced ? undefined : { opacity: [0.15, 0.75, 0.25] }}
+          transition={reduced ? undefined : { duration: 3 + star.delay, delay: star.delay, repeat: Infinity, ease: "easeInOut" }}
         />
       ))}
     </g>
@@ -209,22 +209,35 @@ export default function About() {
                   <stop offset="42%" stopColor="#c4a6e8" stopOpacity=".34" />
                   <stop offset="100%" stopColor="#a7b5e7" stopOpacity="0" />
                 </radialGradient>
-                <radialGradient id="planet-tech" cx="27%" cy="22%" r="86%">
-                  <stop offset="0%" stopColor="#eaf6d8" stopOpacity=".78" /><stop offset="38%" stopColor="#bfd6aa" stopOpacity=".62" /><stop offset="74%" stopColor="#8ba98b" stopOpacity=".5" /><stop offset="100%" stopColor="#688777" stopOpacity=".42" />
+                <radialGradient id="planet-tech" cx="28%" cy="22%" r="82%">
+                  <stop offset="0%" stopColor="#f2f8df" />
+                  <stop offset="42%" stopColor="#c7ddb4" />
+                  <stop offset="78%" stopColor="#9ab88d" />
+                  <stop offset="100%" stopColor="#789b80" />
                 </radialGradient>
-                <radialGradient id="planet-music" cx="27%" cy="22%" r="86%">
-                  <stop offset="0%" stopColor="#fff1ff" stopOpacity=".78" /><stop offset="38%" stopColor="#d9c7f4" stopOpacity=".62" /><stop offset="74%" stopColor="#b6a2df" stopOpacity=".5" /><stop offset="100%" stopColor="#8c7ab8" stopOpacity=".42" />
+                <radialGradient id="planet-music" cx="28%" cy="22%" r="82%">
+                  <stop offset="0%" stopColor="#fff4ff" />
+                  <stop offset="42%" stopColor="#e3d3fb" />
+                  <stop offset="78%" stopColor="#c4b2e7" />
+                  <stop offset="100%" stopColor="#a393d1" />
                 </radialGradient>
-                <radialGradient id="planet-film" cx="27%" cy="22%" r="86%">
-                  <stop offset="0%" stopColor="#fff0dc" stopOpacity=".8" /><stop offset="38%" stopColor="#ecc8ad" stopOpacity=".64" /><stop offset="74%" stopColor="#d5a38c" stopOpacity=".5" /><stop offset="100%" stopColor="#ac7c70" stopOpacity=".42" />
+                <radialGradient id="planet-film" cx="28%" cy="22%" r="82%">
+                  <stop offset="0%" stopColor="#fff3e7" />
+                  <stop offset="42%" stopColor="#f2d2bb" />
+                  <stop offset="78%" stopColor="#dfb39b" />
+                  <stop offset="100%" stopColor="#c9937d" />
                 </radialGradient>
-                <radialGradient id="planet-nontech" cx="27%" cy="22%" r="86%">
-                  <stop offset="0%" stopColor="#e8f8ff" stopOpacity=".78" /><stop offset="38%" stopColor="#b5deed" stopOpacity=".62" /><stop offset="74%" stopColor="#8bc0d6" stopOpacity=".5" /><stop offset="100%" stopColor="#679db8" stopOpacity=".42" />
+                <radialGradient id="planet-nontech" cx="28%" cy="22%" r="82%">
+                  <stop offset="0%" stopColor="#f0fbff" />
+                  <stop offset="42%" stopColor="#c2e6f3" />
+                  <stop offset="78%" stopColor="#99ccdf" />
+                  <stop offset="100%" stopColor="#79b2cb" />
                 </radialGradient>
                 <radialGradient id="planet-shadow" cx="28%" cy="22%" r="84%">
-                  <stop offset="0%" stopColor="#fff" stopOpacity=".2" /><stop offset="48%" stopColor="#fff" stopOpacity=".015" /><stop offset="100%" stopColor="#18202f" stopOpacity=".24" />
+                  <stop offset="0%" stopColor="#fff" stopOpacity=".16" />
+                  <stop offset="58%" stopColor="#fff" stopOpacity="0" />
+                  <stop offset="100%" stopColor="#5d6280" stopOpacity=".12" />
                 </radialGradient>
-                <clipPath id="clip-tech"><circle cx="220" cy="210" r="26" /></clipPath><clipPath id="clip-music"><circle cx="520" cy="105" r="22" /></clipPath><clipPath id="clip-film"><circle cx="650" cy="210" r="24" /></clipPath><clipPath id="clip-nontech"><circle cx="520" cy="390" r="20" /></clipPath>
                 <radialGradient id="planet-atmosphere">
                   <stop offset="68%" stopColor="#fff" stopOpacity="0" />
                   <stop offset="100%" stopColor="#fff" stopOpacity=".22" />
@@ -323,21 +336,18 @@ export default function About() {
                         : { x: orbitX, y: orbitY }}
                       transition={reduced || !isUniverse
                         ? { duration: 0 }
-                        : { duration: [52, 46, 58, 64][index], repeat: Infinity, ease: "linear" }}
+                        : { duration: [34, 25, 29, 39][index], repeat: Infinity, ease: "linear" }}
                     >
                       <motion.g
                         animate={reduced ? undefined : { rotate: 360 }}
-                        transition={reduced ? undefined : { rotate: { duration: [48, 56, 52, 62][index], repeat: Infinity, ease: "linear" } }}
+                        transition={reduced ? undefined : { rotate: { duration: [17, 21, 19, 24][index], repeat: Infinity, ease: "linear" } }}
                         style={{ transformOrigin: `${world.x}px ${world.y}px` }}
                       >
-                        <motion.circle cx={world.x} cy={world.y} r={planetR * 2.25} fill={world.color} initial={false} animate={{ opacity: isHovered || isSelected ? .12 : .035 }} transition={{ duration: reduced ? 0 : .65, ease: "easeInOut" }} />
+                        <motion.circle cx={world.x} cy={world.y} r={planetR * 2.25} fill={world.color} initial={false} animate={{ opacity: isHovered || isSelected ? .12 : .035 }} transition={{ duration: reduced ? 0 : .25 }} />
                         <circle cx={world.x} cy={world.y} r={planetR + 5} fill="none" stroke={world.color} strokeOpacity={isHovered || isSelected ? ".65" : ".17"} strokeWidth=".7" strokeDasharray="1 8" />
                         <circle cx={world.x} cy={world.y} r={planetR} fill={`url(#planet-${world.id})`} stroke={world.color} strokeOpacity={isHovered || isSelected ? ".9" : ".42"} strokeWidth={isSelected ? 1.2 : .8} filter="url(#planetDepth)" />
                         <circle cx={world.x} cy={world.y} r={planetR} fill="url(#planet-shadow)" />
                         <circle cx={world.x} cy={world.y} r={planetR} fill="url(#planet-atmosphere)" />
-                        <g clipPath={`url(#clip-${world.id})`} opacity=".72"><circle cx={world.x - 10} cy={world.y - 10} r="1.05" fill="#fff" opacity=".88" /><circle cx={world.x + 7} cy={world.y - 13} r=".8" fill="#fff" opacity=".75" /><circle cx={world.x + 12} cy={world.y + 5} r="1.15" fill="#fff" opacity=".82" /><circle cx={world.x - 8} cy={world.y + 12} r=".7" fill="#fff" opacity=".72" /><circle cx={world.x + 1} cy={world.y + 2} r=".55" fill="#fff" opacity=".58" /></g>
-                        <motion.g animate={reduced ? undefined : { rotate: 360 }} transition={reduced ? undefined : { duration: [38, 46, 42, 50][index], repeat: Infinity, ease: "linear" }} style={{ transformOrigin: `${world.x}px ${world.y}px` }}><circle cx={world.x + planetR * .78} cy={world.y - planetR * .82} r="3.2" fill={world.color} fillOpacity=".72" stroke="#fff" strokeOpacity=".6" strokeWidth=".65" /><circle cx={world.x + planetR * .78} cy={world.y - planetR * .82} r="1" fill="#fff" fillOpacity=".7" /></motion.g>
-                        {isHovered && isUniverse && <motion.text x={world.x + planetR + 14} y={world.y + 31} initial={reduced ? false : { opacity: 0 }} animate={{ opacity: [.55, .85, .55] }} transition={reduced ? undefined : { duration: 4.5, repeat: Infinity, ease: "easeInOut" }} fill={world.color} fontSize="6.5" letterSpacing="1.1">SKILL INCOMING · SOON</motion.text>}
                         {world.id === "music" && <g fill="none" stroke="#fff7ff" strokeOpacity=".38"><circle cx={world.x} cy={world.y} r={planetR * .68} strokeWidth=".7" /><circle cx={world.x} cy={world.y} r={planetR * .43} strokeWidth=".6" strokeDasharray="1 3" /><circle cx={world.x - 5} cy={world.y + 4} r="2" fill="#fff7ff" fillOpacity=".5" stroke="none" /></g>}
                         {world.id === "film" && <g fill="none" stroke="#fff0e3" strokeOpacity=".55"><path d={`M ${world.x - 14} ${world.y - 5} Q ${world.x} ${world.y - 17} ${world.x + 13} ${world.y - 5}`} strokeWidth=".8" /><path d={`M ${world.x - 13} ${world.y + 7} Q ${world.x} ${world.y - 4} ${world.x + 14} ${world.y + 6}`} strokeWidth=".7" /><circle cx={world.x + 8} cy={world.y - 10} r="1.4" fill="#fff0e3" stroke="none" /></g>}
                         {world.id === "tech" && <g fill="#eff8df" fillOpacity=".72"><circle cx={world.x - 9} cy={world.y - 7} r="1.3" /><circle cx={world.x + 8} cy={world.y + 4} r="1.1" /><circle cx={world.x + 1} cy={world.y - 13} r=".9" /></g>}
@@ -353,7 +363,7 @@ export default function About() {
                         x: orbitX,
                         y: orbitY
                       }}
-                      transition={reduced || !isUniverse ? { duration: 0 } : { duration: [52, 46, 58, 64][index], repeat: Infinity, ease: "linear" }}
+                      transition={reduced || !isUniverse ? { duration: 0 } : { duration: [34, 25, 29, 39][index], repeat: Infinity, ease: "linear" }}
                       style={{ pointerEvents: "none" }}
                     >
                       <g>
