@@ -6,6 +6,7 @@ import {
   Orbit, Sparkles, X, Zap,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useLenis } from "lenis/react";
 
 type Artifact = {
   id: string;
@@ -241,6 +242,28 @@ export default function Journey() {
   const [activeGalaxy, setActiveGalaxy] = useState<Galaxy | null>(null);
   const [activeArtifact, setActiveArtifact] = useState<Artifact | null>(null);
   const reduceMotion = useReducedMotion();
+  const lenis = useLenis();
+  const [cursorPosition, setCursorPosition] = useState({ x: -100, y: -100 });
+  const archiveOpen = Boolean(activeGalaxy || activeArtifact);
+
+  useEffect(() => {
+    if (!archiveOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    const previousOverscroll = document.body.style.overscrollBehavior;
+    document.body.classList.add("journey-archive-open");
+    document.body.style.overflow = "hidden";
+    document.body.style.overscrollBehavior = "none";
+    lenis?.stop();
+    const onPointerMove = (event: PointerEvent) => setCursorPosition({ x: event.clientX, y: event.clientY });
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    return () => {
+      document.body.classList.remove("journey-archive-open");
+      document.body.style.overflow = previousOverflow;
+      document.body.style.overscrollBehavior = previousOverscroll;
+      lenis?.start();
+      window.removeEventListener("pointermove", onPointerMove);
+    };
+  }, [archiveOpen, lenis]);
 
   useEffect(() => {
     if (!activeGalaxy && !activeArtifact) return;
@@ -343,7 +366,8 @@ export default function Journey() {
         {activeGalaxy && !activeArtifact && (
           <motion.div
             key={activeGalaxy.id}
-            className="fixed inset-0 z-[100] overflow-y-auto bg-[#050507]/95 text-[#eeeae1] backdrop-blur-md"
+            className="journey-archive-overlay fixed inset-0 z-[100] overflow-y-auto overscroll-contain bg-[#080807] text-[#eeeae1]"
+            onWheel={(event) => event.stopPropagation()}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -352,12 +376,13 @@ export default function Journey() {
             aria-modal="true"
             aria-labelledby="galaxy-title"
           >
+            <div aria-hidden="true" className="journey-archive-cursor" style={{ left: cursorPosition.x, top: cursorPosition.y }}><span /></div>
             <div className="mx-auto min-h-full max-w-6xl px-5 py-8 sm:px-8 md:py-12">
               <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-5">
                 <button type="button" onClick={closeGalaxy} className="inline-flex items-center gap-2 text-xs text-white/55 transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
                   <ArrowLeft size={15} /> Back to the universe
                 </button>
-                <span className="font-mono text-[9px] tracking-[0.2em] text-white/35">GALAXY {activeGalaxy.index} / ARCHIVE</span>
+                <div className="flex items-center gap-4"><span className="hidden font-mono text-[9px] tracking-[0.2em] text-white/35 sm:inline">GALAXY {activeGalaxy.index} / ARCHIVE</span><button type="button" onClick={closeGalaxy} aria-label="Close galaxy archive" className="inline-flex h-9 w-9 items-center justify-center border border-white/20 text-white/70 transition hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"><X size={16} /></button></div>
               </div>
               <div className="grid gap-8 py-10 md:grid-cols-[0.8fr_1.2fr] md:items-end md:py-14">
                 <div>
@@ -402,7 +427,8 @@ export default function Journey() {
         {activeArtifact && (
           <motion.div
             key={activeArtifact.id}
-            className="fixed inset-0 z-[110] flex items-center justify-center overflow-y-auto bg-[#050507]/96 px-4 py-8 backdrop-blur-md sm:px-8"
+            className="journey-archive-overlay fixed inset-0 z-[110] flex items-center justify-center overflow-y-auto overscroll-contain bg-[#080807] px-4 py-8 sm:px-8"
+            onWheel={(event) => event.stopPropagation()}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -411,6 +437,7 @@ export default function Journey() {
             aria-modal="true"
             aria-labelledby="artifact-detail-title"
           >
+            <div aria-hidden="true" className="journey-archive-cursor" style={{ left: cursorPosition.x, top: cursorPosition.y }}><span /></div>
             <button type="button" onClick={() => setActiveArtifact(null)} className="fixed right-5 top-5 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white/70 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" aria-label="Back to galaxy"><X size={17} /></button>
             <motion.article
               initial={reduceMotion ? false : { opacity: 0, scale: 0.76, rotate: -4, y: 25, filter: "blur(7px)" }}
@@ -429,9 +456,11 @@ export default function Journey() {
                 <p className="mt-8 max-w-2xl whitespace-pre-line text-sm leading-8 text-[#575247] sm:text-base sm:leading-9">{activeArtifact.detail}</p>
                 <div className="mt-14 flex flex-wrap items-end justify-between gap-5 border-t border-[#423c32]/20 pt-4">
                   <span className="font-serif text-lg italic text-[#777064]">{activeArtifact.scribble}</span>
-                  <button type="button" onClick={() => setActiveArtifact(null)} className="inline-flex items-center gap-2 text-xs text-[#575247] underline decoration-[#575247]/30 underline-offset-4 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#302d27]">
-                    Back to this galaxy <ArrowLeft size={13} />
-                  </button>
+                  <div className="flex flex-wrap items-center gap-4 text-xs text-[#575247]">
+                    <button type="button" onClick={() => setActiveArtifact(null)} className="inline-flex items-center gap-2 underline decoration-[#575247]/30 underline-offset-4 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#302d27]"><ArrowLeft size={13} /> Back to this galaxy</button>
+                    <button type="button" onClick={() => { const items = activeGalaxy?.artifacts ?? []; const index = items.findIndex((item) => item.id === activeArtifact.id); if (index > 0) setActiveArtifact(items[index - 1]); }} disabled={(activeGalaxy?.artifacts.findIndex((item) => item.id === activeArtifact.id) ?? 0) === 0} className="underline decoration-[#575247]/30 underline-offset-4 disabled:cursor-not-allowed disabled:opacity-25">Previous</button>
+                    <button type="button" onClick={() => { const items = activeGalaxy?.artifacts ?? []; const index = items.findIndex((item) => item.id === activeArtifact.id); if (index >= 0 && index < items.length - 1) setActiveArtifact(items[index + 1]); }} disabled={(activeGalaxy?.artifacts.findIndex((item) => item.id === activeArtifact.id) ?? -1) >= (activeGalaxy?.artifacts.length ?? 0) - 1} className="underline decoration-[#575247]/30 underline-offset-4 disabled:cursor-not-allowed disabled:opacity-25">Next fragment</button>
+                  </div>
                 </div>
               </div>
             </motion.article>

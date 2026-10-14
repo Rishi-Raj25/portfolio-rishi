@@ -137,7 +137,7 @@ body {
 }
 
 
-/* The Journey is a constellation: each field is a galaxy, not a card. */
+/* Journey archive: quiet ink, irregular marks, and contained archive navigation. */
 .journey-galaxy {
   isolation: isolate;
   border-radius: 999px;
@@ -259,4 +259,77 @@ body {
   .galaxy-core,
   .galaxy-orbit,
   .galaxy-invitation { transition: none !important; }
+}
+
+
+.journey-galaxy { border-radius: 0; }
+.galaxy-core {
+  width: 68px;
+  height: 68px;
+  border-color: rgba(233, 225, 210, .28);
+  background: radial-gradient(circle at 35% 30%, rgba(210, 204, 190, .09), transparent 40%), #0a0a09;
+  box-shadow: none !important;
+}
+.galaxy-core::before {
+  inset: 7px 3px 11px 9px;
+  border-radius: 43% 57% 48% 52%;
+  border-style: dashed;
+  border-color: rgba(233, 225, 210, .18);
+  transform: rotate(-23deg);
+}
+.galaxy-core::after {
+  inset: 15px -7px 13px 2px;
+  border-radius: 51% 49% 60% 40%;
+  border-style: dotted;
+  border-color: rgba(233, 225, 210, .13);
+  transform: rotate(34deg);
+}
+.galaxy-core-glow { display: none; }
+.galaxy-orbit { border-style: dashed; border-color: rgba(232, 224, 210, .11); }
+.galaxy-orbit-two { border-style: dotted; border-color: rgba(232, 224, 210, .09); }
+.galaxy-amber .galaxy-core,
+.galaxy-blue .galaxy-core,
+.galaxy-smoke .galaxy-core,
+.galaxy-paper .galaxy-core,
+.galaxy-violet .galaxy-core { box-shadow: none !important; }
+.journey-galaxy:hover .galaxy-core,
+.journey-galaxy:focus-visible .galaxy-core { box-shadow: none; }
+.journey-archive-overlay {
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  -webkit-overflow-scrolling: touch;
+  isolation: isolate;
+}
+.journey-archive-overlay,
+.journey-archive-overlay * { cursor: none; }
+.journey-archive-cursor {
+  position: fixed;
+  z-index: 200;
+  width: 24px;
+  height: 24px;
+  margin: -12px 0 0 -12px;
+  border: 1px solid rgba(230, 223, 208, .65);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate3d(0,0,0);
+  transition: width 140ms ease, height 140ms ease, border-color 140ms ease;
+}
+.journey-archive-cursor span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #e6dfd0;
+  transform: translate(-50%, -50%);
+}
+body.journey-archive-open .global-cursor { display: none !important; }
+@media (hover: none), (pointer: coarse) {
+  .journey-archive-overlay,
+  .journey-archive-overlay * { cursor: auto; }
+  .journey-archive-cursor { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .journey-archive-cursor { transition: none; }
 }
