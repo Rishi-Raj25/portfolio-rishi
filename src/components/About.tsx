@@ -122,8 +122,8 @@ function StarField({ reduced }: { reduced: boolean }) {
           r={star.r}
           fill="#d9dfed"
           initial={{ opacity: 0.2 }}
-          animate={reduced ? undefined : { opacity: [0.15, 0.75, 0.25] }}
-          transition={reduced ? undefined : { duration: 3 + star.delay, delay: star.delay, repeat: Infinity, ease: "easeInOut" }}
+          animate={reduced ? undefined : { opacity: [0.18, 0.52, 0.22] }}
+          transition={reduced ? undefined : { duration: 7 + star.delay, delay: star.delay, repeat: Infinity, ease: "easeInOut" }}
         />
       ))}
     </g>
@@ -134,6 +134,7 @@ export default function About() {
   const [selectedWorldId, setSelectedWorldId] = useState<WorldId | null>(null);
   const [selectedStarId, setSelectedStarId] = useState<string | null>(null);
   const [hoveredWorldId, setHoveredWorldId] = useState<WorldId | null>(null);
+  const [hoveredDwarfId, setHoveredDwarfId] = useState<string | null>(null);
   const [hoveredStarId, setHoveredStarId] = useState<string | null>(null);
   const reduced = useReducedMotion();
 
@@ -209,35 +210,22 @@ export default function About() {
                   <stop offset="42%" stopColor="#c4a6e8" stopOpacity=".34" />
                   <stop offset="100%" stopColor="#a7b5e7" stopOpacity="0" />
                 </radialGradient>
-                <radialGradient id="planet-tech" cx="28%" cy="22%" r="82%">
-                  <stop offset="0%" stopColor="#f2f8df" />
-                  <stop offset="42%" stopColor="#c7ddb4" />
-                  <stop offset="78%" stopColor="#9ab88d" />
-                  <stop offset="100%" stopColor="#789b80" />
+                <radialGradient id="planet-tech" cx="26%" cy="20%" r="88%">
+                  <stop offset="0%" stopColor="#f2f8df" stopOpacity=".68" /><stop offset="42%" stopColor="#c7ddb4" stopOpacity=".52" /><stop offset="78%" stopColor="#9ab88d" stopOpacity=".4" /><stop offset="100%" stopColor="#789b80" stopOpacity=".32" />
                 </radialGradient>
-                <radialGradient id="planet-music" cx="28%" cy="22%" r="82%">
-                  <stop offset="0%" stopColor="#fff4ff" />
-                  <stop offset="42%" stopColor="#e3d3fb" />
-                  <stop offset="78%" stopColor="#c4b2e7" />
-                  <stop offset="100%" stopColor="#a393d1" />
+                <radialGradient id="planet-music" cx="26%" cy="20%" r="88%">
+                  <stop offset="0%" stopColor="#fff4ff" stopOpacity=".68" /><stop offset="42%" stopColor="#e3d3fb" stopOpacity=".52" /><stop offset="78%" stopColor="#c4b2e7" stopOpacity=".4" /><stop offset="100%" stopColor="#a393d1" stopOpacity=".32" />
                 </radialGradient>
-                <radialGradient id="planet-film" cx="28%" cy="22%" r="82%">
-                  <stop offset="0%" stopColor="#fff3e7" />
-                  <stop offset="42%" stopColor="#f2d2bb" />
-                  <stop offset="78%" stopColor="#dfb39b" />
-                  <stop offset="100%" stopColor="#c9937d" />
+                <radialGradient id="planet-film" cx="26%" cy="20%" r="88%">
+                  <stop offset="0%" stopColor="#fff3e7" stopOpacity=".68" /><stop offset="42%" stopColor="#f2d2bb" stopOpacity=".52" /><stop offset="78%" stopColor="#dfb39b" stopOpacity=".4" /><stop offset="100%" stopColor="#c9937d" stopOpacity=".32" />
                 </radialGradient>
-                <radialGradient id="planet-nontech" cx="28%" cy="22%" r="82%">
-                  <stop offset="0%" stopColor="#f0fbff" />
-                  <stop offset="42%" stopColor="#c2e6f3" />
-                  <stop offset="78%" stopColor="#99ccdf" />
-                  <stop offset="100%" stopColor="#79b2cb" />
+                <radialGradient id="planet-nontech" cx="26%" cy="20%" r="88%">
+                  <stop offset="0%" stopColor="#f0fbff" stopOpacity=".68" /><stop offset="42%" stopColor="#c2e6f3" stopOpacity=".52" /><stop offset="78%" stopColor="#99ccdf" stopOpacity=".4" /><stop offset="100%" stopColor="#79b2cb" stopOpacity=".32" />
                 </radialGradient>
                 <radialGradient id="planet-shadow" cx="28%" cy="22%" r="84%">
-                  <stop offset="0%" stopColor="#fff" stopOpacity=".16" />
-                  <stop offset="58%" stopColor="#fff" stopOpacity="0" />
-                  <stop offset="100%" stopColor="#5d6280" stopOpacity=".12" />
+                  <stop offset="0%" stopColor="#fff" stopOpacity=".18" /><stop offset="58%" stopColor="#fff" stopOpacity=".01" /><stop offset="100%" stopColor="#18202f" stopOpacity=".22" />
                 </radialGradient>
+                <clipPath id="surface-tech"><circle cx="220" cy="210" r="26" /></clipPath><clipPath id="surface-music"><circle cx="520" cy="105" r="22" /></clipPath><clipPath id="surface-film"><circle cx="650" cy="210" r="24" /></clipPath><clipPath id="surface-nontech"><circle cx="520" cy="390" r="20" /></clipPath>
                 <radialGradient id="planet-atmosphere">
                   <stop offset="68%" stopColor="#fff" stopOpacity="0" />
                   <stop offset="100%" stopColor="#fff" stopOpacity=".22" />
@@ -336,11 +324,11 @@ export default function About() {
                         : { x: orbitX, y: orbitY }}
                       transition={reduced || !isUniverse
                         ? { duration: 0 }
-                        : { duration: [34, 25, 29, 39][index], repeat: Infinity, ease: "linear" }}
+                        : { duration: [54, 48, 60, 66][index], repeat: Infinity, ease: "linear" }}
                     >
                       <motion.g
                         animate={reduced ? undefined : { rotate: 360 }}
-                        transition={reduced ? undefined : { rotate: { duration: [17, 21, 19, 24][index], repeat: Infinity, ease: "linear" } }}
+                        transition={reduced ? undefined : { rotate: { duration: [46, 54, 50, 60][index], repeat: Infinity, ease: "linear" } }}
                         style={{ transformOrigin: `${world.x}px ${world.y}px` }}
                       >
                         <motion.circle cx={world.x} cy={world.y} r={planetR * 2.25} fill={world.color} initial={false} animate={{ opacity: isHovered || isSelected ? .12 : .035 }} transition={{ duration: reduced ? 0 : .25 }} />
@@ -348,6 +336,7 @@ export default function About() {
                         <circle cx={world.x} cy={world.y} r={planetR} fill={`url(#planet-${world.id})`} stroke={world.color} strokeOpacity={isHovered || isSelected ? ".9" : ".42"} strokeWidth={isSelected ? 1.2 : .8} filter="url(#planetDepth)" />
                         <circle cx={world.x} cy={world.y} r={planetR} fill="url(#planet-shadow)" />
                         <circle cx={world.x} cy={world.y} r={planetR} fill="url(#planet-atmosphere)" />
+                        <g clipPath={`url(#surface-${world.id})`} opacity=".78"><circle cx={world.x - 10} cy={world.y - 10} r="1" fill="#fff" opacity=".8" /><circle cx={world.x + 7} cy={world.y - 13} r=".75" fill="#fff" opacity=".7" /><circle cx={world.x + 12} cy={world.y + 5} r="1.1" fill="#fff" opacity=".78" /><circle cx={world.x - 8} cy={world.y + 12} r=".7" fill="#fff" opacity=".7" /><circle cx={world.x + 1} cy={world.y + 2} r=".55" fill="#fff" opacity=".55" /></g>
                         {world.id === "music" && <g fill="none" stroke="#fff7ff" strokeOpacity=".38"><circle cx={world.x} cy={world.y} r={planetR * .68} strokeWidth=".7" /><circle cx={world.x} cy={world.y} r={planetR * .43} strokeWidth=".6" strokeDasharray="1 3" /><circle cx={world.x - 5} cy={world.y + 4} r="2" fill="#fff7ff" fillOpacity=".5" stroke="none" /></g>}
                         {world.id === "film" && <g fill="none" stroke="#fff0e3" strokeOpacity=".55"><path d={`M ${world.x - 14} ${world.y - 5} Q ${world.x} ${world.y - 17} ${world.x + 13} ${world.y - 5}`} strokeWidth=".8" /><path d={`M ${world.x - 13} ${world.y + 7} Q ${world.x} ${world.y - 4} ${world.x + 14} ${world.y + 6}`} strokeWidth=".7" /><circle cx={world.x + 8} cy={world.y - 10} r="1.4" fill="#fff0e3" stroke="none" /></g>}
                         {world.id === "tech" && <g fill="#eff8df" fillOpacity=".72"><circle cx={world.x - 9} cy={world.y - 7} r="1.3" /><circle cx={world.x + 8} cy={world.y + 4} r="1.1" /><circle cx={world.x + 1} cy={world.y - 13} r=".9" /></g>}
@@ -387,6 +376,25 @@ export default function About() {
                   </motion.g>
                 );
               })}
+
+              {!selectedWorld && (
+                <g aria-label="Uncharted worlds — skills still forming">
+                  {[
+                    { id: "incoming-code", rx: 228, ry: 70, color: "#b9c8a9", line: "One more skill tree to unlock. Please hold my coffee." },
+                    { id: "incoming-story", rx: 280, ry: 150, color: "#c7b6e6", line: "A new creative obsession is loading… probably at 2 a.m." },
+                  ].map((dwarf, index) => (
+                    <motion.g key={dwarf.id} animate={reduced ? undefined : { rotate: 360 }} transition={reduced ? undefined : { duration: index === 0 ? 78 : 96, repeat: Infinity, ease: "linear" }} style={{ transformOrigin: "520px 210px" }}>
+                      <ellipse cx="520" cy="210" rx={dwarf.rx} ry={dwarf.ry} fill="none" stroke={dwarf.color} strokeOpacity=".13" strokeWidth=".7" strokeDasharray="1 9" />
+                      <motion.g role="button" tabIndex={0} aria-label="Skill incoming" onMouseEnter={() => setHoveredDwarfId(dwarf.id)} onMouseLeave={() => setHoveredDwarfId(null)} onFocus={() => setHoveredDwarfId(dwarf.id)} onBlur={() => setHoveredDwarfId(null)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setHoveredDwarfId(hoveredDwarfId === dwarf.id ? null : dwarf.id); } }} className="cursor-pointer outline-none">
+                        <circle cx={520 + dwarf.rx} cy={210} r={hoveredDwarfId === dwarf.id ? 8 : 5.5} fill={dwarf.color} fillOpacity=".12" />
+                        <circle cx={520 + dwarf.rx} cy={210} r={hoveredDwarfId === dwarf.id ? 4.2 : 3.2} fill={dwarf.color} fillOpacity=".5" stroke="#fff" strokeOpacity=".42" strokeWidth=".6" />
+                        <circle cx={520 + dwarf.rx - 1} cy={209} r=".8" fill="#fff" fillOpacity=".8" /><circle cx={520 + dwarf.rx + 1.2} cy={211.5} r=".55" fill="#fff" fillOpacity=".65" />
+                        {hoveredDwarfId === dwarf.id && <motion.g initial={reduced ? false : { opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reduced ? 0 : .55, ease: "easeOut" }}><text x={520 + dwarf.rx + 9} y="207" fill={dwarf.color} fontSize="7" letterSpacing="1.2">SKILL INCOMING</text><text x={520 + dwarf.rx + 9} y="218" fill="#f4f1eb" fontSize="7.2">{dwarf.line}</text></motion.g>}
+                      </motion.g>
+                    </motion.g>
+                  ))}
+                </g>
+              )}
 
               {selectedWorld && selectedWorld.stars.map((star, i) => {
                 const pos = starPositions[i % starPositions.length];
