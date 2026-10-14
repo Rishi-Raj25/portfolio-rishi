@@ -344,8 +344,8 @@ export default function About() {
                     </motion.g>
                     <motion.g
                       animate={reduced || !isUniverse ? { x: 0, y: 0 } : {
-                        x: [-orbit.rx * Math.cos(orbit.phase), -orbit.rx * Math.cos(orbit.phase + Math.PI / 2), -orbit.rx * Math.cos(orbit.phase + Math.PI), -orbit.rx * Math.cos(orbit.phase + Math.PI * 1.5), -orbit.rx * Math.cos(orbit.phase + Math.PI * 2)],
-                        y: [-orbit.ry * Math.sin(orbit.phase), -orbit.ry * Math.sin(orbit.phase + Math.PI / 2), -orbit.ry * Math.sin(orbit.phase + Math.PI), -orbit.ry * Math.sin(orbit.phase + Math.PI * 1.5), -orbit.ry * Math.sin(orbit.phase + Math.PI * 2)]
+                        x: [orbit.rx * Math.cos(orbit.phase), orbit.rx * Math.cos(orbit.phase + Math.PI / 2), orbit.rx * Math.cos(orbit.phase + Math.PI), orbit.rx * Math.cos(orbit.phase + Math.PI * 1.5), orbit.rx * Math.cos(orbit.phase + Math.PI * 2)],
+                        y: [orbit.ry * Math.sin(orbit.phase), orbit.ry * Math.sin(orbit.phase + Math.PI / 2), orbit.ry * Math.sin(orbit.phase + Math.PI), orbit.ry * Math.sin(orbit.phase + Math.PI * 1.5), orbit.ry * Math.sin(orbit.phase + Math.PI * 2)]
                       }}
                       transition={reduced || !isUniverse ? { duration: 0 } : { duration: 1 / orbit.speed, repeat: Infinity, ease: "linear" }}
                       style={{ pointerEvents: "none" }}
