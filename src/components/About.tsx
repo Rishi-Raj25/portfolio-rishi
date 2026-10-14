@@ -300,33 +300,63 @@ export default function About() {
                     className="cursor-pointer outline-none"
                     initial={false}
                     animate={{ x: isSelected ? 245 - world.x : 0, y: isSelected ? 212 - world.y : 0, scale: isSelected ? 2.7 : 1, opacity: selectedWorld && !isSelected ? 0 : 1 }}
-                    transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 92, damping: 20, mass: 0.72 }}
+                    transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 155, damping: 23, mass: 0.62 }}
                     style={{ transformOrigin: `${world.x}px ${world.y}px`, pointerEvents: selectedWorld && !isSelected ? "none" : "auto" }}
                   >
                     <motion.g
                       animate={{ rotate: !reduced && !selectedWorld ? 360 : 0 }}
-                      transition={reduced ? { duration: 0 } : { rotate: { duration: [31, 23, 27, 36][index], repeat: Infinity, ease: "linear" } }}
+                      transition={reduced ? { duration: 0 } : { rotate: { duration: [34, 25, 29, 39][index], repeat: Infinity, ease: "linear" } }}
                       style={{ transformOrigin: "520px 210px" }}
                     >
-                      <motion.circle cx={planetX} cy={planetY} r={planetR * 2.15} fill={world.color} initial={false} animate={{ opacity: isHovered || isSelected ? .13 : .045 }} transition={{ duration: reduced ? 0 : .22 }} />
-                      <circle cx={planetX} cy={planetY} r={planetR + 5} fill="none" stroke={world.color} strokeOpacity={isHovered || isSelected ? ".72" : ".2"} strokeWidth=".8" strokeDasharray="2 8" />
-                      <circle cx={planetX} cy={planetY} r={planetR} fill={`url(#planet-${world.id})`} stroke={world.color} strokeOpacity={isHovered || isSelected ? ".9" : ".48"} strokeWidth={isSelected ? 1.5 : 1} />
+                      <motion.circle cx={planetX} cy={planetY} r={planetR * 2.25} fill={world.color} initial={false} animate={{ opacity: isHovered || isSelected ? .12 : .035 }} transition={{ duration: reduced ? 0 : .25 }} />
+                      <circle cx={planetX} cy={planetY} r={planetR + 5} fill="none" stroke={world.color} strokeOpacity={isHovered || isSelected ? ".65" : ".17"} strokeWidth=".7" strokeDasharray="1 8" />
+                      <circle cx={planetX} cy={planetY} r={planetR} fill={`url(#planet-${world.id})`} stroke={world.color} strokeOpacity={isHovered || isSelected ? ".82" : ".36"} strokeWidth={isSelected ? 1.2 : .8} />
                       <circle cx={planetX} cy={planetY} r={planetR} fill="url(#planet-shadow)" />
                       <circle cx={planetX} cy={planetY} r={planetR} fill="url(#planet-atmosphere)" />
-                      <circle cx={planetX} cy={planetY} r={planetR} filter="url(#planetTexture)" opacity=".24" />
+                      <circle cx={planetX} cy={planetY} r={planetR} filter="url(#planetTexture)" opacity=".15" />
                       <motion.g
                         animate={reduced ? undefined : { rotate: 360 }}
-                        transition={reduced ? undefined : { duration: 18 + index * 4, repeat: Infinity, ease: "linear" }}
+                        transition={reduced ? undefined : { duration: [17, 21, 19, 24][index], repeat: Infinity, ease: "linear" }}
                         style={{ transformOrigin: `${planetX}px ${planetY}px` }}
                       >
-                        <path d={`M ${planetX - planetR * .62} ${planetY - planetR * .24} Q ${planetX} ${planetY - planetR * .5} ${planetX + planetR * .62} ${planetY - planetR * .24}`} fill="none" stroke="#fff" strokeOpacity=".19" strokeWidth={Math.max(.7, planetR * .045)} />
-                        <path d={`M ${planetX - planetR * .68} ${planetY + planetR * .2} Q ${planetX} ${planetY + planetR * .42} ${planetX + planetR * .68} ${planetY + planetR * .2}`} fill="none" stroke="#0a0d14" strokeOpacity=".24" strokeWidth={Math.max(.8, planetR * .06)} />
-                        <path d={`M ${planetX - planetR * .45} ${planetY + planetR * .48} Q ${planetX} ${planetY + planetR * .32} ${planetX + planetR * .45} ${planetY + planetR * .48}`} fill="none" stroke="#fff" strokeOpacity=".12" strokeWidth=".8" />
+                        {world.id === "tech" && (
+                          <g fill="none" stroke="#d8e8c9" strokeWidth=".8" strokeOpacity=".45">
+                            <path d={`M ${planetX - 17} ${planetY - 9} Q ${planetX - 4} ${planetY - 18} ${planetX + 4} ${planetY - 6} T ${planetX + 17} ${planetY + 3}`} />
+                            <path d={`M ${planetX - 18} ${planetY + 8} Q ${planetX - 5} ${planetY - 1} ${planetX + 1} ${planetY + 9} T ${planetX + 14} ${planetY + 10}`} strokeOpacity=".3" />
+                            {[[planetX - 14, planetY - 9], [planetX + 4, planetY - 6], [planetX + 17, planetY + 3], [planetX - 5, planetY - 1]].map(([cx, cy], i) => <circle key={i} cx={cx} cy={cy} r="1.5" fill="#d8e8c9" stroke="none" />)}
+                          </g>
+                        )}
+                        {world.id === "music" && (
+                          <g fill="none" stroke="#f0e6ff" strokeOpacity=".48">
+                            <path d={`M ${planetX - 17} ${planetY - 3} Q ${planetX - 12} ${planetY - 15} ${planetX - 7} ${planetY - 3} T ${planetX + 3} ${planetY - 3} T ${planetX + 13} ${planetY - 3}`} strokeWidth="1.4" />
+                            <path d={`M ${planetX - 16} ${planetY + 7} Q ${planetX - 11} ${planetY - 1} ${planetX - 6} ${planetY + 7} T ${planetX + 4} ${planetY + 7} T ${planetX + 14} ${planetY + 7}`} strokeWidth="1" strokeOpacity=".32" />
+                            <ellipse cx={planetX + 1} cy={planetY - 2} rx={planetR * .62} ry={planetR * .26} transform={`rotate(-34 ${planetX + 1} ${planetY - 2})`} strokeOpacity=".22" />
+                          </g>
+                        )}
+                        {world.id === "film" && (
+                          <g fill="none" stroke="#ffe6d2">
+                            <ellipse cx={planetX} cy={planetY + 2} rx={planetR * .83} ry={planetR * .34} transform={`rotate(-28 ${planetX} ${planetY + 2})`} strokeOpacity=".48" strokeWidth="1.2" />
+                            <ellipse cx={planetX} cy={planetY + 2} rx={planetR * .63} ry={planetR * .2} transform={`rotate(-28 ${planetX} ${planetY + 2})`} strokeOpacity=".22" strokeWidth=".8" />
+                            <path d={`M ${planetX - 12} ${planetY - 8} Q ${planetX - 2} ${planetY - 15} ${planetX + 12} ${planetY - 7}`} strokeOpacity=".42" strokeWidth="1.1" />
+                          </g>
+                        )}
+                        {world.id === "nontech" && (
+                          <g fill="none" stroke="#d8f0fb">
+                            <path d={`M ${planetX - 13} ${planetY - 8} Q ${planetX - 4} ${planetY - 17} ${planetX + 3} ${planetY - 7} T ${planetX + 14} ${planetY - 2}`} strokeOpacity=".45" strokeWidth="1.5" />
+                            <path d={`M ${planetX - 15} ${planetY + 7} Q ${planetX - 4} ${planetY + 1} ${planetX + 5} ${planetY + 9} T ${planetX + 13} ${planetY + 5}`} strokeOpacity=".32" strokeWidth="1.2" />
+                            <circle cx={planetX - 4} cy={planetY - 1} r="3.5" fill="#d8f0fb" fillOpacity=".12" strokeOpacity=".25" />
+                          </g>
+                        )}
                       </motion.g>
-                      <motion.path d={`M ${planetX - planetR * .72} ${planetY - planetR * .12} Q ${planetX - planetR * .1} ${planetY - planetR * .65} ${planetX + planetR * .58} ${planetY - planetR * .48}`} fill="none" stroke="#fff" strokeOpacity={isHovered || isSelected ? ".32" : ".13"} strokeWidth=".8" animate={reduced ? undefined : { opacity: [.08, .24, .08] }} transition={reduced ? undefined : { duration: 4 + index, repeat: Infinity, ease: "easeInOut" }} />
-                      <text x={planetX} y={planetY + 4} textAnchor="middle" fill="#f4f1eb" fontSize={world.name === "Filmmaking" ? 5.2 : 6.5} letterSpacing=".5" fontWeight="500" opacity={isSelected ? 0 : .78}>{world.name.toUpperCase()}</text>
+                    </motion.g>
+                    <motion.g
+                      animate={reduced || selectedWorld ? { rotate: 0 } : { rotate: -360 }}
+                      transition={reduced || selectedWorld ? { duration: 0 } : { rotate: { duration: [34, 25, 29, 39][index], repeat: Infinity, ease: "linear" } }}
+                      style={{ transformOrigin: `${planetX}px ${planetY}px`, pointerEvents: "none" }}
+                    >
+                      <text x={planetX} y={planetY + 4} textAnchor="middle" fill="#f4f1eb" fontSize={world.name === "Filmmaking" ? 5.2 : 6.5} letterSpacing=".5" fontWeight="500" opacity={isSelected ? 0 : .82}>{world.name.toUpperCase()}</text>
                       {!selectedWorld && isHovered && (
-                        <motion.text initial={reduced ? false : { opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reduced ? 0 : .18 }} x={planetX} y={planetY + planetR + 25} textAnchor="middle" fill="#f4f1eb" fillOpacity=".9" fontSize="10" letterSpacing=".4">{world.short}</motion.text>
+                        <motion.text initial={reduced ? false : { opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reduced ? 0 : .18 }} x={planetX} y={planetY + planetR + 25} textAnchor="middle" fill="#f4f1eb" fillOpacity=".92" fontSize="10" letterSpacing=".4">{world.short}</motion.text>
                       )}
                     </motion.g>
                   </motion.g>
