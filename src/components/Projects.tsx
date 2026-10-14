@@ -65,11 +65,11 @@ const TECH_PROJECTS = [
   },
   {
     title: "KrishiLens",
-    category: "Computer vision · agriculture",
+    category: "Indian cattle & buffalo breed recognition",
     caseStudy: [
-      { label: "Problem", text: "Farmers need accessible ways to identify crop issues and make informed decisions." },
-      { label: "Solution", text: "An image-based crop intelligence project designed to turn visual input into useful information." },
-      { label: "Explore", text: "Visit the project to see its current implementation and scope." },
+      { label: "Problem", text: "Identifying cattle and buffalo breeds can be difficult without accessible reference tools." },
+      { label: "Solution", text: "An image-based recognition project designed to identify Indian cattle and buffalo breeds from visual input." },
+      { label: "Explore", text: "Visit the project to see the current implementation and supported breeds." },
     ],
     image: "https://images.unsplash.com/photo-1560493676-04071c5f467b?q=80&w=1000&auto=format&fit=crop",
     liveLink: "https://krishilens-wheat.vercel.app/",
