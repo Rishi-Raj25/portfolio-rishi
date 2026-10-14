@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, AudioLines, BrainCircuit, Mic, Radio, Volume2 } from "lucide-react";
 import CaseStudyModal from "./CaseStudyModal";
 
 interface ProjectCardProps {
@@ -16,6 +16,67 @@ interface ProjectCardProps {
   color?: string;
 }
 
+const pipeline = [
+  { label: "Browser mic", short: "INPUT", icon: Mic },
+  { label: "Speech to text", short: "STT", icon: AudioLines },
+  { label: "AI response", short: "LLM", icon: BrainCircuit },
+  { label: "Voice synthesis", short: "TTS", icon: Radio },
+  { label: "Speaker", short: "OUTPUT", icon: Volume2 },
+];
+
+function VoicePipeline() {
+  return (
+    <div className="relative w-full max-w-[650px] overflow-hidden rounded-2xl border border-white/10 bg-[#0b0b0b]/90 p-4 shadow-2xl backdrop-blur-xl sm:p-5">
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <div>
+          <p className="text-[9px] uppercase tracking-[0.24em] text-white/35">Karma AI / live architecture</p>
+          <p className="mt-1 text-sm font-medium text-white/80">A conversation, in real time</p>
+        </div>
+        <span className="flex items-center gap-2 rounded-full border border-emerald-300/15 bg-emerald-300/[0.06] px-2.5 py-1 text-[9px] uppercase tracking-[0.16em] text-emerald-200/80">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-300 shadow-[0_0_10px_rgba(110,231,183,0.8)]" />
+          Pipeline
+        </span>
+      </div>
+      <div className="grid grid-cols-5 gap-1 sm:gap-2">
+        {pipeline.map((step, index) => {
+          const Icon = step.icon;
+          return (
+            <div key={step.short} className="relative flex min-w-0 flex-col items-center text-center">
+              <div className="relative mb-2 flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-white/75 sm:h-11 sm:w-11">
+                <Icon size={17} strokeWidth={1.6} />
+                {index < pipeline.length - 1 && (
+                  <motion.span
+                    aria-hidden="true"
+                    className="absolute -right-[calc(50%+1px)] top-1/2 z-10 h-px w-[calc(50%+2px)] origin-left bg-white/20"
+                  />
+                )}
+              </div>
+              <span className="text-[8px] uppercase tracking-[0.13em] text-white/35 sm:text-[9px]">{step.short}</span>
+              <span className="mt-1 text-[9px] leading-tight text-white/70 sm:text-[10px]">{step.label}</span>
+              {index < pipeline.length - 1 && (
+                <motion.span
+                  aria-hidden="true"
+                  className="absolute right-[-5px] top-[18px] z-20 h-1 w-1 rounded-full bg-amber-200 shadow-[0_0_9px_rgba(253,230,138,0.9)] sm:right-[-7px] sm:top-[22px]"
+                  animate={{ opacity: [0.2, 1, 0.2], scale: [0.8, 1.25, 0.8] }}
+                  transition={{ duration: 1.8, delay: index * 0.24, repeat: Infinity, ease: "easeInOut" }}
+                />
+              )}
+            </div>
+          );
+        })}
+      </div>
+      <div className="mt-4 flex items-center gap-2 border-t border-white/[0.07] pt-3">
+        <motion.span
+          className="h-1 w-1 rounded-full bg-amber-200"
+          animate={{ opacity: [0.3, 1, 0.3] }}
+          transition={{ duration: 1.4, repeat: Infinity }}
+        />
+        <p className="text-[9px] tracking-wide text-white/35 sm:text-[10px]">Listen → understand → respond → speak</p>
+      </div>
+    </div>
+  );
+}
+
 export default function ProjectCard({ title, category, caseStudy, image, liveLink, codeLink, index, featured, color }: ProjectCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -23,84 +84,93 @@ export default function ProjectCard({ title, category, caseStudy, image, liveLin
     <>
       <motion.div
         onClick={() => setIsModalOpen(true)}
-        className={`group block relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem] border bg-neutral-900/40 backdrop-blur-md transition-all duration-700 hover:bg-neutral-900/60 cursor-pointer w-full mx-auto will-change-transform
-        ${featured ? "md:col-span-2 min-h-[400px] md:min-h-[600px] max-w-6xl border-white/10 hover:border-white/30 shadow-[0_0_40px_rgba(245,158,11,0.05)]" : "md:col-span-2 min-h-[350px] md:min-h-[500px] max-w-5xl border-white/5 hover:border-white/20"}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            setIsModalOpen(true);
+          }
+        }}
+        aria-label={`Open ${title} case study`}
+        className={`group relative mx-auto block w-full cursor-pointer overflow-hidden border bg-neutral-900/40 transition-all duration-700 hover:bg-neutral-900/60
+        ${featured ? "min-h-[560px] max-w-6xl rounded-[1.75rem] border-white/10 shadow-[0_0_40px_rgba(245,158,11,0.05)] hover:border-white/25 md:col-span-2 md:min-h-[620px]" : "min-h-[440px] max-w-5xl rounded-[1.75rem] border-white/5 hover:border-white/20 md:col-span-2 md:min-h-[500px]"}
         `}
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
-        whileHover={{ 
-          y: -12,
-          boxShadow: `0 30px 60px -20px ${color || "#3b82f6"}44`
-        }}
+        whileHover={{ y: -6, boxShadow: `0 30px 60px -20px ${color || "#3b82f6"}33` }}
         transition={{ duration: 0.8, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
       >
-        <div className="absolute inset-0 w-full h-full overflow-hidden">
-          {/* Cinematic Image with Contrast and Tint */}
-          <img 
-            src={image} 
-            alt={title} 
-            className="object-cover w-full h-full transform scale-110 group-hover:scale-105 transition-transform duration-[2s] ease-out opacity-40 brightness-[0.7] contrast-[1.2] grayscale-[0.2] group-hover:grayscale-0 group-hover:opacity-60"
+        <div className="absolute inset-0 h-full w-full overflow-hidden">
+          <img
+            src={image}
+            alt=""
+            aria-hidden="true"
+            className="h-full w-full scale-105 object-cover opacity-20 grayscale transition-all duration-[2s] ease-out group-hover:scale-100 group-hover:opacity-30"
           />
-          
-          {/* Color Tint Overlay */}
-          <div 
-            className="absolute inset-0 z-10 mix-blend-overlay opacity-30 group-hover:opacity-40 transition-opacity duration-700"
-            style={{ backgroundColor: color || "#3b82f6" }}
-          />
-
-          {/* Deep Gradient / Vignette */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/60 to-transparent z-10" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)] z-10" />
-          
-          {/* Subtle Glow Ring */}
-          <div 
-            className={`absolute inset-0 border-[4px] border-transparent rounded-[2rem] md:rounded-[2.5rem] transition-all duration-700 pointer-events-none ${featured ? "group-hover:border-white/10" : "group-hover:border-white/5"}`}
-            style={{ boxShadow: `inset 0 0 ${featured ? '80px' : '50px'} ${color || "#3b82f6"}${featured ? '22' : '11'}` }}
+          <div className="absolute inset-0 z-10 bg-gradient-to-br from-[#080808]/95 via-[#080808]/80 to-[#080808]/95" />
+          <div className="absolute inset-0 z-10 bg-[radial-gradient(ellipse_at_80%_10%,rgba(245,158,11,0.09),transparent_48%)]" />
+          <div
+            className="pointer-events-none absolute inset-0 z-10 rounded-[1.75rem] border border-white/[0.035]"
+            style={{ boxShadow: `inset 0 0 70px ${color || "#3b82f6"}12` }}
           />
         </div>
-        
-        <div className="absolute inset-0 p-6 sm:p-10 md:p-16 z-20 flex flex-col justify-end">
-          <div className="md:translate-y-8 md:group-hover:translate-y-0 transition-transform duration-700 ease-out">
-            <p className="font-bold text-[10px] mb-4 md:mb-6 uppercase tracking-[0.3em] transition-colors"
-               style={{ color: color }}>
-              {category}
+
+        {featured && (
+          <div className="absolute right-5 top-5 z-20 hidden w-[min(55%,650px)] sm:block md:right-10 md:top-10">
+            <VoicePipeline />
+          </div>
+        )}
+
+        <div className="relative z-20 flex min-h-[inherit] flex-col justify-end p-6 sm:p-10 md:p-14">
+          <div className={featured ? "max-w-xl sm:max-w-[43%]" : "max-w-2xl"}>
+            <div className="mb-5 flex flex-wrap items-center gap-3">
+              <span className="text-[9px] font-medium uppercase tracking-[0.22em]" style={{ color: color || "#d4d4d4" }}>
+                {category}
+              </span>
+              {featured && <span className="rounded-full border border-white/15 px-2.5 py-1 text-[9px] uppercase tracking-[0.16em] text-white/55">Featured project</span>}
+            </div>
+            <h3 className={`mb-4 font-medium leading-[0.92] tracking-[-0.07em] text-[#f4f1eb] ${featured ? "text-5xl sm:text-6xl md:text-7xl" : "text-4xl sm:text-5xl md:text-6xl"}`}>
+              {title}
+            </h3>
+            <p className="max-w-lg text-sm leading-6 text-white/55 sm:text-base sm:leading-7">
+              {featured
+                ? "A real-time voice agent built to engage scam callers through a natural, AI-driven conversation."
+                : caseStudy.find((item) => item.label === "Solution")?.text || caseStudy[0]?.text}
             </p>
-            
-            <div className="flex flex-col gap-6 md:gap-10">
-              <div className="max-w-2xl">
-                <h3 className={`font-bold text-white mb-4 md:mb-8 tracking-tighter leading-[0.9] transition-colors ${featured ? "text-3xl sm:text-5xl md:text-[7rem]" : "text-2xl sm:text-4xl md:text-6xl"}`}>
-                  {title}
-                </h3>
+            {featured && (
+              <div className="mt-5 sm:hidden">
+                <VoicePipeline />
               </div>
-              
-              <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-                <div className="group/btn px-6 py-3 md:px-8 md:py-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-full flex items-center gap-2 sm:gap-3 hover:bg-white hover:text-black transition-all duration-500 shadow-xl font-bold tracking-tight">
-                  <span className="text-xs sm:text-sm">View Case Study</span>
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
-                </div>
-                
-                <a 
-                  href={liveLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="group/live px-6 py-3 md:px-8 md:py-4 bg-transparent border border-white/10 rounded-full flex items-center gap-2 sm:gap-3 hover:bg-white/10 hover:border-white/30 text-white transition-all duration-500 font-bold tracking-tight"
-                >
-                  <span className="text-xs sm:text-sm">View Live</span>
-                </a>
+            )}
+            <div className="mt-7 flex flex-wrap items-center gap-3">
+              <div className="inline-flex items-center gap-2 border-b border-white/50 pb-2 text-sm text-white transition-colors group-hover:border-white">
+                Explore case study
+                <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
               </div>
+              <a
+                href={liveLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(event) => event.stopPropagation()}
+                className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2.5 text-xs text-white/70 transition-colors hover:border-white/35 hover:text-white"
+              >
+                View live project <ArrowRight size={13} />
+              </a>
             </div>
           </div>
+          <div className="mt-8 flex items-center justify-between border-t border-white/10 pt-4 text-[9px] uppercase tracking-[0.18em] text-white/30">
+            <span>{featured ? "Real-time AI / Voice systems" : "Selected work"}</span>
+            <span>0{index + 1} / 0{featured ? 2 : 2}</span>
+          </div>
         </div>
-
-        <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out pointer-events-none" />
       </motion.div>
 
-      <CaseStudyModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        project={{ title, category, image, color: color || "#3b82f6", caseStudy, liveLink, codeLink }} 
+      <CaseStudyModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        project={{ title, category, image, color: color || "#3b82f6", caseStudy, liveLink, codeLink }}
       />
     </>
   );
