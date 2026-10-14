@@ -19,6 +19,7 @@ type World = {
   id: WorldId;
   name: string;
   short: string;
+  hoverLine: string;
   description: string;
   color: string;
   x: number;
@@ -32,6 +33,7 @@ const worlds: World[] = [
     id: "tech",
     name: "Tech",
     short: "Ideas made tangible",
+    hoverLine: "I make the computer do the thing. Eventually.",
     description: "I like turning curious questions into things people can actually use—from real-time voice systems to tools built around everyday problems.",
     color: "#b9c8a9",
     x: 220,
@@ -48,6 +50,7 @@ const worlds: World[] = [
     id: "music",
     name: "Music",
     short: "Feelings finding a sound",
+    hoverLine: "I turn feelings into songs. Debugging them is still in beta.",
     description: "Songs are where I get to be honest without explaining everything. I'm learning to write, record, and release music that feels like me.",
     color: "#c7b6e6",
     x: 520,
@@ -63,6 +66,7 @@ const worlds: World[] = [
     id: "film",
     name: "Filmmaking",
     short: "Stories made visible",
+    hoverLine: "I overthink the shot so you can feel the moment.",
     description: "I keep coming back to storytelling: the framing, the silence, the little details that make a feeling stay with you after the screen goes dark.",
     color: "#e0bca4",
     x: 650,
@@ -77,6 +81,7 @@ const worlds: World[] = [
     id: "nontech",
     name: "Non-tech",
     short: "People, ideas, momentum",
+    hoverLine: "I organize the chaos. Occasionally, I am the chaos.",
     description: "Not everything meaningful happens in code. I enjoy bringing people together, organizing experiences, communicating ideas, and learning by doing.",
     color: "#a9c9dc",
     x: 520,
@@ -237,6 +242,12 @@ export default function About() {
                   <stop offset="68%" stopColor="#fff" stopOpacity="0" />
                   <stop offset="100%" stopColor="#fff" stopOpacity=".22" />
                 </radialGradient>
+                <filter id="planetDepth" x="-45%" y="-45%" width="190%" height="210%">
+                  <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="blur" />
+                  <feOffset in="blur" dx="1" dy="4" result="offset" />
+                  <feComponentTransfer in="offset" result="shadow"><feFuncA type="linear" slope=".42" /></feComponentTransfer>
+                  <feMerge><feMergeNode in="shadow" /><feMergeNode in="SourceGraphic" /></feMerge>
+                </filter>
                 <filter id="starGlow" x="-200%" y="-200%" width="400%" height="400%">
                   <feGaussianBlur stdDeviation="4" result="blur" />
                   <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
@@ -310,7 +321,7 @@ export default function About() {
                     animate={isSelected
                       ? { x: 245 - world.x, y: 212 - world.y, scale: 2.7, opacity: 1 }
                       : isUniverse
-                        ? { x: 0, y: 0, scale: 1, opacity: 1 }
+                        ? { x: 0, y: 0, scale: isHovered ? 1.055 : 1, opacity: 1 }
                         : { x: 0, y: 0, scale: 1, opacity: 0 }}
                     transition={reduced
                       ? { duration: 0 }
@@ -334,9 +345,13 @@ export default function About() {
                       >
                         <motion.circle cx={world.x} cy={world.y} r={planetR * 2.25} fill={world.color} initial={false} animate={{ opacity: isHovered || isSelected ? .12 : .035 }} transition={{ duration: reduced ? 0 : .25 }} />
                         <circle cx={world.x} cy={world.y} r={planetR + 5} fill="none" stroke={world.color} strokeOpacity={isHovered || isSelected ? ".65" : ".17"} strokeWidth=".7" strokeDasharray="1 8" />
-                        <circle cx={world.x} cy={world.y} r={planetR} fill={`url(#planet-${world.id})`} stroke={world.color} strokeOpacity={isHovered || isSelected ? ".82" : ".36"} strokeWidth={isSelected ? 1.2 : .8} />
+                        <circle cx={world.x} cy={world.y} r={planetR} fill={`url(#planet-${world.id})`} stroke={world.color} strokeOpacity={isHovered || isSelected ? ".9" : ".42"} strokeWidth={isSelected ? 1.2 : .8} filter="url(#planetDepth)" />
                         <circle cx={world.x} cy={world.y} r={planetR} fill="url(#planet-shadow)" />
                         <circle cx={world.x} cy={world.y} r={planetR} fill="url(#planet-atmosphere)" />
+                        {world.id === "music" && <g fill="none" stroke="#fff7ff" strokeOpacity=".38"><circle cx={world.x} cy={world.y} r={planetR * .68} strokeWidth=".7" /><circle cx={world.x} cy={world.y} r={planetR * .43} strokeWidth=".6" strokeDasharray="1 3" /><circle cx={world.x - 5} cy={world.y + 4} r="2" fill="#fff7ff" fillOpacity=".5" stroke="none" /></g>}
+                        {world.id === "film" && <g fill="none" stroke="#fff0e3" strokeOpacity=".55"><path d={`M ${world.x - 14} ${world.y - 5} Q ${world.x} ${world.y - 17} ${world.x + 13} ${world.y - 5}`} strokeWidth=".8" /><path d={`M ${world.x - 13} ${world.y + 7} Q ${world.x} ${world.y - 4} ${world.x + 14} ${world.y + 6}`} strokeWidth=".7" /><circle cx={world.x + 8} cy={world.y - 10} r="1.4" fill="#fff0e3" stroke="none" /></g>}
+                        {world.id === "tech" && <g fill="#eff8df" fillOpacity=".72"><circle cx={world.x - 9} cy={world.y - 7} r="1.3" /><circle cx={world.x + 8} cy={world.y + 4} r="1.1" /><circle cx={world.x + 1} cy={world.y - 13} r=".9" /></g>}
+                        {world.id === "nontech" && <g fill="none" stroke="#effaff" strokeOpacity=".52"><path d={`M ${world.x - 12} ${world.y - 1} Q ${world.x - 4} ${world.y - 13} ${world.x + 3} ${world.y - 2} T ${world.x + 12} ${world.y - 3}`} strokeWidth="1.1" /><path d={`M ${world.x - 8} ${world.y + 10} Q ${world.x} ${world.y + 3} ${world.x + 9} ${world.y + 8}`} strokeWidth=".7" /></g>}
                         {world.id === "tech" && <g fill="none" stroke="#d8e8c9" strokeWidth=".8" strokeOpacity=".45"><path d={`M ${world.x - 17} ${world.y - 9} Q ${world.x - 4} ${world.y - 18} ${world.x + 4} ${world.y - 6} T ${world.x + 17} ${world.y + 3}`} /><path d={`M ${world.x - 18} ${world.y + 8} Q ${world.x - 5} ${world.y - 1} ${world.x + 1} ${world.y + 9} T ${world.x + 14} ${world.y + 10}`} strokeOpacity=".3" /></g>}
                         {world.id === "music" && <g fill="none" stroke="#f0e6ff" strokeOpacity=".48"><path d={`M ${world.x - 17} ${world.y - 3} Q ${world.x - 12} ${world.y - 15} ${world.x - 7} ${world.y - 3} T ${world.x + 3} ${world.y - 3} T ${world.x + 13} ${world.y - 3}`} strokeWidth="1.4" /><path d={`M ${world.x - 16} ${world.y + 7} Q ${world.x - 11} ${world.y - 1} ${world.x - 6} ${world.y + 7} T ${world.x + 4} ${world.y + 7} T ${world.x + 14} ${world.y + 7}`} strokeWidth="1" strokeOpacity=".32" /></g>}
                         {world.id === "film" && <g fill="none" stroke="#ffe6d2"><ellipse cx={world.x} cy={world.y + 2} rx={planetR * .83} ry={planetR * .34} transform={`rotate(-28 ${world.x} ${world.y + 2})`} strokeOpacity=".48" strokeWidth="1.2" /><ellipse cx={world.x} cy={world.y + 2} rx={planetR * .63} ry={planetR * .2} transform={`rotate(-28 ${world.x} ${world.y + 2})`} strokeOpacity=".22" strokeWidth=".8" /></g>}
@@ -357,15 +372,14 @@ export default function About() {
                         <text x={world.x + planetR + 16} y={world.y - 7} textAnchor="start" fill="#f4f1eb" fontSize="10" letterSpacing=".4" opacity={isSelected ? 0 : .9}>{world.name}</text>
                         {isHovered && isUniverse && (
                           <motion.g
-                            initial={reduced ? false : { opacity: 0, y: 7, scale: .97 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            transition={{ duration: reduced ? 0 : .2, ease: [0.22, 1, 0.36, 1] }}
-                            style={{ transformOrigin: `${world.x + planetR + 16}px ${world.y + 12}px` }}
+                            initial={reduced ? false : { opacity: 0, y: 4 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: reduced ? 0 : .24, ease: [0.22, 1, 0.36, 1] }}
+                            style={{ transformOrigin: `${world.x}px ${world.y}px` }}
                           >
-                            <rect x={world.x + planetR + 13} y={world.y + 4} width="156" height="36" rx="12" fill="#20212b" fillOpacity=".92" stroke={world.color} strokeOpacity=".42" strokeWidth=".8" />
-                            <circle cx={world.x + planetR + 25} cy={world.y + 16} r="2" fill={world.color} />
-                            <text x={world.x + planetR + 32} y={world.y + 19} fill="#f4f1eb" fontSize="9.5">{world.name}</text>
-                            <text x={world.x + planetR + 23} y={world.y + 31} fill="#c9cad8" fontSize="8">{world.short}</text>
+                            <path d={`M ${world.x + planetR + 13} ${world.y + 2} l 3 -3 l 3 3`} fill="none" stroke={world.color} strokeWidth=".9" strokeLinecap="round" strokeLinejoin="round" />
+                            <text x={world.x + planetR + 22} y={world.y + 5} fill={world.color} fontSize="7.5" fontWeight="600" letterSpacing="1.2">{world.name.toUpperCase()}</text>
+                            <text x={world.x + planetR + 13} y={world.y + 19} fill="#f4f1eb" fontSize="8.2">{world.hoverLine}</text>
                           </motion.g>
                         )}
                       </g>
