@@ -90,6 +90,22 @@ const worlds: World[] = [
   },
 ];
 
+// A closed SVG motion path, starting at each world's actual initial position.
+// Unlike rotating a group, animateMotion translates the planet along the orbit
+// without changing the orientation of its labels or hover description.
+function orbitPath(x: number, y: number) {
+  const cx = 520;
+  const cy = 210;
+  const radius = Math.hypot(x - cx, y - cy);
+  const start = Math.atan2(y - cy, x - cx);
+  return Array.from({ length: 65 }, (_, i) => {
+    const angle = start + (i / 64) * Math.PI * 2;
+    const dx = cx + Math.cos(angle) * radius - x;
+    const dy = cy + Math.sin(angle) * radius - y;
+    return `${i === 0 ? "M" : "L"} ${dx.toFixed(3)} ${dy.toFixed(3)}`;
+  }).join(" ") + " Z";
+}
+
 const starPositions = [
   { x: 540, y: 90 },
   { x: 690, y: 132 },
@@ -100,7 +116,7 @@ const starPositions = [
 ];
 
 function StarField({ reduced }: { reduced: boolean }) {
-  const stars = Array.from({ length: 42 }, (_, i) => ({
+  const stars = Array.from({ length: 120 }, (_, i) => ({
     x: (i * 173 + 43) % 980 + 10,
     y: (i * 97 + 23) % 410 + 18,
     r: i % 7 === 0 ? 1.8 : i % 3 === 0 ? 1.2 : 0.7,
@@ -252,7 +268,7 @@ export default function About() {
               <AnimatePresence mode="wait">
                 {!selectedWorld && (
                   <motion.g key="universe-orbits" initial={reduced ? false : { opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduced ? 0 : 0.2 }}>
-                    {[105, 132, 180, 300].map((radius, i) => (
+                    {[105, 130, 180, 300].map((radius, i) => (
                       <g key={radius}>
                         <circle cx="520" cy="210" r={radius} fill="none" stroke={["#c7b6e6", "#e0bca4", "#a9c9dc", "#b9c8a9"][i]} strokeOpacity={i === 3 ? ".1" : ".14"} strokeWidth=".8" strokeDasharray={i % 2 ? "1 7" : "2 9"} />
                         <circle cx="520" cy={210 - radius} r="1.6" fill="#dfe5f4" opacity=".45" />
@@ -300,14 +316,13 @@ export default function About() {
                     className="cursor-pointer outline-none"
                     initial={false}
                     animate={{ x: isSelected ? 245 - world.x : 0, y: isSelected ? 212 - world.y : 0, scale: isSelected ? 2.7 : 1, opacity: selectedWorld && !isSelected ? 0 : 1 }}
-                    transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 155, damping: 23, mass: 0.62 }}
+                    transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 185, damping: 25, mass: 0.55 }}
                     style={{ transformOrigin: `${world.x}px ${world.y}px`, pointerEvents: selectedWorld && !isSelected ? "none" : "auto" }}
                   >
-                    <motion.g
-                      animate={{ rotate: !reduced && !selectedWorld ? 360 : 0 }}
-                      transition={reduced ? { duration: 0 } : { rotate: { duration: [34, 25, 29, 39][index], repeat: Infinity, ease: "linear" } }}
-                      style={{ transformOrigin: "520px 210px" }}
-                    >
+                    {!selectedWorld && !reduced && (
+                      <animateMotion path={orbitPath(world.x, world.y)} dur={`${[34, 25, 29, 39][index]}s`} repeatCount="indefinite" calcMode="linear" />
+                    )}
+                    <g>
                       <motion.circle cx={planetX} cy={planetY} r={planetR * 2.25} fill={world.color} initial={false} animate={{ opacity: isHovered || isSelected ? .12 : .035 }} transition={{ duration: reduced ? 0 : .25 }} />
                       <circle cx={planetX} cy={planetY} r={planetR + 5} fill="none" stroke={world.color} strokeOpacity={isHovered || isSelected ? ".65" : ".17"} strokeWidth=".7" strokeDasharray="1 8" />
                       <circle cx={planetX} cy={planetY} r={planetR} fill={`url(#planet-${world.id})`} stroke={world.color} strokeOpacity={isHovered || isSelected ? ".82" : ".36"} strokeWidth={isSelected ? 1.2 : .8} />
@@ -349,14 +364,13 @@ export default function About() {
                         )}
                       </motion.g>
                     </motion.g>
-                    <motion.g
-                      animate={reduced || selectedWorld ? { rotate: 0 } : { rotate: -360 }}
-                      transition={reduced || selectedWorld ? { duration: 0 } : { rotate: { duration: [34, 25, 29, 39][index], repeat: Infinity, ease: "linear" } }}
-                      style={{ transformOrigin: `${planetX}px ${planetY}px`, pointerEvents: "none" }}
-                    >
-                      <text x={planetX} y={planetY + 4} textAnchor="middle" fill="#f4f1eb" fontSize={world.name === "Filmmaking" ? 5.2 : 6.5} letterSpacing=".5" fontWeight="500" opacity={isSelected ? 0 : .82}>{world.name.toUpperCase()}</text>
+                    <g style={{ pointerEvents: "none" }}>
+                      {!selectedWorld && <text x={planetX + planetR + 10} y={planetY - 2} textAnchor="start" fill="#f4f1eb" fontSize="10" letterSpacing=".6" fontWeight="500" opacity=".85">{world.name}</text>}
                       {!selectedWorld && isHovered && (
-                        <motion.text initial={reduced ? false : { opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reduced ? 0 : .18 }} x={planetX} y={planetY + planetR + 25} textAnchor="middle" fill="#f4f1eb" fillOpacity=".92" fontSize="10" letterSpacing=".4">{world.short}</motion.text>
+                        <motion.g initial={reduced ? false : { opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reduced ? 0 : .2 }}>
+                          <rect x={planetX + planetR + 7} y={planetY + 6} width="152" height="28" rx="8" fill="#10141d" fillOpacity=".94" stroke={world.color} strokeOpacity=".25" />
+                          <text x={planetX + planetR + 15} y={planetY + 23} textAnchor="start" fill="#f4f1eb" fillOpacity=".85" fontSize="9">{world.short}</text>
+                        </motion.g>
                       )}
                     </motion.g>
                   </motion.g>
