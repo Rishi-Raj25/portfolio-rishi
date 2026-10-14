@@ -412,3 +412,86 @@ body.journey-archive-open .global-cursor { display: none !important; }
   .field-diary-paper { background-image: repeating-linear-gradient(0deg, rgba(65, 56, 43, .025) 0, rgba(65, 56, 43, .025) 1px, transparent 1px, transparent 28px); }
   .field-diary-margin { left: 8px; gap: 9px; }
 }
+
+
+/* Archive is a separate reading space: the site navigation must never sit above it. */
+body.journey-archive-open .journey-global-nav,
+body.journey-archive-open .journey-mobile-menu {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Make the diary unmistakably tactile while keeping each galaxy present around it. */
+.journey-archive-overlay {
+  background-color: #07090d;
+  background-image:
+    radial-gradient(ellipse at 12% 18%, rgba(var(--field-ink, 194, 164, 112), .19), transparent 43%),
+    radial-gradient(ellipse at 88% 72%, rgba(var(--field-ink, 194, 164, 112), .12), transparent 42%),
+    radial-gradient(circle at 18% 24%, rgba(237, 230, 211, .62) 0 1px, transparent 1.7px),
+    radial-gradient(circle at 76% 16%, rgba(237, 230, 211, .48) 0 1px, transparent 1.7px),
+    radial-gradient(circle at 69% 79%, rgba(237, 230, 211, .38) 0 1px, transparent 1.7px),
+    #07090d;
+  background-size: auto, auto, 150px 150px, 190px 190px, 230px 230px, auto;
+}
+.field-diary-shell::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -36px -28px;
+  border: 1px solid rgba(var(--field-ink, 194, 164, 112), .22);
+  background:
+    linear-gradient(135deg, rgba(var(--field-ink, 194, 164, 112), .08), transparent 35% 65%, rgba(var(--field-ink, 194, 164, 112), .045)),
+    repeating-linear-gradient(0deg, transparent 0 31px, rgba(230, 225, 211, .025) 31px 32px);
+  clip-path: polygon(1% 4%, 20% 1%, 48% 3%, 73% 0, 99% 4%, 97% 30%, 100% 58%, 98% 97%, 72% 99%, 45% 97%, 18% 100%, 0 96%, 2% 70%, 0 38%);
+  pointer-events: none;
+}
+.field-diary-paper {
+  position: relative;
+  border-color: rgba(68, 58, 42, .28);
+  background-color: #e8e1d3;
+  background-image:
+    linear-gradient(90deg, transparent 0, transparent 57px, rgba(160, 79, 67, .30) 57px, rgba(160, 79, 67, .30) 58px, transparent 58px),
+    repeating-linear-gradient(0deg, rgba(65, 56, 43, .065) 0, rgba(65, 56, 43, .065) 1px, transparent 1px, transparent 31px),
+    repeating-linear-gradient(91deg, rgba(67, 58, 43, .025) 0, rgba(67, 58, 43, .025) 1px, transparent 1px, transparent 7px);
+  box-shadow: 0 35px 100px rgba(0,0,0,.42), 0 0 0 7px rgba(232,225,211,.025), 0 0 0 8px rgba(var(--field-ink, 194, 164, 112), .22);
+}
+.field-diary-paper::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 8px;
+  border: 1px dashed rgba(83, 72, 54, .14);
+  clip-path: polygon(0 1%, 31% 0, 63% 1%, 100% 0, 99% 35%, 100% 66%, 99% 100%, 68% 99%, 32% 100%, 0 99%, 1% 63%, 0 31%);
+  pointer-events: none;
+}
+.field-diary-margin {
+  left: 21px;
+  gap: 14px;
+  color: rgba(91, 80, 62, .78);
+}
+.field-diary-margin span {
+  writing-mode: vertical-rl;
+  letter-spacing: .12em;
+}
+.field-diary-margin i:nth-of-type(2) {
+  width: 5px;
+  height: 5px;
+  background: rgba(91, 80, 62, .25);
+}
+.field-diary-context {
+  color: rgba(236, 229, 214, .82);
+  text-shadow: 0 1px 18px rgba(var(--field-ink, 194, 164, 112), .25);
+}
+.field-diary-star {
+  background: rgba(var(--field-ink, 194, 164, 112), .95);
+  box-shadow: 0 0 0 4px rgba(var(--field-ink, 194, 164, 112), .12), 0 0 18px rgba(var(--field-ink, 194, 164, 112), .55);
+}
+@media (max-width: 639px) {
+  .field-diary-shell::before { inset: -18px -8px; }
+  .field-diary-paper {
+    background-image:
+      repeating-linear-gradient(0deg, rgba(65, 56, 43, .055) 0, rgba(65, 56, 43, .055) 1px, transparent 1px, transparent 29px);
+  }
+  .field-diary-margin { left: 8px; }
+}
