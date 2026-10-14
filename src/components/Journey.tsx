@@ -450,7 +450,7 @@ export default function Journey() {
               animate={{ opacity: 1, scale: 1, rotate: 0, y: 0 }}
               exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.97, rotate: 1, y: 10 }}
               transition={{ type: "spring", stiffness: 145, damping: 18, duration: reduceMotion ? 0 : undefined }}
-              className="artifact-paper field-diary-paper paper-ivory relative mx-auto w-full max-w-4xl p-7 text-[#292720] shadow-[0_35px_100px_rgba(0,0,0,0.38)] sm:p-12 md:p-16"
+              className="artifact-paper field-diary-paper paper-ivory relative mx-auto w-full max-w-4xl py-8 pl-12 pr-6 text-[#292720] sm:py-12 sm:pl-20 sm:pr-12 md:py-16 md:pr-16"
             >
               <span aria-hidden="true" className="paper-fold" />
               <div aria-hidden="true" className="field-diary-margin"><span>{activeGalaxy?.index ?? "01"}</span><i /><i /><i /></div>
