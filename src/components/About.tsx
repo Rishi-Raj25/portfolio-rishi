@@ -323,7 +323,7 @@ export default function About() {
                             y: [orbit.ry * Math.sin(orbit.phase), orbit.ry * Math.sin(orbit.phase + Math.PI / 2), orbit.ry * Math.sin(orbit.phase + Math.PI), orbit.ry * Math.sin(orbit.phase + Math.PI * 1.5), orbit.ry * Math.sin(orbit.phase + Math.PI * 2)] }}
                       transition={reduced || !isUniverse
                         ? { duration: 0 }
-                        : { duration: 1 / orbit.speed, repeat: Infinity, ease: "linear" }}
+                        : { duration: [34, 25, 29, 39][index], repeat: Infinity, ease: "linear" }}
                     >
                       <motion.g
                         animate={reduced ? undefined : { rotate: 360 }}
