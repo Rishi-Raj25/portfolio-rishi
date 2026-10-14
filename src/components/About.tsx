@@ -151,11 +151,11 @@ export default function About() {
   const sceneWorlds = selectedWorld ? [selectedWorld] : worlds;
 
   return (
-    <section id="about" className="relative overflow-hidden border-b border-white/[0.08] bg-[#08090d] px-4 py-20 text-[#f4f1eb] sm:px-6 md:py-28">
+    <section id="about" className="relative overflow-hidden px-4 py-20 text-[#f4f1eb] sm:px-6 md:py-28">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
         <div className="absolute left-[8%] top-[12%] h-72 w-72 rounded-full bg-[#9c9fca]/[0.035] blur-[100px]" />
         <div className="absolute bottom-[8%] right-[4%] h-80 w-80 rounded-full bg-[#8ba9a0]/[0.04] blur-[110px]" />
-        <div className="absolute inset-0 opacity-[0.18]" style={{ backgroundImage: "radial-gradient(rgba(210,220,245,.28) .65px, transparent .65px)", backgroundSize: "31px 31px" }} />
+        <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundImage: "radial-gradient(rgba(210,220,245,.38) .55px, transparent .55px)", backgroundSize: "43px 43px" }} />
       </div>
 
       <div className="relative mx-auto max-w-7xl">
@@ -174,8 +174,8 @@ export default function About() {
           </p>
         </div>
 
-        <div className="relative overflow-hidden border border-white/[0.12] bg-[#090b12]/80 shadow-[0_30px_120px_rgba(0,0,0,0.22)]">
-          <div className="flex items-center justify-between gap-3 border-b border-white/[0.1] px-4 py-3 sm:px-6">
+        <div className="relative overflow-hidden">
+          <div className="flex items-center justify-between gap-3 border-y border-white/[0.08] px-4 py-3 sm:px-6">
             <div className="flex items-center gap-2 text-[9px] uppercase tracking-[0.2em] text-white/40 sm:text-[10px]">
               <Orbit size={13} strokeWidth={1.5} />
               <span>{selectedWorld ? `World / ${selectedWorld.name}` : "Personal cosmos / 001"}</span>
@@ -203,6 +203,11 @@ export default function About() {
                   <stop offset="45%" stopColor="#b9c8a9" stopOpacity=".7" />
                   <stop offset="100%" stopColor="#b9c8a9" stopOpacity="0" />
                 </radialGradient>
+                <radialGradient id="planet-tech" cx="28%" cy="24%" r="78%"><stop offset="0%" stopColor="#e5edda"/><stop offset="25%" stopColor="#8da17d"/><stop offset="68%" stopColor="#39483c"/><stop offset="100%" stopColor="#111b19"/></radialGradient>
+                <radialGradient id="planet-music" cx="28%" cy="24%" r="78%"><stop offset="0%" stopColor="#f0e6ff"/><stop offset="28%" stopColor="#b19acb"/><stop offset="70%" stopColor="#514461"/><stop offset="100%" stopColor="#17131f"/></radialGradient>
+                <radialGradient id="planet-film" cx="28%" cy="24%" r="78%"><stop offset="0%" stopColor="#ffe8d6"/><stop offset="28%" stopColor="#c99a7a"/><stop offset="70%" stopColor="#624638"/><stop offset="100%" stopColor="#201510"/></radialGradient>
+                <radialGradient id="planet-nontech" cx="28%" cy="24%" r="78%"><stop offset="0%" stopColor="#e1f5ff"/><stop offset="28%" stopColor="#83b4ca"/><stop offset="70%" stopColor="#355969"/><stop offset="100%" stopColor="#111b24"/></radialGradient>
+                <radialGradient id="planet-atmosphere"><stop offset="60%" stopColor="#d9e4f2" stopOpacity="0"/><stop offset="100%" stopColor="#d9e4f2" stopOpacity=".18"/></radialGradient>
                 <filter id="starGlow" x="-200%" y="-200%" width="400%" height="400%">
                   <feGaussianBlur stdDeviation="4" result="blur" />
                   <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
