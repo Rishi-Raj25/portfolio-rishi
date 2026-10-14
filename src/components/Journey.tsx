@@ -363,7 +363,7 @@ export default function Journey() {
       </div>
 
       <AnimatePresence>
-        {activeGalaxy && !activeArtifact && (
+        {activeGalaxy && (
           <motion.div
             key={activeGalaxy.id}
             className="journey-archive-overlay fixed inset-0 z-[100] overflow-y-auto overscroll-contain bg-[#080807] text-[#eeeae1]"
@@ -429,6 +429,7 @@ export default function Journey() {
             key={activeArtifact.id}
             className="journey-archive-overlay fixed inset-0 z-[110] flex items-center justify-center overflow-y-auto overscroll-contain bg-[#080807] px-4 py-8 sm:px-8"
             onWheel={(event) => event.stopPropagation()}
+            onPointerDown={(event) => event.stopPropagation()}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -438,7 +439,7 @@ export default function Journey() {
             aria-labelledby="artifact-detail-title"
           >
             <div aria-hidden="true" className="journey-archive-cursor" style={{ left: cursorPosition.x, top: cursorPosition.y }}><span /></div>
-            <button type="button" onClick={() => setActiveArtifact(null)} className="fixed right-5 top-5 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white/70 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" aria-label="Back to galaxy"><X size={17} /></button>
+            <button type="button" onClick={(event) => { event.stopPropagation(); setActiveArtifact(null); }} onPointerDown={(event) => event.stopPropagation()} className="fixed right-5 top-5 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white/70 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" aria-label="Back to galaxy"><X size={17} /></button>
             <motion.article
               initial={reduceMotion ? false : { opacity: 0, scale: 0.76, rotate: -4, y: 25, filter: "blur(7px)" }}
               animate={{ opacity: 1, scale: 1, rotate: 0, y: 0, filter: "blur(0px)" }}
@@ -457,7 +458,7 @@ export default function Journey() {
                 <div className="mt-14 flex flex-wrap items-end justify-between gap-5 border-t border-[#423c32]/20 pt-4">
                   <span className="font-serif text-lg italic text-[#777064]">{activeArtifact.scribble}</span>
                   <div className="flex flex-wrap items-center gap-4 text-xs text-[#575247]">
-                    <button type="button" onClick={() => setActiveArtifact(null)} className="inline-flex items-center gap-2 underline decoration-[#575247]/30 underline-offset-4 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#302d27]"><ArrowLeft size={13} /> Back to this galaxy</button>
+                    <button type="button" onClick={(event) => { event.stopPropagation(); setActiveArtifact(null); }} onPointerDown={(event) => event.stopPropagation()} className="inline-flex items-center gap-2 underline decoration-[#575247]/30 underline-offset-4 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#302d27]"><ArrowLeft size={13} /> Back to this galaxy</button>
                     <button type="button" onClick={() => { const items = activeGalaxy?.artifacts ?? []; const index = items.findIndex((item) => item.id === activeArtifact.id); if (index > 0) setActiveArtifact(items[index - 1]); }} disabled={(activeGalaxy?.artifacts.findIndex((item) => item.id === activeArtifact.id) ?? 0) === 0} className="underline decoration-[#575247]/30 underline-offset-4 disabled:cursor-not-allowed disabled:opacity-25">Previous</button>
                     <button type="button" onClick={() => { const items = activeGalaxy?.artifacts ?? []; const index = items.findIndex((item) => item.id === activeArtifact.id); if (index >= 0 && index < items.length - 1) setActiveArtifact(items[index + 1]); }} disabled={(activeGalaxy?.artifacts.findIndex((item) => item.id === activeArtifact.id) ?? -1) >= (activeGalaxy?.artifacts.length ?? 0) - 1} className="underline decoration-[#575247]/30 underline-offset-4 disabled:cursor-not-allowed disabled:opacity-25">Next fragment</button>
                   </div>
