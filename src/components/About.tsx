@@ -314,6 +314,15 @@ export default function About() {
                       <circle cx={planetX} cy={planetY} r={planetR} fill="url(#planet-shadow)" />
                       <circle cx={planetX} cy={planetY} r={planetR} fill="url(#planet-atmosphere)" />
                       <circle cx={planetX} cy={planetY} r={planetR} filter="url(#planetTexture)" opacity=".24" />
+                      <motion.g
+                        animate={reduced ? undefined : { rotate: 360 }}
+                        transition={reduced ? undefined : { duration: 18 + index * 4, repeat: Infinity, ease: "linear" }}
+                        style={{ transformOrigin: `${planetX}px ${planetY}px` }}
+                      >
+                        <path d={`M ${planetX - planetR * .62} ${planetY - planetR * .24} Q ${planetX} ${planetY - planetR * .5} ${planetX + planetR * .62} ${planetY - planetR * .24}`} fill="none" stroke="#fff" strokeOpacity=".19" strokeWidth={Math.max(.7, planetR * .045)} />
+                        <path d={`M ${planetX - planetR * .68} ${planetY + planetR * .2} Q ${planetX} ${planetY + planetR * .42} ${planetX + planetR * .68} ${planetY + planetR * .2}`} fill="none" stroke="#0a0d14" strokeOpacity=".24" strokeWidth={Math.max(.8, planetR * .06)} />
+                        <path d={`M ${planetX - planetR * .45} ${planetY + planetR * .48} Q ${planetX} ${planetY + planetR * .32} ${planetX + planetR * .45} ${planetY + planetR * .48}`} fill="none" stroke="#fff" strokeOpacity=".12" strokeWidth=".8" />
+                      </motion.g>
                       <motion.path d={`M ${planetX - planetR * .72} ${planetY - planetR * .12} Q ${planetX - planetR * .1} ${planetY - planetR * .65} ${planetX + planetR * .58} ${planetY - planetR * .48}`} fill="none" stroke="#fff" strokeOpacity={isHovered || isSelected ? ".32" : ".13"} strokeWidth=".8" animate={reduced ? undefined : { opacity: [.08, .24, .08] }} transition={reduced ? undefined : { duration: 4 + index, repeat: Infinity, ease: "easeInOut" }} />
                       <text x={planetX} y={planetY + 4} textAnchor="middle" fill="#f4f1eb" fontSize={world.name === "Filmmaking" ? 5.2 : 6.5} letterSpacing=".5" fontWeight="500" opacity={isSelected ? 0 : .78}>{world.name.toUpperCase()}</text>
                       {!selectedWorld && isHovered && (
