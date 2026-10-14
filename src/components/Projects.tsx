@@ -67,15 +67,15 @@ const MUSIC_PROJECTS = [
 
 const FILM_IDEAS = [
   {
-    title: "The Pyramid Dream", tag: "FOLK HORROR", line: "A dream that keeps borrowing details from the waking world.",
+    title: "The Pyramid Dream", tag: "FOLK HORROR", year: "PRIVATE STORY", line: "A dream that keeps borrowing details from the waking world.",
     detail: "A strange village, a field at the edge of the forest, and a rusted swing become pieces of a nightmare. The deeper the protagonist goes, the less certain it becomes whether they ever woke up.",
   },
   {
-    title: "The Woman Who Killed My Mother", tag: "PSYCHOLOGICAL THRILLER", line: "A disappearance becomes unbearable when the person who returns knows too much.",
+    title: "The Woman Who Killed My Mother", tag: "PSYCHOLOGICAL THRILLER", year: "PRIVATE STORY", line: "A disappearance becomes unbearable when the person who returns knows too much.",
     detail: "After his mother vanishes, a young man is left alone with a woman who claims responsibility—and a truth he feels powerless to confront.",
   },
   {
-    title: "Untitled / Story fragment", tag: "IN DEVELOPMENT", line: "Some stories are still only a scene, a question, or an image that refuses to leave.",
+    title: "Untitled / Story fragment", tag: "IN DEVELOPMENT", year: "EARLY NOTES", line: "Some stories are still only a scene, a question, or an image that refuses to leave.",
     detail: "This idea is still taking shape. The fragment is here as a marker for a story in progress, not a finished premise.",
   },
 ];
