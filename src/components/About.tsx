@@ -24,6 +24,7 @@ type World = {
   x: number;
   y: number;
   radius: number;
+  image: string;
   stars: Star[];
 };
 
@@ -37,6 +38,7 @@ const worlds: World[] = [
     x: 220,
     y: 176,
     radius: 26,
+    image: "https://images-assets.nasa.gov/image/PIA18033/PIA18033~medium.jpg",
     stars: [
       { id: "karma", name: "Karma AI", kind: "Voice AI", description: "A real-time conversational agent designed to keep scam callers talking through natural, AI-driven voice interactions.", status: "Built · Hackathon project", link: "https://github.com/Rishi-Raj25" },
       { id: "krishilens", name: "KrishiLens", kind: "Applied AI", description: "An image-based cattle and buffalo breed recognition concept built to make Indian livestock identification more accessible.", status: "Built · Project", link: "https://github.com/Rishi-Raj25/Krishilens" },
@@ -53,6 +55,7 @@ const worlds: World[] = [
     x: 425,
     y: 105,
     radius: 22,
+    image: "https://images-assets.nasa.gov/image/PIA22946/PIA22946~medium.jpg",
     stars: [
       { id: "whenever", name: "Whenever You Go", kind: "Original song", description: "A song intended to introduce this chapter of my musical identity: raw, personal, and honest rather than polished into someone else's sound.", status: "In progress" },
       { id: "ukulele", name: "Ukulele sketches", kind: "Songwriting", description: "Small melodies and unfinished ideas built around ukulele, voice, and the feeling a simple recording can hold.", status: "Ongoing practice" },
@@ -68,6 +71,7 @@ const worlds: World[] = [
     x: 650,
     y: 182,
     radius: 24,
+    image: "https://images-assets.nasa.gov/image/PIA17172/PIA17172~medium.jpg",
     stars: [
       { id: "jharkhand-film", name: "Jharkhand Film Festival", kind: "Short film", description: "A short film made for the 2026 Jharkhand Film Festival. It wasn't selected, but making it brought me closer to the kind of storyteller I want to become.", status: "Completed · Submission" },
       { id: "next-film", name: "The next frame", kind: "Future film", description: "More short films, more experiments, and more chances to tell a story with the tools and people I have around me.", status: "On the horizon" },
@@ -82,6 +86,7 @@ const worlds: World[] = [
     x: 820,
     y: 112,
     radius: 20,
+    image: "https://images-assets.nasa.gov/image/PIA01492/PIA01492~medium.jpg",
     stars: [
       { id: "ambassador", name: "Gemini Student Ambassador", kind: "Community", description: "Helping bring AI tools and hands-on experiences into student spaces through events, product exploration, and community activities.", status: "Ongoing · 2026" },
       { id: "hackathons", name: "Hackathon rooms", kind: "Collaboration", description: "Building with a team under a deadline—learning how to share ideas, make trade-offs, and turn a rough concept into a working demo.", status: "Experience" },
@@ -198,6 +203,7 @@ export default function About() {
 
             <svg viewBox="0 0 1000 430" role="group" aria-label="Interactive map of four personal worlds and their constellation stars" className="block h-auto min-h-[250px] w-full sm:min-h-[320px] lg:min-h-[390px]">
               <defs>
+                {worlds.map((world) => { const chosen = selectedWorld?.id === world.id; return <clipPath key={world.id} id={`planet-clip-${world.id}`}><circle cx={chosen ? 245 : world.x} cy={chosen ? 212 : world.y} r={chosen ? 78 : world.radius} /></clipPath>; })}
                 <radialGradient id="cosmicCore">
                   <stop offset="0%" stopColor="#e8e2d6" stopOpacity=".95" />
                   <stop offset="45%" stopColor="#b9c8a9" stopOpacity=".7" />
