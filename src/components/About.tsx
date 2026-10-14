@@ -211,16 +211,16 @@ export default function About() {
                   <stop offset="100%" stopColor="#a7b5e7" stopOpacity="0" />
                 </radialGradient>
                 <radialGradient id="planet-tech" cx="26%" cy="20%" r="88%">
-                  <stop offset="0%" stopColor="#f2f8df" stopOpacity=".68" /><stop offset="42%" stopColor="#c7ddb4" stopOpacity=".52" /><stop offset="78%" stopColor="#9ab88d" stopOpacity=".4" /><stop offset="100%" stopColor="#789b80" stopOpacity=".32" />
+                  <stop offset="0%" stopColor="#f2f8df" stopOpacity=".56" /><stop offset="42%" stopColor="#c7ddb4" stopOpacity=".42" /><stop offset="78%" stopColor="#9ab88d" stopOpacity=".32" /><stop offset="100%" stopColor="#789b80" stopOpacity=".32" />
                 </radialGradient>
                 <radialGradient id="planet-music" cx="26%" cy="20%" r="88%">
-                  <stop offset="0%" stopColor="#fff4ff" stopOpacity=".68" /><stop offset="42%" stopColor="#e3d3fb" stopOpacity=".52" /><stop offset="78%" stopColor="#c4b2e7" stopOpacity=".4" /><stop offset="100%" stopColor="#a393d1" stopOpacity=".32" />
+                  <stop offset="0%" stopColor="#fff4ff" stopOpacity=".56" /><stop offset="42%" stopColor="#e3d3fb" stopOpacity=".42" /><stop offset="78%" stopColor="#c4b2e7" stopOpacity=".32" /><stop offset="100%" stopColor="#a393d1" stopOpacity=".32" />
                 </radialGradient>
                 <radialGradient id="planet-film" cx="26%" cy="20%" r="88%">
-                  <stop offset="0%" stopColor="#fff3e7" stopOpacity=".68" /><stop offset="42%" stopColor="#f2d2bb" stopOpacity=".52" /><stop offset="78%" stopColor="#dfb39b" stopOpacity=".4" /><stop offset="100%" stopColor="#c9937d" stopOpacity=".32" />
+                  <stop offset="0%" stopColor="#fff3e7" stopOpacity=".56" /><stop offset="42%" stopColor="#f2d2bb" stopOpacity=".42" /><stop offset="78%" stopColor="#dfb39b" stopOpacity=".32" /><stop offset="100%" stopColor="#c9937d" stopOpacity=".32" />
                 </radialGradient>
                 <radialGradient id="planet-nontech" cx="26%" cy="20%" r="88%">
-                  <stop offset="0%" stopColor="#f0fbff" stopOpacity=".68" /><stop offset="42%" stopColor="#c2e6f3" stopOpacity=".52" /><stop offset="78%" stopColor="#99ccdf" stopOpacity=".4" /><stop offset="100%" stopColor="#79b2cb" stopOpacity=".32" />
+                  <stop offset="0%" stopColor="#f0fbff" stopOpacity=".56" /><stop offset="42%" stopColor="#c2e6f3" stopOpacity=".42" /><stop offset="78%" stopColor="#99ccdf" stopOpacity=".32" /><stop offset="100%" stopColor="#79b2cb" stopOpacity=".32" />
                 </radialGradient>
                 <radialGradient id="planet-shadow" cx="28%" cy="22%" r="84%">
                   <stop offset="0%" stopColor="#fff" stopOpacity=".18" /><stop offset="58%" stopColor="#fff" stopOpacity=".01" /><stop offset="100%" stopColor="#18202f" stopOpacity=".22" />
@@ -331,7 +331,7 @@ export default function About() {
                         transition={reduced ? undefined : { rotate: { duration: [46, 54, 50, 60][index], repeat: Infinity, ease: "linear" } }}
                         style={{ transformOrigin: `${world.x}px ${world.y}px` }}
                       >
-                        <motion.circle cx={world.x} cy={world.y} r={planetR * 2.25} fill={world.color} initial={false} animate={{ opacity: isHovered || isSelected ? .12 : .035 }} transition={{ duration: reduced ? 0 : .25 }} />
+                        <motion.circle cx={world.x} cy={world.y} r={planetR * 2.25} fill={world.color} initial={false} animate={{ opacity: isHovered || isSelected ? .075 : .018 }} transition={{ duration: reduced ? 0 : .25 }} />
                         <circle cx={world.x} cy={world.y} r={planetR + 5} fill="none" stroke={world.color} strokeOpacity={isHovered || isSelected ? ".65" : ".17"} strokeWidth=".7" strokeDasharray="1 8" />
                         <circle cx={world.x} cy={world.y} r={planetR} fill={`url(#planet-${world.id})`} stroke={world.color} strokeOpacity={isHovered || isSelected ? ".9" : ".42"} strokeWidth={isSelected ? 1.2 : .8} filter="url(#planetDepth)" />
                         <circle cx={world.x} cy={world.y} r={planetR} fill="url(#planet-shadow)" />
@@ -352,7 +352,7 @@ export default function About() {
                         x: orbitX,
                         y: orbitY
                       }}
-                      transition={reduced || !isUniverse ? { duration: 0 } : { duration: [34, 25, 29, 39][index], repeat: Infinity, ease: "linear" }}
+                      transition={reduced || !isUniverse ? { duration: 0 } : { duration: [54, 48, 60, 66][index], repeat: Infinity, ease: "linear" }}
                       style={{ pointerEvents: "none" }}
                     >
                       <g>
@@ -380,17 +380,25 @@ export default function About() {
               {!selectedWorld && (
                 <g aria-label="Uncharted worlds — skills still forming">
                   {[
-                    { id: "incoming-code", rx: 228, ry: 228, color: "#b9c8a9", line: "One more skill tree to unlock. Please hold my coffee." },
-                    { id: "incoming-story", rx: 280, ry: 280, color: "#c7b6e6", line: "A new creative obsession is loading… probably at 2 a.m." },
+                    { id: "incoming-code", rx: 142, ry: 142, color: "#b9c8a9", line: "One more skill tree to unlock.", detail: "Please hold my coffee." },
+                    { id: "incoming-story", rx: 188, ry: 188, color: "#c7b6e6", line: "A new creative obsession is loading…", detail: "Probably at 2 a.m." },
                   ].map((dwarf, index) => (
                     <motion.g key={dwarf.id} animate={reduced ? undefined : { rotate: 360 }} transition={reduced ? undefined : { duration: index === 0 ? 78 : 96, repeat: Infinity, ease: "linear" }} style={{ transformOrigin: "520px 210px" }}>
-                      <ellipse cx="520" cy="210" rx={dwarf.rx} ry={dwarf.ry} fill="none" stroke={dwarf.color} strokeOpacity=".13" strokeWidth=".7" strokeDasharray="1 9" />
-                      <motion.g role="button" tabIndex={0} aria-label="Skill incoming" onMouseEnter={() => setHoveredDwarfId(dwarf.id)} onMouseLeave={() => setHoveredDwarfId(null)} onFocus={() => setHoveredDwarfId(dwarf.id)} onBlur={() => setHoveredDwarfId(null)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setHoveredDwarfId(hoveredDwarfId === dwarf.id ? null : dwarf.id); } }} className="cursor-pointer outline-none">
-                        <circle cx={520 + dwarf.rx} cy={210} r={hoveredDwarfId === dwarf.id ? 8 : 5.5} fill={dwarf.color} fillOpacity=".12" />
-                        <circle cx={520 + dwarf.rx} cy={210} r={hoveredDwarfId === dwarf.id ? 4.2 : 3.2} fill={dwarf.color} fillOpacity=".5" stroke="#fff" strokeOpacity=".42" strokeWidth=".6" />
-                        <circle cx={520 + dwarf.rx - 1} cy={209} r=".8" fill="#fff" fillOpacity=".8" /><circle cx={520 + dwarf.rx + 1.2} cy={211.5} r=".55" fill="#fff" fillOpacity=".65" />
-                        {hoveredDwarfId === dwarf.id && <motion.g initial={reduced ? false : { opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reduced ? 0 : .55, ease: "easeOut" }}><text x={520 + dwarf.rx + 9} y="207" fill={dwarf.color} fontSize="7" letterSpacing="1.2">SKILL INCOMING</text><text x={520 + dwarf.rx + 9} y="218" fill="#f4f1eb" fontSize="7.2">{dwarf.line}</text></motion.g>}
-                      </motion.g>
+                      <ellipse cx="520" cy="210" rx={dwarf.rx} ry={dwarf.ry} fill="none" stroke={dwarf.color} strokeOpacity=".2" strokeWidth=".8" strokeDasharray="2 8" />
+                      <g role="button" tabIndex={0} aria-label={`Skill incoming: ${dwarf.line}`} onMouseEnter={() => setHoveredDwarfId(dwarf.id)} onMouseLeave={() => setHoveredDwarfId(null)} onFocus={() => setHoveredDwarfId(dwarf.id)} onBlur={() => setHoveredDwarfId(null)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setHoveredDwarfId(hoveredDwarfId === dwarf.id ? null : dwarf.id); } }} className="cursor-pointer outline-none" style={{ pointerEvents: "all" }}>
+                        <circle cx={520 + dwarf.rx} cy="210" r="13" fill="transparent" />
+                        <circle cx={520 + dwarf.rx} cy="210" r={hoveredDwarfId === dwarf.id ? 10 : 7} fill={dwarf.color} fillOpacity=".12" />
+                        <circle cx={520 + dwarf.rx} cy="210" r={hoveredDwarfId === dwarf.id ? 5 : 4} fill={dwarf.color} fillOpacity=".78" stroke="#fff" strokeOpacity=".6" strokeWidth=".7" />
+                        <circle cx={520 + dwarf.rx - 1.2} cy="208.8" r="1" fill="#fff" fillOpacity=".9" />
+                        {hoveredDwarfId === dwarf.id && (
+                          <g pointerEvents="none">
+                            <rect x={520 + dwarf.rx - 176} y="174" width="164" height="46" rx="2" fill="#090b12" fillOpacity=".88" stroke={dwarf.color} strokeOpacity=".28" />
+                            <text x={520 + dwarf.rx - 164} y="188" fill={dwarf.color} fontSize="7.5" letterSpacing="1.1">SKILL INCOMING</text>
+                            <text x={520 + dwarf.rx - 164} y="201" fill="#f4f1eb" fontSize="8">{dwarf.line}</text>
+                            <text x={520 + dwarf.rx - 164} y="212" fill="#f4f1eb" fontSize="8">{dwarf.detail}</text>
+                          </g>
+                        )}
+                      </g>
                     </motion.g>
                   ))}
                 </g>
