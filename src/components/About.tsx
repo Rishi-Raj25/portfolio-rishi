@@ -209,7 +209,8 @@ export default function About() {
                   <stop offset="45%" stopColor="#b9c8a9" stopOpacity=".7" />
                   <stop offset="100%" stopColor="#b9c8a9" stopOpacity="0" />
                 </radialGradient>
-                {worlds.map((world) => { const chosen = selectedWorld?.id === world.id; return <clipPath key={world.id} id={`planet-clip-${world.id}`}><circle cx={chosen ? 245 : world.x} cy={chosen ? 212 : world.y} r={chosen ? 78 : world.radius} /></clipPath>; })}\n                <radialGradient id="planet-shadow" cx="28%" cy="24%" r="82%"><stop offset="0%" stopColor="#fff" stopOpacity="0"/><stop offset="62%" stopColor="#000" stopOpacity="0"/><stop offset="100%" stopColor="#000" stopOpacity=".72"/></radialGradient>
+                {worlds.map((world) => { const chosen = selectedWorld?.id === world.id; return <clipPath key={world.id} id={`planet-clip-${world.id}`}><circle cx={chosen ? 245 : world.x} cy={chosen ? 212 : world.y} r={chosen ? 78 : world.radius} /></clipPath>; })}
+                <radialGradient id="planet-shadow" cx="28%" cy="24%" r="82%"><stop offset="0%" stopColor="#fff" stopOpacity="0"/><stop offset="62%" stopColor="#000" stopOpacity="0"/><stop offset="100%" stopColor="#000" stopOpacity=".72"/></radialGradient>
 
 
 
