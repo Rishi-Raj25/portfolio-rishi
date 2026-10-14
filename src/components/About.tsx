@@ -380,8 +380,8 @@ export default function About() {
               {!selectedWorld && (
                 <g aria-label="Uncharted worlds — skills still forming">
                   {[
-                    { id: "incoming-code", rx: 228, ry: 70, color: "#b9c8a9", line: "One more skill tree to unlock. Please hold my coffee." },
-                    { id: "incoming-story", rx: 280, ry: 150, color: "#c7b6e6", line: "A new creative obsession is loading… probably at 2 a.m." },
+                    { id: "incoming-code", rx: 228, ry: 228, color: "#b9c8a9", line: "One more skill tree to unlock. Please hold my coffee." },
+                    { id: "incoming-story", rx: 280, ry: 280, color: "#c7b6e6", line: "A new creative obsession is loading… probably at 2 a.m." },
                   ].map((dwarf, index) => (
                     <motion.g key={dwarf.id} animate={reduced ? undefined : { rotate: 360 }} transition={reduced ? undefined : { duration: index === 0 ? 78 : 96, repeat: Infinity, ease: "linear" }} style={{ transformOrigin: "520px 210px" }}>
                       <ellipse cx="520" cy="210" rx={dwarf.rx} ry={dwarf.ry} fill="none" stroke={dwarf.color} strokeOpacity=".13" strokeWidth=".7" strokeDasharray="1 9" />
