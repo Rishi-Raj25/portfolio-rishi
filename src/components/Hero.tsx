@@ -78,7 +78,7 @@ export default function Hero() {
     <section
       ref={sectionRef}
       id="home"
-      className="relative isolate min-h-[100svh] overflow-clip border-b border-white/10 bg-[#080808] text-[#f4f1eb]"
+      className="relative isolate min-h-[100svh] overflow-clip border-b border-white/10 bg-transparent text-[#f4f1eb]"
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 opacity-70">
         <div className="absolute inset-y-0 left-[8.333%] w-px bg-white/[0.055]" />
