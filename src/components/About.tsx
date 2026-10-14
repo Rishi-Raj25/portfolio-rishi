@@ -208,6 +208,11 @@ export default function About() {
                 <radialGradient id="planet-film" cx="28%" cy="24%" r="78%"><stop offset="0%" stopColor="#ffe8d6"/><stop offset="28%" stopColor="#c99a7a"/><stop offset="70%" stopColor="#624638"/><stop offset="100%" stopColor="#201510"/></radialGradient>
                 <radialGradient id="planet-nontech" cx="28%" cy="24%" r="78%"><stop offset="0%" stopColor="#e1f5ff"/><stop offset="28%" stopColor="#83b4ca"/><stop offset="70%" stopColor="#355969"/><stop offset="100%" stopColor="#111b24"/></radialGradient>
                 <radialGradient id="planet-atmosphere"><stop offset="60%" stopColor="#d9e4f2" stopOpacity="0"/><stop offset="100%" stopColor="#d9e4f2" stopOpacity=".18"/></radialGradient>
+                <filter id="planetTexture" x="-20%" y="-20%" width="140%" height="140%">
+                  <feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="3" seed="8" />
+                  <feColorMatrix type="saturate" values="0" />
+                  <feComponentTransfer><feFuncA type="table" tableValues="0 .13" /></feComponentTransfer>
+                </filter>
                 <filter id="starGlow" x="-200%" y="-200%" width="400%" height="400%">
                   <feGaussianBlur stdDeviation="4" result="blur" />
                   <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
@@ -246,7 +251,7 @@ export default function About() {
                 const isHovered = hoveredWorldId === world.id;
                 const planetX = isSelected ? 245 : world.x;
                 const planetY = isSelected ? 212 : world.y;
-                const planetR = isSelected ? 49 : world.radius;
+                const planetR = isSelected ? 78 : world.radius;
                 return (
                   <motion.g
                     key={world.id}
@@ -267,14 +272,13 @@ export default function About() {
                   >
                     <motion.circle cx={planetX} cy={planetY} r={planetR * 1.9} fill={world.color} opacity={isHovered || isSelected ? 0.09 : 0.035} animate={reduced ? undefined : { opacity: isHovered || isSelected ? [0.07, 0.14, 0.07] : [0.025, 0.06, 0.025] }} transition={reduced ? undefined : { duration: 4, repeat: Infinity, ease: "easeInOut" }} />
                     <motion.circle cx={planetX} cy={planetY} r={planetR + 5} fill="none" stroke={world.color} strokeOpacity={isHovered || isSelected ? ".8" : ".25"} strokeWidth="1" strokeDasharray={isSelected ? "0" : "2 6"} animate={reduced ? undefined : { rotate: 360 }} transition={reduced ? undefined : { duration: world.id === "music" ? 32 : 45, repeat: Infinity, ease: "linear" }} style={{ transformOrigin: `${planetX}px ${planetY}px` }} />
-                    <motion.circle cx={planetX} cy={planetY} r={planetR} fill={world.color} fillOpacity=".12" stroke={world.color} strokeOpacity={isHovered || isSelected ? ".9" : ".58"} strokeWidth={isSelected ? 1.5 : 1} animate={reduced ? undefined : { cy: isSelected ? planetY : [planetY - 3, planetY + 3, planetY - 3] }} transition={reduced ? undefined : { duration: 6 + world.radius / 10, repeat: Infinity, ease: "easeInOut" }} />
-                    <circle cx={planetX - planetR * .25} cy={planetY - planetR * .24} r={planetR * .22} fill={world.color} opacity=".5" />
+                    <motion.circle cx={planetX} cy={planetY} r={planetR} fill={`url(#planet-${world.id})`} stroke={world.color} strokeOpacity={isHovered || isSelected ? ".78" : ".3"} strokeWidth={isSelected ? 1.5 : 0.8} animate={reduced ? undefined : { cy: isSelected ? planetY : [planetY - 2, planetY + 2, planetY - 2] }} transition={reduced ? undefined : { duration: 8 + world.radius / 10, repeat: Infinity, ease: "easeInOut" }} />
+                    <circle cx={planetX} cy={planetY} r={planetR} fill="url(#planet-atmosphere)" />
+                    <circle cx={planetX} cy={planetY} r={planetR} filter="url(#planetTexture)" opacity={isSelected ? ".55" : ".35"} />
+                    <path d={`M ${planetX - planetR * .72} ${planetY - planetR * .12} Q ${planetX - planetR * .1} ${planetY - planetR * .65} ${planetX + planetR * .58} ${planetY - planetR * .48}`} fill="none" stroke="#fff" strokeOpacity={isHovered || isSelected ? ".24" : ".1"} strokeWidth=".7" />
                     <text x={planetX} y={planetY + 4} textAnchor="middle" fill={world.color} fontSize={isSelected ? 10 : 8} letterSpacing="1.5" fontWeight="500">{world.name.toUpperCase()}</text>
-                    {!selectedWorld && (
-                      <g>
-                        <rect x={planetX - 72} y={planetY + planetR + 18} width="144" height="26" rx="13" fill="#0a0c13" fillOpacity={isHovered ? ".95" : ".68"} stroke={world.color} strokeOpacity={isHovered ? ".5" : ".16"} />
-                        <text x={planetX} y={planetY + planetR + 34} textAnchor="middle" fill="#f4f1eb" fillOpacity={isHovered ? ".92" : ".58"} fontSize="10">{world.short}</text>
-                      </g>
+                    {!selectedWorld && isHovered && (
+                      <text x={planetX} y={planetY + planetR + 25} textAnchor="middle" fill="#f4f1eb" fillOpacity=".9" fontSize="10" letterSpacing=".4">{world.short}</text>
                     )}
                   </motion.g>
                 );
@@ -335,7 +339,7 @@ export default function About() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: reduced ? 0 : 0.35 }}
-                className="grid gap-6 border-t border-white/[0.1] p-5 sm:p-7 md:grid-cols-[0.8fr_1.2fr] md:gap-10 md:p-9"
+                className="grid gap-6 border-t border-white/[0.1] py-7 sm:py-9 md:grid-cols-[0.8fr_1.2fr] md:gap-10"
               >
                 <div>
                   <p className="mb-3 flex items-center gap-2 text-[9px] uppercase tracking-[0.22em]" style={{ color: selectedWorld.color }}>
@@ -347,8 +351,8 @@ export default function About() {
 
                 <div className="min-w-0">
                   <div className="mb-3 flex items-center justify-between gap-3">
-                    <p className="text-[9px] uppercase tracking-[0.2em] text-white/35">Connected stars</p>
-                    <span className="text-[9px] text-white/30">{selectedWorld.stars.length} signals found</span>
+                    <p className="text-[9px] uppercase tracking-[0.2em] text-white/35">In this constellation</p>
+                    <span className="text-[9px] text-white/30">{selectedWorld.stars.length} stars</span>
                   </div>
                   <div className="grid gap-2 sm:grid-cols-2">
                     {selectedWorld.stars.map((star) => (
@@ -356,7 +360,7 @@ export default function About() {
                         type="button"
                         key={star.id}
                         onClick={() => setSelectedStarId(star.id)}
-                        className={`group min-w-0 border p-3 text-left transition-colors sm:p-4 ${selectedStarId === star.id ? "border-white/35 bg-white/[0.07]" : "border-white/[0.1] bg-white/[0.015] hover:border-white/25 hover:bg-white/[0.04]"}`}
+                        className={`group flex w-full min-w-0 items-center justify-between gap-4 py-3 text-left transition-colors ${selectedStarId === star.id ? "text-white" : "text-white/55 hover:text-white/90"}`}
                       >
                         <span className="flex items-center justify-between gap-3">
                           <span className="truncate text-sm text-white/85">{star.name}</span>
