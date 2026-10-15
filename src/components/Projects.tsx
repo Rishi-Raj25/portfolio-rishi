@@ -21,9 +21,9 @@ type ArchiveItem = {
 };
 
 const WORLDS: { id: WorldId; number: string; label: string; line: string; tone: string }[] = [
-  { id: "tech", number: "01", label: "Technology", line: "Ideas made tangible.", tone: "#a9c7dd" },
-  { id: "music", number: "02", label: "Music", line: "Things I couldn't leave unsaid.", tone: "#d7b6e8" },
-  { id: "film", number: "03", label: "Film", line: "Stories that won't let go.", tone: "#e8c9a0" },
+  { id: "tech", number: "01", label: "Technology", line: "Ideas made tangible.", tone: "#9fc7c2" },
+  { id: "music", number: "02", label: "Music", line: "Things I couldn't leave unsaid.", tone: "#c2a4d5" },
+  { id: "film", number: "03", label: "Film", line: "Stories that won't let go.", tone: "#d69c87" },
 ];
 
 const ARCHIVES: Record<WorldId, ArchiveItem[]> = {
@@ -154,20 +154,76 @@ function TelescopeEntrance({ onEnter }: { onEnter: () => void }) {
 function TelescopeDive({ direction, onComplete }: { direction: "in" | "out"; onComplete: () => void }) {
   const reduced = useReducedMotion();
   const entering = direction === "in";
+
+  // Keep the transition deliberately staged: establish the lens, travel through it,
+  // then let the destination settle before swapping the scene.
+  const travelDuration = reduced ? 0 : entering ? 3.25 : 3.05;
+  const easeIn = [0.45, 0.02, 0.22, 1] as const;
+  const easeOut = [0.22, 0.75, 0.25, 1] as const;
+
   return (
     <motion.div
-      key={direction === "in" ? "looking-in" : "looking-out"}
+      key={entering ? "looking-in" : "looking-out"}
       className="relative flex min-h-[580px] items-center justify-center overflow-hidden bg-transparent sm:min-h-[700px]"
       initial={{ opacity: entering ? 0 : 1 }}
       animate={{ opacity: entering ? 1 : 0 }}
-      transition={{ duration: reduced ? 0 : entering ? 0.18 : 0.72, ease: entering ? "easeOut" : [0.7, 0, 0.25, 1] }}
+      transition={{ duration: reduced ? 0 : entering ? 0.65 : travelDuration, ease: entering ? easeOut : easeIn }}
     >
       <StarField />
+
+      {/* A real sense of atmosphere passing the lens: clouds move across the field instead of popping in at the end. */}
+      <motion.div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-[-22%]"
+        initial={reduced ? { opacity: 0 } : { opacity: entering ? 0.12 : 0.08, scale: entering ? 1.22 : 0.82, rotate: entering ? -4 : 3 }}
+        animate={reduced
+          ? { opacity: 0 }
+          : entering
+            ? { opacity: [0.12, 0.34, 0.18, 0.04], scale: [1.22, 1.12, 1.32, 1.5], rotate: [-4, -1, 1, 2] }
+            : { opacity: [0.08, 0.22, 0.58, 0.9], scale: [0.82, 0.9, 1.03, 1.12], rotate: [3, 1, -1, -2] }}
+        transition={{ duration: travelDuration, times: [0, 0.24, 0.7, 1], ease: entering ? easeIn : easeOut }}
+        style={{
+          background: "radial-gradient(ellipse at 22% 32%, rgba(126,169,219,.34), transparent 30%), radial-gradient(ellipse at 76% 36%, rgba(184,150,219,.3), transparent 32%), radial-gradient(ellipse at 52% 75%, rgba(99,161,195,.32), transparent 34%), linear-gradient(180deg, #111b2b 0%, #0a1120 48%, #03050a 100%)",
+        }}
+      >
+        <motion.div
+          className="absolute -left-[18%] top-[22%] h-[24%] w-[75%] rounded-full blur-2xl"
+          style={{ background: "radial-gradient(ellipse, rgba(211,226,245,.38), rgba(117,157,207,.14) 42%, transparent 72%)" }}
+          initial={false}
+          animate={reduced ? undefined : entering
+            ? { x: ["-8%", "6%", "28%"], y: ["2%", "-5%", "-12%"], opacity: [0.28, 0.42, 0] }
+            : { x: ["-28%", "-8%", "18%"], y: ["-5%", "2%", "-2%"], opacity: [0.12, 0.35, 0.58] }}
+          transition={{ duration: travelDuration, times: [0, 0.55, 1], ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute -right-[16%] top-[48%] h-[28%] w-[78%] rounded-full blur-2xl"
+          style={{ background: "radial-gradient(ellipse, rgba(197,208,232,.3), rgba(122,119,177,.13) 42%, transparent 72%)" }}
+          initial={false}
+          animate={reduced ? undefined : entering
+            ? { x: ["12%", "-4%", "-25%"], y: ["4%", "0%", "-8%"], opacity: [0.22, 0.34, 0] }
+            : { x: ["22%", "4%", "-20%"], y: ["4%", "-3%", "0%"], opacity: [0.1, 0.28, 0.48] }}
+          transition={{ duration: travelDuration, times: [0, 0.5, 1], ease: "easeInOut", delay: reduced ? 0 : 0.12 }}
+        />
+      </motion.div>
+
+      {/* The rings travel in readable beats, not one sudden scale jump. */}
       <motion.div
         className="absolute inset-0 will-change-transform"
-        initial={reduced ? { scale: 1, opacity: 1, rotate: 0 } : { scale: entering ? 0.72 : 4.2, opacity: entering ? 0.7 : 0.18, rotate: entering ? -7 : 8 }}
-        animate={reduced ? { scale: 1, opacity: 1, rotate: 0 } : { scale: entering ? 4.2 : 0.72, opacity: entering ? 0.08 : 0.7, rotate: entering ? 0 : -12 }}
-        transition={{ duration: reduced ? 0 : entering ? 0.78 : 0.94, ease: entering ? [0.2, 0.85, 0.25, 1] : [0.72, 0, 0.25, 1] }}
+        initial={reduced
+          ? { scale: 1, opacity: 1, rotate: 0 }
+          : entering
+            ? { scale: 0.64, opacity: 0.94, rotate: -7 }
+            : { scale: 4.4, opacity: 0.04, rotate: 7 }}
+        animate={reduced
+          ? { scale: 1, opacity: 1, rotate: 0 }
+          : entering
+            ? { scale: [0.64, 0.72, 1.08, 2.35, 4.7], opacity: [0.94, 1, 0.9, 0.48, 0.015], rotate: [-7, -5, -2, 0, 0] }
+            : { scale: [4.4, 3.3, 2.15, 1.08, 0.62], opacity: [0.04, 0.16, 0.36, 0.7, 0.9], rotate: [7, 5, 2, -5, -11] }}
+        transition={{
+          duration: travelDuration,
+          times: [0, 0.18, 0.42, 0.72, 1],
+          ease: entering ? easeIn : easeOut,
+        }}
         onAnimationComplete={onComplete}
         style={{ transformOrigin: "50% 50%" }}
       >
@@ -177,9 +233,22 @@ function TelescopeDive({ direction, onComplete }: { direction: "in" | "out"; onC
         <div className="absolute inset-[-10%] rounded-full border border-white/20 bg-[radial-gradient(ellipse_at_35%_42%,rgba(74,158,207,.25),transparent_25%),radial-gradient(ellipse_at_66%_59%,rgba(173,120,204,.25),transparent_28%),radial-gradient(circle_at_center,#101a2a_0%,#050914_64%,#02040a_100%)]" />
         <div className="absolute inset-[8%] rounded-full border border-white/20 bg-[radial-gradient(circle_at_center,#050914_0%,#02040a_78%)] shadow-[0_0_70px_rgba(95,157,219,.2)]" />
       </motion.div>
-      <p className="relative z-10 mt-[330px] text-[9px] uppercase tracking-[.32em] text-white/45 sm:mt-[390px]">
-        {entering ? "Looking through the lens" : "Returning to the observatory"}
-      </p>
+
+      <motion.div
+        className="pointer-events-none absolute inset-0"
+        initial={{ opacity: 0 }}
+        animate={entering || reduced ? { opacity: 0 } : { opacity: [0, 0.12, 0.28, 0.06] }}
+        transition={{ duration: reduced ? 0 : travelDuration, times: [0, 0.3, 0.7, 1], ease: "easeInOut" }}
+        style={{ background: "radial-gradient(ellipse at 50% 50%, transparent 22%, rgba(1,3,8,.6) 100%)" }}
+      />
+      <motion.p
+        className="relative z-10 mt-[330px] text-center text-[9px] uppercase tracking-[.32em] text-white/55 sm:mt-[390px]"
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: reduced ? 1 : [0, 0.7, 0.7, 1], y: reduced ? 0 : [8, 0, 0, -2] }}
+        transition={{ duration: reduced ? 0 : travelDuration, times: [0, 0.22, 0.8, 1], ease: "easeOut" }}
+      >
+        {entering ? "Through the lens · into another world" : "The sky returns · back to the observatory"}
+      </motion.p>
     </motion.div>
   );
 }
@@ -286,11 +355,11 @@ function ArchiveRow({ item, index, onClick }: { item: ArchiveItem; index: number
       whileHover={reduced ? undefined : { x: 4 }}
       whileTap={reduced ? undefined : { scale: 0.995 }}
       transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 240, damping: 22, delay: index * .04 }}>
-      <span className={`font-mono text-[10px] ${item.featured ? "text-[#e8c9a0]" : "text-white/25"}`}>{String(index + 1).padStart(2, "0")}</span>
+      <span className={`font-mono text-[10px] ${item.featured ? "text-[#d69c87]" : "text-white/25"}`}>{String(index + 1).padStart(2, "0")}</span>
       <span className="min-w-0">
         <span className="mb-2 flex flex-wrap items-center gap-x-3 gap-y-1">
-          <span className={`text-[9px] uppercase tracking-[.19em] ${item.featured ? "text-[#e8c9a0]" : "text-white/35"}`}>{item.tag}</span>
-          {item.featured && <span className="text-[8px] uppercase tracking-[.2em] text-[#e8c9a0]/70">✳ Highlighted</span>}
+          <span className={`text-[9px] uppercase tracking-[.19em] ${item.featured ? "text-[#d69c87]" : "text-white/35"}`}>{item.tag}</span>
+          {item.featured && <span className="text-[8px] uppercase tracking-[.2em] text-[#d69c87]/70">✳ Highlighted</span>}
         </span>
         <span className="block text-lg font-light tracking-[-.025em] text-white/85 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-white sm:text-2xl">{item.title}</span>
         <span className="mt-2 block max-w-2xl text-xs leading-6 text-white/55 sm:text-sm sm:leading-6">{item.line}</span>
@@ -324,8 +393,14 @@ export default function Projects() {
   };
 
   return (
-    <section id="projects" className="relative px-5 py-20 md:px-6 md:py-32">
-      <div className="mx-auto max-w-6xl">
+    <section id="projects" className="relative isolate overflow-hidden px-5 py-20 md:px-6 md:py-32">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10" style={{ background: "radial-gradient(ellipse at 50% 45%, rgba(49,117,182,.15), transparent 38%), radial-gradient(ellipse at 22% 65%, rgba(193,112,78,.10), transparent 35%), radial-gradient(ellipse at 78% 32%, rgba(64,180,196,.10), transparent 35%), #03050a" }} />
+      <motion.div className="relative mx-auto max-w-6xl [transform-style:preserve-3d]"
+        key={phase}
+        initial={reduced ? { opacity: 0 } : { opacity: 0, rotateY: phase === "archive" ? 68 : -68, scale: .84, z: -180, filter: "blur(7px)" }}
+        animate={reduced ? { opacity: 1 } : { opacity: 1, rotateY: 0, scale: 1, z: 0, filter: "blur(0px)" }}
+        transition={{ duration: reduced ? 0 : 1.15, ease: [.16,.8,.2,1] }}
+        style={{ transformPerspective: 1800, transformOrigin: "center center" }}>
         <motion.div className="mb-10 flex flex-wrap items-end justify-between gap-5 sm:mb-14"
           initial={reduced ? undefined : { opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: .2 }} transition={{ duration: .6 }}>
@@ -344,7 +419,9 @@ export default function Projects() {
               <TelescopeEntrance onEnter={() => setPhase("looking")} />
             </motion.div>
           )}
-          {phase === "looking" && <TelescopeDive direction="in" onComplete={() => setPhase("galaxy")} />}\n          {phase === "closing" && <TelescopeDive direction="out" onComplete={() => setPhase("observatory")} />}\n          {phase === "galaxy" && (
+          {phase === "looking" && <TelescopeDive direction="in" onComplete={() => setPhase("galaxy")} />}
+          {phase === "closing" && <TelescopeDive direction="out" onComplete={() => setPhase("observatory")} />}
+          {phase === "galaxy" && (
             <motion.div key="galaxy" className="relative min-h-[580px] overflow-hidden bg-transparent px-4 py-8 sm:min-h-[700px] sm:px-8 sm:py-10"
               initial={reduced ? undefined : { opacity: 0, scale: .82, y: 14 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -395,7 +472,7 @@ export default function Projects() {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+      </motion.div>
 
       <AnimatePresence>
         {selectedItem && (
@@ -416,12 +493,12 @@ export default function Projects() {
                 {activeWorld === "film" ? (
                   <div className="mt-10 border-t border-white/15 pt-6">
                     <p className="text-sm leading-7 text-white/65">If you're genuinely curious about the story, let's talk.</p>
-                    <a href="#contact" onClick={() => setSelectedItem(null)} className="mt-6 inline-flex items-center gap-3 border-b border-[#e8c9a0]/60 pb-2 text-[10px] uppercase tracking-[.2em] text-[#e8c9a0] transition-colors hover:text-white">Contact me <Mail size={14} /></a>
+                    <a href="#contact" onClick={() => setSelectedItem(null)} className="mt-6 inline-flex items-center gap-3 border-b border-[#d69c87]/60 pb-2 text-[10px] uppercase tracking-[.2em] text-[#d69c87] transition-colors hover:text-white">Contact me <Mail size={14} /></a>
                   </div>
                 ) : (
                   <div className="mt-10 flex flex-wrap gap-5 border-t border-white/15 pt-6">
                     {selectedItem.live && <a href={selectedItem.live} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[.18em] text-white/75 transition-colors hover:text-white">Live demo <ExternalLink size={13} /></a>}
-                    {selectedItem.code && <a href={selectedItem.code} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[.18em] text-white/50 transition-colors hover:text-white">Source code <Code2 size={13} /></a>}
+                    {selectedItem.code && <a href={selectedItem.code} target="_blank" rel="noreferrer" className="group/code inline-flex items-center gap-2 border border-white/15 bg-white/[.035] px-3 py-2 text-[10px] uppercase tracking-[.18em] text-white/65 shadow-[0_0_24px_rgba(110,165,220,.06)] transition-all hover:border-[#9fc7c2]/45 hover:bg-[#9fc7c2]/[.08] hover:text-[#d5e6e2] hover:shadow-[0_0_28px_rgba(110,165,220,.18)]">Source code <Code2 size={13} className="transition-transform group-hover/code:-translate-y-0.5 group-hover/code:translate-x-0.5" /></a>}
                     {!selectedItem.live && !selectedItem.code && <span className="text-[9px] uppercase tracking-[.16em] text-white/30">No public demo or source link yet</span>}
                     {activeWorld === "music" && <span className="inline-flex items-center gap-2 text-[9px] uppercase tracking-[.16em] text-white/30"><Waves size={13} /> Work in progress</span>}
                   </div>
