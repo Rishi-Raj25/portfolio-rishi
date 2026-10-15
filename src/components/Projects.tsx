@@ -160,16 +160,14 @@ function TelescopeDive({ direction, onComplete }: { direction: "in" | "out"; onC
       className="relative flex min-h-[580px] items-center justify-center overflow-hidden bg-transparent sm:min-h-[700px]"
       initial={{ opacity: entering ? 0 : 1 }}
       animate={{ opacity: entering ? 1 : 0 }}
-      transition={{ duration: reduced ? 0 : 0.45, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: reduced ? 0 : 0.22, ease: "easeOut" }}
     >
       <StarField />
       <motion.div
         className="absolute inset-0 will-change-transform"
-        initial={reduced ? { scale: 1, opacity: 1 } : entering ? { scale: 0.2, opacity: 0.45 } : { scale: 6, opacity: 0.18 }}
-        animate={reduced ? { scale: 1, opacity: 1 } : entering
-          ? { scale: [0.2, 0.72, 1.65, 3.4, 6], opacity: [0.45, 1, 1, 0.72, 0.08] }
-          : { scale: [6, 3.4, 1.65, 0.72, 0.2], opacity: [0.08, 0.72, 1, 1, 0.45] }}
-        transition={{ duration: reduced ? 0 : 1.25, times: [0, 0.22, 0.5, 0.78, 1], ease: [0.16, 1, 0.3, 1] }}
+        initial={reduced ? { scale: 1, opacity: 1 } : { scale: entering ? 0.72 : 4.2, opacity: entering ? 0.7 : 0.18 }}
+        animate={reduced ? { scale: 1, opacity: 1 } : { scale: entering ? 4.2 : 0.72, opacity: entering ? 0.08 : 0.7 }}
+        transition={{ duration: reduced ? 0 : 0.78, ease: [0.2, 0.85, 0.25, 1] }}
         onAnimationComplete={onComplete}
         style={{ transformOrigin: "50% 50%" }}
       >
@@ -179,18 +177,9 @@ function TelescopeDive({ direction, onComplete }: { direction: "in" | "out"; onC
         <div className="absolute inset-[-10%] rounded-full border border-white/20 bg-[radial-gradient(ellipse_at_35%_42%,rgba(74,158,207,.25),transparent_25%),radial-gradient(ellipse_at_66%_59%,rgba(173,120,204,.25),transparent_28%),radial-gradient(circle_at_center,#101a2a_0%,#050914_64%,#02040a_100%)]" />
         <div className="absolute inset-[8%] rounded-full border border-white/20 bg-[radial-gradient(circle_at_center,#050914_0%,#02040a_78%)] shadow-[0_0_70px_rgba(95,157,219,.2)]" />
       </motion.div>
-      {!reduced && (
-        <motion.div className="absolute inset-0"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: entering ? [0, 0, 0.82] : [0.82, 0, 0] }}
-          transition={{ duration: 1.25, times: [0, 0.68, 1], ease: [0.16, 1, 0.3, 1] }}
-          style={{ background: "radial-gradient(circle at center, #02040a 0%, rgba(2,4,10,.25) 42%, transparent 72%)" }} />
-      )}
-      <motion.p className="relative z-10 mt-[330px] text-[9px] uppercase tracking-[.32em] text-white/45 sm:mt-[390px]"
-        initial={{ opacity: 0 }} animate={{ opacity: reduced ? 0 : [0, 0.55, 0] }}
-        transition={{ duration: reduced ? 0 : 1.2, ease: "easeInOut" }}>
+      <p className="relative z-10 mt-[330px] text-[9px] uppercase tracking-[.32em] text-white/45 sm:mt-[390px]">
         {entering ? "Looking through the lens" : "Returning to the observatory"}
-      </motion.p>
+      </p>
     </motion.div>
   );
 }
@@ -212,9 +201,11 @@ function GalaxyWorld({ world, index, onSelect }: { world: (typeof WORLDS)[number
   return (
     <motion.button type="button" onClick={onSelect} aria-label={`Explore ${world.label} galaxy`}
       className="group relative flex min-h-[340px] w-full flex-col items-center justify-center overflow-hidden text-center sm:min-h-[430px]"
-      initial={reduced ? undefined : { opacity: 0, y: 12, scale: 0.97 }}
+      initial={reduced ? undefined : { opacity: 0, y: 18, scale: 0.94 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: reduced ? 0 : 0.8, delay: reduced ? 0 : index * 0.12, ease: [0.22, 1, 0.36, 1] }}>
+      whileHover={reduced ? undefined : { y: -5, scale: 1.025 }}
+      whileTap={reduced ? undefined : { scale: 0.985 }}
+      transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 180, damping: 18, mass: 0.72, delay: index * 0.06 }}>
       <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse at 50% 48%, ${palette.haze}18, transparent 58%)` }} />
       {dust.map((star, i) => <motion.i key={i} className="absolute block rounded-full bg-white"
         style={{ left: `${star.x}%`, top: `${star.y}%`, width: star.size, height: star.size, boxShadow: `0 0 7px ${palette.arm}99` }}
@@ -300,7 +291,7 @@ function ArchiveRow({ item, index, onClick }: { item: ArchiveItem; index: number
           {item.featured && <span className="text-[8px] uppercase tracking-[.2em] text-[#e8c9a0]/70">✳ Highlighted</span>}
         </span>
         <span className="block text-lg font-light tracking-[-.025em] text-white/85 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-white sm:text-2xl">{item.title}</span>
-        <span className="mt-1 block max-w-2xl text-xs leading-5 text-white/40 sm:text-sm sm:leading-6">{item.line}</span>
+        <span className="mt-2 block max-w-2xl text-xs leading-6 text-white/55 sm:text-sm sm:leading-6">{item.line}</span>
       </span>
       <span className="hidden text-[9px] uppercase leading-5 tracking-[.13em] text-white/30 sm:block">{item.meta}</span>
       <span className="flex h-8 w-8 items-center justify-center text-white/40 transition-all duration-300 group-hover:translate-x-1 group-hover:text-white"><ArrowUpRight size={16} strokeWidth={1.2} /></span>
