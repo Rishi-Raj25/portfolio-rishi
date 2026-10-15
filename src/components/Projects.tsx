@@ -472,7 +472,7 @@ export default function Projects() {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+      </motion.div>
 
       <AnimatePresence>
         {selectedItem && (
@@ -508,7 +508,6 @@ export default function Projects() {
           </motion.div>
         )}
       </AnimatePresence>
-      </motion.div>
     </section>
   );
 }
