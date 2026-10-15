@@ -12,8 +12,8 @@ const PATHS: Record<PathId, { eyebrow: string; title: string; subtitle: string; 
     eyebrow: "FIELD 01 · TECHNICAL + EXECUTION",
     title: "Build & Engineer",
     subtitle: "A closer look at the technical tools and systems I work with.",
-    color: "#9bd8ff",
-    glow: "rgba(66, 153, 225, .34)",
+    color: "#9fc7c2",
+    glow: "rgba(95, 157, 160, .34)",
     skills: [
       { name: "Python", description: "Used for backend logic, scripting, and AI-powered prototypes, including Karma AI.", x: 18, y: 20 },
       { name: "Web development", description: "HTML, CSS, JavaScript, React, and Next.js for responsive interfaces and interactive experiences.", x: 43, y: 13 },
@@ -31,8 +31,8 @@ const PATHS: Record<PathId, { eyebrow: string; title: string; subtitle: string; 
     eyebrow: "FIELD 02 · CREATIVE + COMMUNICATION",
     title: "Create & Tell Stories",
     subtitle: "Music and film: the creative work I am still growing into.",
-    color: "#e2b9ff",
-    glow: "rgba(168, 85, 247, .32)",
+    color: "#d5b2dc",
+    glow: "rgba(154, 112, 166, .28)",
     skills: [
       { name: "Songwriting", description: "Developing original song ideas from emotions, observations, memorable lines, and melodic fragments.", x: 20, y: 24 },
       { name: "Singing & instruments", description: "Singing, ukulele, and exploring electric guitar as part of an evolving musical identity.", x: 72, y: 24 },
@@ -138,67 +138,15 @@ export default function Skills() {
                   transition={reduced ? undefined : { duration: 42, repeat: Infinity, ease: "easeInOut" }}
                   style={{ transformOrigin: "center center" }}
                 >
-                  <svg className="absolute inset-0 h-full w-full" viewBox="0 0 1200 650" preserveAspectRatio="xMidYMid slice">
-                    <defs>
-                      <radialGradient id="nebula-blue">
-                        <stop offset="0" stopColor="#70d8ff" stopOpacity=".24" />
-                        <stop offset=".32" stopColor="#3689db" stopOpacity=".19" />
-                        <stop offset=".68" stopColor="#244b9b" stopOpacity=".09" />
-                        <stop offset="1" stopColor="#244b9b" stopOpacity="0" />
-                      </radialGradient>
-                      <radialGradient id="nebula-violet">
-                        <stop offset="0" stopColor="#d1a0ff" stopOpacity=".22" />
-                        <stop offset=".42" stopColor="#8554cb" stopOpacity=".16" />
-                        <stop offset="1" stopColor="#8554cb" stopOpacity="0" />
-                      </radialGradient>
-                      <radialGradient id="nebula-rose">
-                        <stop offset="0" stopColor="#ffbd91" stopOpacity=".19" />
-                        <stop offset=".42" stopColor="#d96f8b" stopOpacity=".11" />
-                        <stop offset="1" stopColor="#d96f8b" stopOpacity="0" />
-                      </radialGradient>
-                      <filter id="nebula-clouds" x="-25%" y="-35%" width="150%" height="170%">
-                        <feTurbulence type="fractalNoise" baseFrequency=".006 .018" numOctaves="4" seed="19" result="noise" />
-                        <feDisplacementMap in="SourceGraphic" in2="noise" scale="105" xChannelSelector="R" yChannelSelector="G" />
-                      </filter>
-                      <filter id="nebula-fine-dust" x="-20%" y="-20%" width="140%" height="140%">
-                        <feTurbulence type="fractalNoise" baseFrequency=".035 .075" numOctaves="3" seed="8" result="dust" />
-                        <feColorMatrix in="dust" type="saturate" values="0" />
-                        <feComponentTransfer><feFuncA type="table" tableValues="0 .16" /></feComponentTransfer>
-                      </filter>
-                      <linearGradient id="nebula-veil" x1="0" y1="0" x2="1" y2=".8">
-                        <stop offset="0" stopColor="#5abce8" stopOpacity="0" />
-                        <stop offset=".3" stopColor="#5abce8" stopOpacity=".14" />
-                        <stop offset=".55" stopColor="#bb8ce8" stopOpacity=".11" />
-                        <stop offset=".77" stopColor="#f4a77d" stopOpacity=".12" />
-                        <stop offset="1" stopColor="#f4a77d" stopOpacity="0" />
-                      </linearGradient>
-                      <mask id="nebula-fade">
-                        <rect width="1200" height="650" fill="url(#nebula-fade-gradient)" />
-                      </mask>
-                      <radialGradient id="nebula-fade-gradient">
-                        <stop offset=".12" stopColor="white" />
-                        <stop offset=".55" stopColor="white" stopOpacity=".82" />
-                        <stop offset="1" stopColor="black" />
-                      </radialGradient>
-                    </defs>
-                    <g filter="url(#nebula-clouds)" mask="url(#nebula-fade)">
-                      <ellipse cx="410" cy="315" rx="390" ry="190" fill="url(#nebula-blue)" transform="rotate(-22 410 315)" />
-                      <ellipse cx="650" cy="285" rx="390" ry="230" fill="url(#nebula-violet)" transform="rotate(18 650 285)" />
-                      <ellipse cx="820" cy="385" rx="300" ry="180" fill="url(#nebula-rose)" transform="rotate(-28 820 385)" />
-                      <path d="M55 395 C220 130 320 520 505 275 S820 150 1140 330" fill="none" stroke="url(#nebula-veil)" strokeWidth="100" strokeLinecap="round" />
-                      <path d="M110 460 C310 250 395 440 590 310 S900 220 1120 170" fill="none" stroke="#74cfff" strokeOpacity=".13" strokeWidth="36" strokeLinecap="round" />
-                      <path d="M120 250 C320 440 430 160 635 270 S900 440 1090 315" fill="none" stroke="#d2a5ff" strokeOpacity=".15" strokeWidth="56" strokeLinecap="round" />
-                    </g>
-                    <rect width="1200" height="650" filter="url(#nebula-fine-dust)" opacity=".55" />
-                    <g fill="#dcecff">
-                      {Array.from({length: 135}, (_, i) => {
-                        const x = (i * 173 + 31) % 1200;
-                        const y = (i * 97 + 19) % 650;
-                        const size = i % 19 === 0 ? 1.6 : i % 5 === 0 ? 1 : .55;
-                        return <circle key={i} cx={x} cy={y} r={size} opacity={i % 4 === 0 ? .58 : .26} />;
-                      })}
-                    </g>
-                  </svg>
+                  <div className="absolute inset-0" style={{ maskImage: "radial-gradient(ellipse at center, black 24%, rgba(0,0,0,.92) 48%, transparent 78%)", WebkitMaskImage: "radial-gradient(ellipse at center, black 24%, rgba(0,0,0,.92) 48%, transparent 78%)" }}>
+                    <img
+                      src="https://assets.science.nasa.gov/dynamicimage/assets/science/missions/hubble/releases/2026/03/STScI-01KJR33K9RKGM84B2RK8AGPT8W.jpg?crop=faces%2Cfocalpoint&fit=clip&h=1600&w=1600"
+                      alt=""
+                      className="absolute left-1/2 top-1/2 h-[min(105vw,780px)] w-[min(105vw,780px)] max-w-none -translate-x-1/2 -translate-y-1/2 object-contain opacity-[.78] mix-blend-screen sm:h-[min(78vw,900px)] sm:w-[min(78vw,900px)]"
+                      style={{ filter: "saturate(.88) contrast(1.08) brightness(.82)" }}
+                    />
+                    <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at 50% 48%, transparent 12%, rgba(5,6,10,.08) 48%, #03050a 88%)" }} />
+                  </div>
                   <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, transparent 25%, rgba(3,5,10,.08) 58%, #03050a 100%)" }} />
                 </motion.div>
 
@@ -211,27 +159,27 @@ export default function Skills() {
 
                   <div className="absolute left-0 right-0 top-[42%] hidden -translate-y-1/2 items-center justify-between gap-8 lg:flex">
                     <motion.button type="button" onClick={() => choosePath("build")} whileHover={reduced ? undefined : { x: 7, scale: 1.035 }} whileTap={reduced ? undefined : { scale: .98 }}
-                      className="group relative w-[245px] border-l border-[#9bd8ff]/55 bg-gradient-to-r from-[#9bd8ff]/[.12] to-transparent px-5 py-5 text-left backdrop-blur-sm focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#9bd8ff]">
-                      <span className="flex items-center justify-between text-[9px] uppercase tracking-[.22em] text-[#9bd8ff]/85"><span>Field 01</span><ArrowUpRight size={15} /></span>
+                      className="group relative w-[245px] border-l border-[#9fc7c2]/55 bg-gradient-to-r from-[#9fc7c2]/[.12] to-transparent px-5 py-5 text-left backdrop-blur-sm focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#9fc7c2]">
+                      <span className="flex items-center justify-between text-[9px] uppercase tracking-[.22em] text-[#9fc7c2]/85"><span>Field 01</span><ArrowUpRight size={15} /></span>
                       <span className="mt-3 block text-2xl font-light text-white drop-shadow-[0_2px_18px_rgba(0,0,0,.9)]">Build & Engineer</span>
                       <span className="mt-2 block text-xs leading-5 text-white/70">Code, systems, AI, and prototypes.</span>
-                      <span className="mt-4 block h-px w-10 bg-[#9bd8ff]/55 transition-all duration-500 group-hover:w-full" />
+                      <span className="mt-4 block h-px w-10 bg-[#9fc7c2]/55 transition-all duration-500 group-hover:w-full" />
                     </motion.button>
                     <motion.button type="button" onClick={() => choosePath("create")} whileHover={reduced ? undefined : { x: -7, scale: 1.035 }} whileTap={reduced ? undefined : { scale: .98 }}
-                      className="group relative w-[245px] border-r border-[#e2b9ff]/55 bg-gradient-to-l from-[#e2b9ff]/[.12] to-transparent px-5 py-5 text-right backdrop-blur-sm focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#e2b9ff]">
-                      <span className="flex items-center justify-between text-[9px] uppercase tracking-[.22em] text-[#e2b9ff]/85"><ArrowUpRight size={15} /><span>Field 02</span></span>
+                      className="group relative w-[245px] border-r border-[#d5b2dc]/55 bg-gradient-to-l from-[#d5b2dc]/[.12] to-transparent px-5 py-5 text-right backdrop-blur-sm focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#d5b2dc]">
+                      <span className="flex items-center justify-between text-[9px] uppercase tracking-[.22em] text-[#d5b2dc]/85"><ArrowUpRight size={15} /><span>Field 02</span></span>
                       <span className="mt-3 block text-2xl font-light text-white drop-shadow-[0_2px_18px_rgba(0,0,0,.9)]">Create & Tell Stories</span>
                       <span className="mt-2 block text-xs leading-5 text-white/70">Film, music, words, and ideas.</span>
-                      <span className="mt-4 ml-auto block h-px w-10 bg-[#e2b9ff]/55 transition-all duration-500 group-hover:w-full" />
+                      <span className="mt-4 ml-auto block h-px w-10 bg-[#d5b2dc]/55 transition-all duration-500 group-hover:w-full" />
                     </motion.button>
                   </div>
 
                   <div className="mt-auto grid w-full grid-cols-1 gap-4 px-2 pb-8 pt-[300px] sm:grid-cols-2 sm:px-8 lg:hidden">
-                    <button type="button" onClick={() => choosePath("build")} className="border-l border-[#9bd8ff]/55 bg-gradient-to-r from-[#9bd8ff]/[.12] to-transparent px-4 py-4 text-left backdrop-blur-sm">
-                      <span className="text-[9px] uppercase tracking-[.22em] text-[#9bd8ff]/85">Field 01</span><span className="mt-2 block text-xl text-white">Build & Engineer</span><span className="mt-1 block text-xs text-white/65">Code, systems, AI, and prototypes.</span>
+                    <button type="button" onClick={() => choosePath("build")} className="border-l border-[#9fc7c2]/55 bg-gradient-to-r from-[#9fc7c2]/[.12] to-transparent px-4 py-4 text-left backdrop-blur-sm">
+                      <span className="text-[9px] uppercase tracking-[.22em] text-[#9fc7c2]/85">Field 01</span><span className="mt-2 block text-xl text-white">Build & Engineer</span><span className="mt-1 block text-xs text-white/65">Code, systems, AI, and prototypes.</span>
                     </button>
-                    <button type="button" onClick={() => choosePath("create")} className="border-r border-[#e2b9ff]/55 bg-gradient-to-l from-[#e2b9ff]/[.12] to-transparent px-4 py-4 text-right backdrop-blur-sm">
-                      <span className="text-[9px] uppercase tracking-[.22em] text-[#e2b9ff]/85">Field 02</span><span className="mt-2 block text-xl text-white">Create & Tell Stories</span><span className="mt-1 block text-xs text-white/65">Film, music, words, and ideas.</span>
+                    <button type="button" onClick={() => choosePath("create")} className="border-r border-[#d5b2dc]/55 bg-gradient-to-l from-[#d5b2dc]/[.12] to-transparent px-4 py-4 text-right backdrop-blur-sm">
+                      <span className="text-[9px] uppercase tracking-[.22em] text-[#d5b2dc]/85">Field 02</span><span className="mt-2 block text-xl text-white">Create & Tell Stories</span><span className="mt-1 block text-xs text-white/65">Film, music, words, and ideas.</span>
                     </button>
                   </div>
                 </div>
@@ -320,11 +268,11 @@ export default function Skills() {
                   {activePath === "build" && (
                     <div className="relative z-20 mt-2 flex justify-center">
                       <div className="group relative">
-                        <button type="button" className="inline-flex items-center gap-2 border border-white/15 bg-white/[.025] px-4 py-2.5 text-[10px] uppercase tracking-[.2em] text-white/55 transition-colors hover:border-[#9bd8ff]/40 hover:text-[#c7eaff] focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#9bd8ff]">
+                        <button type="button" className="inline-flex items-center gap-2 border border-white/15 bg-white/[.025] px-4 py-2.5 text-[10px] uppercase tracking-[.2em] text-white/55 transition-colors hover:border-[#9fc7c2]/40 hover:text-[#d5e6e2] focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#9fc7c2]">
                           <Sparkles size={12} /> Soft skills <span className="text-white/30">↗</span>
                         </button>
                         <div className="pointer-events-none absolute bottom-full left-1/2 mb-3 w-[min(290px,85vw)] -translate-x-1/2 translate-y-2 border border-white/15 bg-[#0b0d18]/95 p-4 text-left opacity-0 shadow-2xl backdrop-blur-xl transition-all duration-200 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:translate-y-0 group-focus-within:opacity-100">
-                          <p className="mb-3 text-[9px] uppercase tracking-[.22em] text-[#9bd8ff]/75">How I work with people</p>
+                          <p className="mb-3 text-[9px] uppercase tracking-[.22em] text-[#9fc7c2]/75">How I work with people</p>
                           <div className="flex flex-wrap gap-2">
                             {["Project management", "Planning & coordination", "Public speaking", "Active listening", "Team leadership", "Communication", "Collaboration", "Presenting & pitching", "Community building"].map((item) => (
                               <span key={item} className="border border-white/10 px-2 py-1 text-[10px] text-white/70">{item}</span>
