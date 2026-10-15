@@ -119,55 +119,37 @@ function TelescopeEntrance({ onEnter }: { onEnter: () => void }) {
   const reduced = useReducedMotion();
   return (
     <motion.button type="button" onClick={onEnter} aria-label="Look through the telescope and enter the project universe"
-      className="group relative mx-auto flex min-h-[450px] w-full max-w-5xl flex-col items-center justify-center overflow-hidden border border-white/[.1] bg-[#07090d] px-5 py-12 text-center sm:min-h-[540px] sm:py-16"
+      className="group relative mx-auto flex min-h-[480px] w-full max-w-5xl flex-col items-center justify-center overflow-hidden border border-white/[.1] bg-[#03050a] px-5 py-12 text-center sm:min-h-[600px] sm:py-16"
       whileHover={reduced ? undefined : { borderColor: "rgba(210,220,235,.3)" }}
       whileTap={reduced ? undefined : { scale: 0.996 }}>
       <StarField />
-      <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse at 50% 66%, rgba(95,119,153,.18), transparent 44%), linear-gradient(180deg, transparent 54%, rgba(0,0,0,.6))" }} />
-      <div className="relative z-10 mb-8 flex items-center gap-3 text-[9px] uppercase tracking-[.32em] text-white/40 sm:mb-10">
+      <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse at 50% 48%, rgba(60,95,150,.2), transparent 44%), linear-gradient(180deg, transparent 54%, rgba(0,0,0,.72))" }} />
+      <div className="relative z-10 mb-7 flex items-center gap-3 text-[9px] uppercase tracking-[.32em] text-white/40 sm:mb-9">
         <span className="h-px w-7 bg-white/25" /> Observatory 01 <span className="h-px w-7 bg-white/25" />
       </div>
-      <motion.div className="relative z-10 mb-8 flex h-48 w-full max-w-md items-center justify-center sm:mb-10 sm:h-56"
-        animate={reduced ? undefined : { y: [0, -3, 0], rotate: [0, 0.2, 0] }}
-        transition={reduced ? undefined : { duration: 7, repeat: Infinity, ease: "easeInOut" }}>
-        <svg viewBox="0 0 520 260" className="h-full w-full overflow-visible" role="img" aria-label="Illustration of a telescope pointed at a star">
-          <defs>
-            <linearGradient id="scopeMetal" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#d4d9dc" stopOpacity=".9" /><stop offset="32%" stopColor="#66717c" /><stop offset="70%" stopColor="#242b35" /><stop offset="100%" stopColor="#a9b4bf" stopOpacity=".7" />
-            </linearGradient>
-            <linearGradient id="scopeGlass" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#b7e0ef" stopOpacity=".75" /><stop offset="48%" stopColor="#7890b8" stopOpacity=".5" /><stop offset="100%" stopColor="#141d2c" stopOpacity=".95" />
-            </linearGradient>
-            <filter id="scopeGlow"><feGaussianBlur stdDeviation="8" /></filter>
-          </defs>
-          <ellipse cx="245" cy="217" rx="128" ry="14" fill="#000" opacity=".55" />
-          <path d="M247 135 L208 226 M247 135 L292 226 M247 135 L247 228" stroke="#6b7480" strokeWidth="7" strokeLinecap="round" />
-          <path d="M190 225 L307 225" stroke="#555f6c" strokeWidth="5" strokeLinecap="round" />
-          <g transform="rotate(-22 255 112)">
-            <path d="M154 77 L357 77 L389 96 L389 127 L357 145 L154 145 Z" fill="url(#scopeMetal)" stroke="#c3cbd1" strokeOpacity=".4" />
-            <path d="M173 84 L347 84 L347 138 L173 138 Z" fill="#101722" opacity=".9" />
-            <path d="M175 87 L344 87 L344 135 L175 135 Z" fill="url(#scopeGlass)" opacity=".65" />
-            <ellipse cx="156" cy="111" rx="18" ry="40" fill="#303b49" stroke="#bac4cd" strokeWidth="2" />
-            <ellipse cx="153" cy="111" rx="11" ry="32" fill="url(#scopeGlass)" />
-            <ellipse cx="153" cy="111" rx="5" ry="22" fill="#b4e4ff" opacity=".6" filter="url(#scopeGlow)" />
-            <path d="M360 81 L385 96 L385 127 L360 141 Z" fill="#111720" stroke="#aeb9c5" strokeOpacity=".5" />
-            <path d="M372 88 L396 100 L396 122 L372 134 Z" fill="#778594" stroke="#d5dbe0" strokeOpacity=".6" />
-            <path d="M200 78 L200 145 M214 78 L214 145 M329 78 L329 145" stroke="#e3e7ea" strokeOpacity=".2" strokeWidth="3" />
-            <path d="M247 145 L247 160" stroke="#c0c8d0" strokeWidth="10" />
-          </g>
-          <circle cx="422" cy="45" r="2.5" fill="#f4e9cf" /><circle cx="422" cy="45" r="13" fill="#f4e9cf" opacity=".1" />
-          <path d="M405 45 H439 M422 28 V62" stroke="#f4e9cf" strokeOpacity=".45" strokeWidth=".7" />
-        </svg>
+      <motion.div className="relative z-10 mb-7 flex aspect-square w-[min(68vw,340px)] items-center justify-center sm:mb-9 sm:w-[360px]"
+        animate={reduced ? undefined : { rotate: [0, 1.5, 0], scale: [1, 1.012, 1] }}
+        transition={reduced ? undefined : { duration: 12, repeat: Infinity, ease: "easeInOut" }}>
+        <div className="absolute inset-0 rounded-full border-[10px] border-[#242a36] shadow-[0_0_0_2px_#697384,0_0_0_8px_#111722,0_0_0_10px_#515a69,0_0_45px_rgba(97,139,205,.25)]" />
+        <div className="absolute inset-[7%] rounded-full border-[3px] border-[#8b95a6]/70 bg-[conic-gradient(from_15deg,#101a2b_0deg,#53648c_30deg,#161c2b_55deg,#8a6aa9_78deg,#111b2b_112deg,#2b7594_150deg,#101522_195deg,#6a77a2_245deg,#1a2031_300deg,#101a2b_360deg)] shadow-[inset_0_0_35px_#02040a,0_0_24px_rgba(95,145,210,.25)]" />
+        <div className="absolute inset-[14%] rounded-full border border-white/20 bg-[radial-gradient(ellipse_at_42%_48%,rgba(125,185,232,.22),transparent_38%),radial-gradient(ellipse_at_58%_45%,rgba(182,119,214,.2),transparent_45%),radial-gradient(circle_at_center,#050914_0%,#090f1c_48%,#02040a_74%)] shadow-[inset_0_0_35px_#000]" />
+        <div className="absolute inset-[23%] rounded-full border border-white/10 bg-[radial-gradient(ellipse_at_35%_42%,rgba(74,158,207,.18),transparent_25%),radial-gradient(ellipse_at_66%_59%,rgba(173,120,204,.17),transparent_28%),radial-gradient(circle_at_center,#101a2a_0%,#050914_64%,#02040a_100%)]" />
+        <div className="absolute inset-[31%] rounded-full border border-white/10 bg-[radial-gradient(ellipse_at_30%_45%,#b9d9ed_0%,rgba(77,126,183,.35)_8%,transparent_30%),radial-gradient(ellipse_at_68%_58%,rgba(200,151,220,.5),transparent_30%),radial-gradient(circle_at_center,#050914_0%,#02040a_78%)] shadow-[0_0_30px_rgba(95,157,219,.15)]" />
+        <div className="absolute inset-[42%] rounded-full border border-white/20 bg-[#02040a] shadow-[0_0_25px_rgba(112,171,230,.25),inset_0_0_18px_#000]" />
+        <div className="absolute inset-[47%] rounded-full bg-[radial-gradient(circle,#6d91b7_0%,#18243a_45%,#02040a_75%)]" />
+        <span className="absolute left-[8%] top-[28%] h-3 w-3 rounded-full bg-[#9fd7ff] shadow-[0_0_18px_#9fd7ff]" />
+        <span className="absolute right-[12%] top-[60%] h-2 w-2 rounded-full bg-[#d9b5ff] shadow-[0_0_15px_#d9b5ff]" />
+        <span className="absolute right-[26%] top-[13%] h-1.5 w-1.5 rounded-full bg-[#f5dfbd] shadow-[0_0_12px_#f5dfbd]" />
+        <span className="absolute bottom-[15%] left-[31%] h-1 w-1 rounded-full bg-white shadow-[0_0_9px_white]" />
       </motion.div>
-      <h3 className="relative z-10 text-3xl font-light tracking-[-.045em] text-[#f0eee8] sm:text-5xl">The universe of things I make.</h3>
-      <p className="relative z-10 mt-4 max-w-md text-sm leading-6 text-white/45">Three disciplines. Many ways of seeing. Look a little closer.</p>
-      <span className="relative z-10 mt-8 inline-flex items-center gap-3 text-[10px] uppercase tracking-[.24em] text-white/70 transition-colors group-hover:text-white">
-        Look through the telescope <ArrowDownRight size={14} className="transition-transform duration-500 group-hover:translate-x-1 group-hover:translate-y-1" />
+      <h3 className="relative z-10 text-3xl font-light tracking-[-.045em] text-[#f0eee8] sm:text-5xl">View the galaxy of projects?</h3>
+      <p className="relative z-10 mt-4 max-w-md text-sm leading-6 text-white/45">A closer look at the things I build, the music I make, and the stories I keep.</p>
+      <span className="relative z-10 mt-7 inline-flex items-center gap-3 text-[10px] uppercase tracking-[.24em] text-white/70 transition-colors group-hover:text-white">
+        Enter the observatory <ArrowDownRight size={14} className="transition-transform duration-500 group-hover:translate-x-1 group-hover:translate-y-1" />
       </span>
     </motion.button>
   );
 }
-
 function Constellation({ world, index, onSelect }: { world: (typeof WORLDS)[number]; index: number; onSelect: () => void }) {
   const reduced = useReducedMotion();
   const points = world.id === "tech"
@@ -265,21 +247,50 @@ export default function Projects() {
             </motion.div>
           )}
           {phase === "galaxy" && (
-            <motion.div key="galaxy" className="relative min-h-[560px] overflow-hidden border border-white/[.08] bg-[#07090d] px-4 py-8 sm:px-8 sm:py-10"
-              initial={reduced ? undefined : { opacity: 0, scale: .78, filter: "blur(8px)" }}
+            <motion.div key="galaxy" className="relative min-h-[580px] overflow-hidden border border-white/[.08] bg-[#02040a] px-4 py-8 sm:min-h-[700px] sm:px-8 sm:py-10"
+              initial={reduced ? undefined : { opacity: 0, scale: .72, filter: "blur(12px)" }}
               animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-              exit={{ opacity: 0, scale: reduced ? 1 : 1.22, filter: reduced ? "none" : "blur(6px)" }}
-              transition={{ duration: reduced ? 0 : .7, ease: [.2, .75, .2, 1] }}>
+              exit={{ opacity: 0, scale: reduced ? 1 : 1.18, filter: reduced ? "none" : "blur(8px)" }}
+              transition={{ duration: reduced ? 0 : .9, ease: [.16, .8, .2, 1] }}>
               <StarField />
-              <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse at 50% 48%, rgba(90,100,139,.14), transparent 53%)" }} />
-              <div className="relative z-10 mb-8 flex flex-wrap items-start justify-between gap-4">
-                <div><p className="mb-2 text-[9px] uppercase tracking-[.26em] text-white/35">Beyond the lens</p><h3 className="text-2xl font-light tracking-[-.04em] text-white/90 sm:text-4xl">Choose a constellation.</h3><p className="mt-2 text-xs text-white/40">Each one leads to a different part of the archive.</p></div>
-                <button type="button" onClick={() => setPhase("observatory")} className="inline-flex items-center gap-2 py-2 text-[9px] uppercase tracking-[.18em] text-white/45 transition-colors hover:text-white"><ArrowDownLeft size={14} /> Back to telescope</button>
+              <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse at 50% 48%, rgba(40,90,145,.22), transparent 55%), radial-gradient(ellipse at 72% 44%, rgba(141,75,165,.12), transparent 40%)" }} />
+              <div className="relative z-10 mb-5 flex flex-wrap items-center justify-between gap-4">
+                <div><p className="mb-2 text-[9px] uppercase tracking-[.26em] text-white/35">Optical field · 001</p><h3 className="text-2xl font-light tracking-[-.04em] text-white/90 sm:text-4xl">The universe of things I make.</h3></div>
+                <button type="button" onClick={() => setPhase("observatory")} className="inline-flex items-center gap-2 py-2 text-[9px] uppercase tracking-[.18em] text-white/45 transition-colors hover:text-white"><ArrowLeft size={14} /> Back to telescope</button>
               </div>
-              <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 sm:gap-4">
-                {WORLDS.map((item, index) => <Constellation key={item.id} world={item} index={index} onSelect={() => enterWorld(item.id)} />)}
+              <div className="relative mx-auto flex aspect-square w-full max-w-[620px] items-center justify-center">
+                <div className="absolute inset-0 rounded-full border-[8px] border-[#252d3a] shadow-[0_0_0_2px_#697384,0_0_0_8px_#111722,0_0_0_10px_#4a5362,0_0_70px_rgba(83,142,213,.18)]" />
+                <div className="absolute inset-[3%] rounded-full border border-white/20 bg-[radial-gradient(ellipse_at_52%_49%,rgba(69,131,196,.35),transparent_37%),radial-gradient(ellipse_at_28%_55%,rgba(69,179,211,.22),transparent_29%),radial-gradient(ellipse_at_75%_40%,rgba(181,105,208,.24),transparent_31%),radial-gradient(circle_at_center,#0a1425_0%,#050914_66%,#010207_100%)] shadow-[inset_0_0_70px_#000]" />
+                <div className="absolute inset-[8%] rounded-full opacity-80" style={{ background: "conic-gradient(from 25deg at 52% 50%, transparent 0deg, rgba(72,154,211,.13) 35deg, transparent 76deg, rgba(183,110,207,.16) 128deg, transparent 170deg, rgba(66,168,206,.13) 220deg, transparent 270deg, rgba(202,157,220,.1) 315deg, transparent 360deg)", filter: "blur(12px)" }} />
+                <div className="absolute inset-[13%] rounded-full border border-white/[.08] opacity-70" />
+                <div className="absolute inset-[22%] rounded-full border border-white/[.06] opacity-60" />
+                <div className="absolute inset-[32%] rounded-full border border-white/[.05] opacity-50" />
+                <button type="button" onClick={() => enterWorld("tech")} aria-label="Explore Technology constellation"
+                  className="group absolute left-[15%] top-[48%] flex -translate-y-1/2 flex-col items-center gap-2 text-[#91d8ff] transition-transform duration-500 hover:scale-110 sm:left-[13%]">
+                  <span className="relative flex h-16 w-16 items-center justify-center rounded-full border border-[#91d8ff]/35 bg-[#7fcfff]/10 shadow-[0_0_34px_rgba(87,185,255,.22)] sm:h-24 sm:w-24"><span className="absolute inset-2 rounded-full border border-[#91d8ff]/20" /><Code2 size={22} strokeWidth={1.2} className="drop-shadow-[0_0_8px_rgba(145,216,255,.8)] sm:h-7 sm:w-7" /></span>
+                  <span className="text-sm font-medium tracking-wide drop-shadow-[0_0_12px_rgba(145,216,255,.8)] sm:text-lg">Technology</span>
+                  <span className="text-[8px] uppercase tracking-[.2em] text-white/45 sm:text-[9px]">Systems & ideas</span>
+                </button>
+                <button type="button" onClick={() => enterWorld("music")} aria-label="Explore Music constellation"
+                  className="group absolute left-1/2 top-[23%] flex -translate-x-1/2 flex-col items-center gap-2 text-[#e0b5ff] transition-transform duration-500 hover:scale-110">
+                  <span className="relative flex h-16 w-16 items-center justify-center rounded-full border border-[#d9aaff]/35 bg-[#d4a0ff]/10 shadow-[0_0_34px_rgba(201,131,255,.22)] sm:h-24 sm:w-24"><span className="absolute inset-2 rounded-full border border-[#d9aaff]/20" /><Headphones size={22} strokeWidth={1.2} className="drop-shadow-[0_0_8px_rgba(217,170,255,.8)] sm:h-7 sm:w-7" /></span>
+                  <span className="text-sm font-medium tracking-wide drop-shadow-[0_0_12px_rgba(217,170,255,.8)] sm:text-lg">Music</span>
+                  <span className="text-[8px] uppercase tracking-[.2em] text-white/45 sm:text-[9px]">Songs & sound</span>
+                </button>
+                <button type="button" onClick={() => enterWorld("film")} aria-label="Explore Film constellation"
+                  className="group absolute right-[13%] top-[55%] flex -translate-y-1/2 flex-col items-center gap-2 text-[#f3d4a3] transition-transform duration-500 hover:scale-110 sm:right-[12%]">
+                  <span className="relative flex h-16 w-16 items-center justify-center rounded-full border border-[#f3d4a3]/35 bg-[#f3d4a3]/10 shadow-[0_0_34px_rgba(243,212,163,.2)] sm:h-24 sm:w-24"><span className="absolute inset-2 rounded-full border border-[#f3d4a3]/20" /><Clapperboard size={22} strokeWidth={1.2} className="drop-shadow-[0_0_8px_rgba(243,212,163,.8)] sm:h-7 sm:w-7" /></span>
+                  <span className="text-sm font-medium tracking-wide drop-shadow-[0_0_12px_rgba(243,212,163,.8)] sm:text-lg">Film</span>
+                  <span className="text-[8px] uppercase tracking-[.2em] text-white/45 sm:text-[9px]">Worlds & stories</span>
+                </button>
+                <svg className="pointer-events-none absolute inset-[10%] h-[80%] w-[80%] opacity-40" viewBox="0 0 100 100" aria-hidden="true">
+                  <path d="M18 48 Q38 20 50 20 Q72 23 82 55" fill="none" stroke="#b6d8f2" strokeWidth=".25" strokeDasharray="1.2 1.2" />
+                  <path d="M18 48 Q48 82 82 55" fill="none" stroke="#b6d8f2" strokeWidth=".25" strokeDasharray="1.2 1.2" />
+                  <circle cx="18" cy="48" r="1.1" fill="#91d8ff" /><circle cx="50" cy="20" r="1.1" fill="#e0b5ff" /><circle cx="82" cy="55" r="1.1" fill="#f3d4a3" />
+                </svg>
+                <span className="pointer-events-none absolute bottom-[11%] left-1/2 -translate-x-1/2 text-center text-[8px] uppercase tracking-[.2em] text-white/30 sm:text-[9px]">Select a signal to enter its archive</span>
               </div>
-              <p className="relative z-10 mt-5 text-[9px] uppercase tracking-[.18em] text-white/25">Three disciplines · one maker's universe</p>
+              <p className="relative z-10 mt-2 text-center text-[9px] uppercase tracking-[.18em] text-white/25">Three disciplines · one maker's universe</p>
             </motion.div>
           )}
           {phase === "archive" && (
