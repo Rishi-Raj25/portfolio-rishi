@@ -36,7 +36,7 @@ const galaxies: Galaxy[] = [
     index: "01",
     name: "Before the code",
     subtitle: "Where the instinct began",
-    orbit: "galaxy-amber",
+    orbit: "galaxy-clay",
     position: "lg:col-span-2 lg:translate-y-8",
     icon: Clapperboard,
     artifacts: [
