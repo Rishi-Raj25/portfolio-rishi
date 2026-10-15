@@ -352,7 +352,7 @@ export default function Projects() {
             </motion.div>
           )}
           {phase === "looking" && <TelescopeDive direction="in" onComplete={() => setPhase("galaxy")} />}\n          {phase === "closing" && <TelescopeDive direction="out" onComplete={() => setPhase("observatory")} />}\n          {phase === "galaxy" && (
-            <motion.div key="galaxy" className="relative min-h-[580px] overflow-hidden border border-white/[.08] bg-[#02040a] px-4 py-8 sm:min-h-[700px] sm:px-8 sm:py-10"
+            <motion.div key="galaxy" className="relative min-h-[580px] overflow-hidden bg-[#02040a] px-4 py-8 sm:min-h-[700px] sm:px-8 sm:py-10"
               initial={reduced ? undefined : { opacity: 0, scale: .72, filter: "blur(12px)" }}
               animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
               exit={{ opacity: 0, scale: reduced ? 1 : 1.18, filter: reduced ? "none" : "blur(8px)" }}
