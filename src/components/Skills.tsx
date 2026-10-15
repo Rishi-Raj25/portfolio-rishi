@@ -130,38 +130,29 @@ export default function Skills() {
                 style={{ transformStyle: "preserve-3d", transformOrigin: "center center" }}
               >
                 <NebulaParticles />
-                <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse at 50% 48%, rgba(7,10,23,.04), rgba(2,4,10,.3) 75%, #03050a 100%)" }} />
+                <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse at 50% 48%, rgba(3,5,10,.02), rgba(3,5,10,.08) 58%, #03050a 100%)" }} />
                 <motion.div
                   aria-hidden="true"
-                  className="pointer-events-none absolute left-1/2 top-[43%] aspect-square w-[min(92vw,650px)] -translate-x-1/2 -translate-y-1/2 sm:w-[min(62vw,720px)]"
+                  className="pointer-events-none absolute left-1/2 top-[46%] aspect-square w-[min(96vw,760px)] -translate-x-1/2 -translate-y-1/2 sm:w-[min(72vw,900px)]"
                   animate={reduced ? undefined : { rotate: 360 }}
-                  transition={reduced ? undefined : { duration: 150, repeat: Infinity, ease: "linear" }}
+                  transition={reduced ? undefined : { duration: 180, repeat: Infinity, ease: "linear" }}
+                  style={{ transformOrigin: "center center" }}
                 >
-                  <div className="absolute inset-0 rounded-full opacity-90" style={{ background: "radial-gradient(ellipse at 50% 50%, rgba(116,206,255,.98) 0%, rgba(75,151,236,.75) 5%, rgba(76,110,204,.52) 14%, rgba(95,83,180,.3) 27%, transparent 51%)", filter: "blur(14px)" }} />
-                  <div className="absolute inset-[4%] rounded-full opacity-90" style={{ background: "conic-gradient(from 12deg at 50% 50%, transparent 0deg, rgba(66,185,219,.2) 32deg, rgba(224,160,106,.66) 65deg, rgba(80,212,226,.7) 98deg, transparent 133deg, rgba(184,112,186,.4) 174deg, rgba(67,176,220,.55) 224deg, rgba(228,152,104,.5) 276deg, transparent 330deg)", filter: "blur(24px)" }} />
-                  <div className="absolute inset-[8%] rounded-full opacity-75" style={{ background: "radial-gradient(ellipse at 30% 32%, rgba(246,179,119,.82), transparent 24%), radial-gradient(ellipse at 70% 28%, rgba(66,218,229,.82), transparent 26%), radial-gradient(ellipse at 26% 72%, rgba(79,202,215,.7), transparent 27%), radial-gradient(ellipse at 75% 70%, rgba(214,130,101,.72), transparent 25%), radial-gradient(ellipse at center, transparent 22%, rgba(118,162,255,.45) 34%, transparent 57%)", filter: "blur(18px)" }} />
-                  <svg viewBox="0 0 600 600" className="absolute inset-0 h-full w-full" aria-hidden="true">
-                    <defs>
-                      <filter id="nebula-filaments">
-                        <feTurbulence type="fractalNoise" baseFrequency="0.012 0.035" numOctaves="3" seed="12" />
-                        <feColorMatrix values="1 0 0 0 .1  0 1 0 0 .25  0 0 1 0 .35  0 0 0 1 0" />
-                        <feGaussianBlur stdDeviation="1.4" />
-                      </filter>
-                      <radialGradient id="nebula-core">
-                        <stop stopColor="#b7f3ff" stopOpacity=".98" />
-                        <stop offset=".09" stopColor="#6fd7ff" stopOpacity=".86" />
-                        <stop offset=".25" stopColor="#718de5" stopOpacity=".42" />
-                        <stop offset=".58" stopColor="#8a6ab4" stopOpacity=".12" />
-                        <stop offset="1" stopColor="#050711" stopOpacity="0" />
-                      </radialGradient>
-                    </defs>
-                    <circle cx="300" cy="300" r="278" fill="url(#nebula-core)" />
-                    <path d="M300 28 C390 60 492 115 555 215 S520 420 438 502 S258 584 138 500 S25 333 68 220 S204 42 300 28Z" fill="none" stroke="#69d8ec" strokeWidth="38" strokeOpacity=".32" filter="url(#nebula-filaments)" />
-                    <path d="M300 45 C400 90 475 115 535 235 S485 420 412 486 S250 552 151 470 S54 325 86 225 S205 65 300 45Z" fill="none" stroke="#efb27d" strokeWidth="28" strokeOpacity=".45" filter="url(#nebula-filaments)" />
-                    <path d="M300 72 C380 102 466 160 498 245 S460 398 385 455 S252 508 170 442 S86 318 112 238 S213 94 300 72Z" fill="none" stroke="#82e6ed" strokeWidth="19" strokeOpacity=".55" filter="url(#nebula-filaments)" />
-                    <circle cx="300" cy="300" r="205" fill="none" stroke="#d2faff" strokeOpacity=".15" strokeWidth="1" />
-                  </svg>
-                  <div className="absolute inset-[20%] rounded-full" style={{ background: "radial-gradient(circle, rgba(183,238,255,.65), rgba(92,139,226,.28) 23%, rgba(8,12,28,.1) 54%, transparent 70%)", filter: "blur(18px)" }} />
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      backgroundImage: "url('https://assets.science.nasa.gov/dynamicimage/assets/science/missions/hubble/releases/2017/05/STScI-01EVVBDBRVWMKBN234SXQ1MEA1.png?w=2000')",
+                      backgroundPosition: "center",
+                      backgroundRepeat: "no-repeat",
+                      backgroundSize: "contain",
+                      mixBlendMode: "screen",
+                      filter: "saturate(1.22) contrast(1.12) brightness(.94)",
+                      maskImage: "radial-gradient(ellipse at center, black 35%, rgba(0,0,0,.94) 49%, transparent 72%)",
+                      WebkitMaskImage: "radial-gradient(ellipse at center, black 35%, rgba(0,0,0,.94) 49%, transparent 72%)",
+                    }}
+                  />
+                  <div className="absolute inset-[10%] rounded-full" style={{ background: "radial-gradient(circle at 50% 48%, rgba(85,176,255,.14), transparent 34%), radial-gradient(ellipse at 28% 35%, rgba(54,180,222,.12), transparent 38%), radial-gradient(ellipse at 69% 67%, rgba(220,133,91,.12), transparent 38%)", mixBlendMode: "screen" }} />
+                  <div className="absolute inset-0 rounded-full" style={{ boxShadow: "inset 0 0 90px 40px #03050a, 0 0 70px rgba(63,141,225,.09)" }} />
                 </motion.div>
 
                 <div className="relative z-10 flex min-h-[640px] flex-col items-center sm:min-h-[720px]">
