@@ -393,8 +393,14 @@ export default function Projects() {
   };
 
   return (
-    <section id="projects" className="relative px-5 py-20 md:px-6 md:py-32">
-      <div className="mx-auto max-w-6xl">
+    <section id="projects" className="relative isolate overflow-hidden px-5 py-20 md:px-6 md:py-32">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10" style={{ background: "radial-gradient(ellipse at 50% 45%, rgba(49,117,182,.15), transparent 38%), radial-gradient(ellipse at 22% 65%, rgba(193,112,78,.10), transparent 35%), radial-gradient(ellipse at 78% 32%, rgba(64,180,196,.10), transparent 35%), #03050a" }} />
+      <motion.div className="relative mx-auto max-w-6xl [transform-style:preserve-3d]"
+        key={phase}
+        initial={reduced ? { opacity: 0 } : { opacity: 0, rotateY: phase === "archive" ? 68 : -68, scale: .84, z: -180, filter: "blur(7px)" }}
+        animate={reduced ? { opacity: 1 } : { opacity: 1, rotateY: 0, scale: 1, z: 0, filter: "blur(0px)" }}
+        transition={{ duration: reduced ? 0 : 1.15, ease: [.16,.8,.2,1] }}
+        style={{ transformPerspective: 1800, transformOrigin: "center center" }}>
         <motion.div className="mb-10 flex flex-wrap items-end justify-between gap-5 sm:mb-14"
           initial={reduced ? undefined : { opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: .2 }} transition={{ duration: .6 }}>
@@ -492,7 +498,7 @@ export default function Projects() {
                 ) : (
                   <div className="mt-10 flex flex-wrap gap-5 border-t border-white/15 pt-6">
                     {selectedItem.live && <a href={selectedItem.live} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[.18em] text-white/75 transition-colors hover:text-white">Live demo <ExternalLink size={13} /></a>}
-                    {selectedItem.code && <a href={selectedItem.code} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[.18em] text-white/50 transition-colors hover:text-white">Source code <Code2 size={13} /></a>}
+                    {selectedItem.code && <a href={selectedItem.code} target="_blank" rel="noreferrer" className="group/code inline-flex items-center gap-2 border border-white/15 bg-white/[.035] px-3 py-2 text-[10px] uppercase tracking-[.18em] text-white/65 shadow-[0_0_24px_rgba(110,165,220,.06)] transition-all hover:border-[#9bd8ff]/45 hover:bg-[#9bd8ff]/[.08] hover:text-[#d9f0ff] hover:shadow-[0_0_28px_rgba(110,165,220,.18)]">Source code <Code2 size={13} className="transition-transform group-hover/code:-translate-y-0.5 group-hover/code:translate-x-0.5" /></a>}
                     {!selectedItem.live && !selectedItem.code && <span className="text-[9px] uppercase tracking-[.16em] text-white/30">No public demo or source link yet</span>}
                     {activeWorld === "music" && <span className="inline-flex items-center gap-2 text-[9px] uppercase tracking-[.16em] text-white/30"><Waves size={13} /> Work in progress</span>}
                   </div>
@@ -502,6 +508,7 @@ export default function Projects() {
           </motion.div>
         )}
       </AnimatePresence>
+      </motion.div>
     </section>
   );
 }
