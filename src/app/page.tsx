@@ -11,7 +11,8 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <main className="relative isolate flex min-h-screen flex-col overflow-x-clip bg-[#05060a] text-[#f4f1eb]">\n      <div aria-hidden="true" className="universe-backdrop pointer-events-none fixed inset-0 -z-10" />
+    <main className="relative isolate flex min-h-screen flex-col overflow-x-clip bg-[#05060a] text-[#f4f1eb]">
+      <div aria-hidden="true" className="universe-backdrop pointer-events-none fixed inset-0 -z-10" />
       <div aria-hidden="true" className="cosmic-bloom cosmic-bloom--blue pointer-events-none fixed -z-10" />
       <div aria-hidden="true" className="cosmic-bloom cosmic-bloom--violet pointer-events-none fixed -z-10" />
       <Navbar />
