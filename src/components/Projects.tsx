@@ -160,14 +160,14 @@ function TelescopeDive({ direction, onComplete }: { direction: "in" | "out"; onC
       className="relative flex min-h-[580px] items-center justify-center overflow-hidden bg-transparent sm:min-h-[700px]"
       initial={{ opacity: entering ? 0 : 1 }}
       animate={{ opacity: entering ? 1 : 0 }}
-      transition={{ duration: reduced ? 0 : entering ? 0.18 : 0.72, ease: entering ? "easeOut" : [0.7, 0, 0.25, 1] }}
+      transition={{ duration: reduced ? 0 : entering ? 0.32 : 1.08, ease: entering ? [0.16, 1, 0.3, 1] : [0.65, 0, 0.35, 1] }}
     >
       <StarField />
       <motion.div
         className="absolute inset-0 will-change-transform"
-        initial={reduced ? { scale: 1, opacity: 1, rotate: 0 } : { scale: entering ? 0.72 : 4.2, opacity: entering ? 0.7 : 0.18, rotate: entering ? -7 : 8 }}
-        animate={reduced ? { scale: 1, opacity: 1, rotate: 0 } : { scale: entering ? 4.2 : 0.72, opacity: entering ? 0.08 : 0.7, rotate: entering ? 0 : -12 }}
-        transition={{ duration: reduced ? 0 : entering ? 0.78 : 0.94, ease: entering ? [0.2, 0.85, 0.25, 1] : [0.72, 0, 0.25, 1] }}
+        initial={reduced ? { scale: 1, opacity: 1, rotate: 0 } : { scale: entering ? 0.58 : 4.8, opacity: entering ? 0.82 : 0.08, rotate: entering ? -14 : 9 }}
+        animate={reduced ? { scale: 1, opacity: 1, rotate: 0 } : { scale: entering ? 4.8 : 0.58, opacity: entering ? 0.06 : 0.82, rotate: entering ? 0 : -16 }}
+        transition={{ duration: reduced ? 0 : entering ? 1.12 : 1.02, ease: entering ? [0.16, 1, 0.3, 1] : [0.7, 0, 0.28, 1] }}
         onAnimationComplete={onComplete}
         style={{ transformOrigin: "50% 50%" }}
       >
@@ -344,7 +344,9 @@ export default function Projects() {
               <TelescopeEntrance onEnter={() => setPhase("looking")} />
             </motion.div>
           )}
-          {phase === "looking" && <TelescopeDive direction="in" onComplete={() => setPhase("galaxy")} />}\n          {phase === "closing" && <TelescopeDive direction="out" onComplete={() => setPhase("observatory")} />}\n          {phase === "galaxy" && (
+          {phase === "looking" && <TelescopeDive direction="in" onComplete={() => setPhase("galaxy")} />}
+          {phase === "closing" && <TelescopeDive direction="out" onComplete={() => setPhase("observatory")} />}
+          {phase === "galaxy" && (
             <motion.div key="galaxy" className="relative min-h-[580px] overflow-hidden bg-transparent px-4 py-8 sm:min-h-[700px] sm:px-8 sm:py-10"
               initial={reduced ? undefined : { opacity: 0, scale: .82, y: 14 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
