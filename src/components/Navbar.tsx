@@ -24,13 +24,14 @@ export default function Navbar() {
       <motion.nav
         initial={{ y: -100, opacity: 0 }}
         animate={isScrolled ? { y: -2, opacity: 0.34, scale: 0.965 } : { y: 0, opacity: 1, scale: 1 }}
+        whileHover={isScrolled ? { opacity: 0.96, scale: 1, y: 0 } : undefined}
         transition={{ duration: 0.55, ease: [0.22, 0.75, 0.22, 1] }}
         aria-label="Main navigation"
         className={`journey-global-nav fixed top-0 w-full z-[40] py-4 md:py-6 ${isScrolled ? "journey-global-nav--receded" : "journey-global-nav--front"}`}
       >
         <div className="max-w-5xl mx-auto px-5 md:px-6">
           <div className={`
-            flex items-center justify-between transition-all duration-500 rounded-full px-4 sm:px-6 py-3
+            journey-nav-content flex items-center justify-between transition-all duration-500 rounded-full px-4 sm:px-6 py-3
             ${isScrolled ? "bg-transparent border-transparent shadow-none" : "bg-transparent border-transparent"}
           `}>
             <Link href="/" className="group flex items-center gap-2">
