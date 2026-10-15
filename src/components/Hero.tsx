@@ -30,17 +30,17 @@ function SignalArtwork() {
       />
       <div className="absolute inset-[37%] rounded-full border border-white/15 bg-white/[0.025] backdrop-blur-sm" />
       <motion.div
-        className="absolute left-[49%] top-[4%] h-3 w-3 rounded-full bg-[#e8e2d6] shadow-[0_0_30px_rgba(232,226,214,0.8)]"
+        className="absolute left-[49%] top-[4%] h-3 w-3 rounded-full bg-[#d6e4df] shadow-[0_0_30px_rgba(214,228,223,0.8)]"
         animate={{ rotate: 360 }}
         transition={{ duration: 70, repeat: Infinity, ease: "linear" }}
         style={{ transformOrigin: "50% 18.5rem" }}
       />
       <motion.div
-        className="absolute left-[24%] top-[24%] h-2 w-2 rounded-full bg-[#b6c6a8] shadow-[0_0_20px_rgba(182,198,168,0.75)]"
+        className="absolute left-[24%] top-[24%] h-2 w-2 rounded-full bg-[#9fc7c2] shadow-[0_0_20px_rgba(159,199,194,0.75)]"
         animate={{ x: [0, 8, 0], y: [0, -5, 0], opacity: [0.5, 1, 0.5] }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
       />
-      <div className="absolute left-[42%] top-[42%] flex h-[16%] w-[16%] items-center justify-center rounded-full bg-[#e8e2d6] text-[#080808] shadow-[0_0_80px_rgba(232,226,214,0.12)]">
+      <div className="absolute left-[42%] top-[42%] flex h-[16%] w-[16%] items-center justify-center rounded-full bg-[#d6e4df] text-[#080808] shadow-[0_0_80px_rgba(214,228,223,0.12)]">
         <span className="text-xs font-semibold tracking-[-0.08em]">RR.</span>
       </div>
       <div className="absolute bottom-[14%] left-[5%] max-w-40 border-l border-white/20 pl-3 text-left">
@@ -92,7 +92,7 @@ export default function Hero() {
 
       <motion.div
         aria-hidden="true"
-        className="fixed inset-x-0 top-0 z-[120] h-px origin-left bg-[#e8e2d6]"
+        className="fixed inset-x-0 top-0 z-[120] h-px origin-left bg-[#d6e4df]"
         style={{ scaleX: progress }}
       />
 
@@ -112,7 +112,7 @@ export default function Hero() {
             transition={{ ...enter, delay: 0.18 }}
             className="flex items-center gap-2 text-[10px] uppercase tracking-[0.16em] text-white/45 sm:text-xs"
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-[#a8b59a]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-[#9fc7c2]" />
             Building what's next
           </motion.div>
         </div>
@@ -127,7 +127,7 @@ export default function Hero() {
             transition={{ ...enter, delay: 0.08 }}
             className="mb-8 flex items-center gap-3 text-[10px] uppercase tracking-[0.24em] text-white/40 sm:mb-10 sm:text-xs"
           >
-            <span className="h-px w-8 bg-[#a8b59a]/70" />
+            <span className="h-px w-8 bg-[#9fc7c2]/70" />
             01 — Introduction / Systems in progress
           </motion.p>
 

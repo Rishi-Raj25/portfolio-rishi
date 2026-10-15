@@ -1,82 +1,67 @@
 "use client";
-import { motion } from "framer-motion";
-import { Mail, ArrowUpRight } from "lucide-react";
+
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowUpRight, Mail } from "lucide-react";
 
 export default function Contact() {
+  const reduced = useReducedMotion();
+  const emailHref = "https://mail.google.com/mail/?view=cm&fs=1&to=rishiraj.that236@gmail.com&su=Quick%20question%20for%20Rishi&body=Hey%20Rishi%2C%0A%0AI%20found%20your%20portfolio%20and%20wanted%20to%20ask%20you%20about%20something.%0A%0A%5BThe%20actual%20reason%20I%27m%20emailing%5D%0A%0AThanks%2C%0A%5BMy%20name%5D";
+
   return (
-    <section id="contact" className="py-16 md:py-32 px-5 md:px-6 max-w-6xl mx-auto">
+    <section id="contact" className="relative isolate overflow-hidden px-5 py-24 sm:px-8 md:py-32">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute -left-[15%] top-[12%] h-[360px] w-[65%] rounded-full bg-[#8fa9b8]/[.07] blur-[100px]" />
+        <div className="absolute -right-[14%] bottom-[-10%] h-[390px] w-[60%] rounded-full bg-[#a98273]/[.055] blur-[110px]" />
+        <svg className="absolute inset-0 h-full w-full opacity-45" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice">
+          <path d="M-60 460 C180 330 250 510 440 360 S790 190 1260 300" fill="none" stroke="#a8bac0" strokeOpacity=".26" strokeWidth="1" strokeDasharray="1 9" />
+          <path d="M-30 500 C190 390 300 560 520 405 S880 260 1240 360" fill="none" stroke="#c29a82" strokeOpacity=".2" strokeWidth=".8" strokeDasharray="1 13" />
+          {Array.from({ length: 75 }, (_, i) => {
+            const x = (i * 193 + 37) % 1200;
+            const y = (i * 107 + 53) % 600;
+            const r = i % 17 === 0 ? 1.5 : i % 4 === 0 ? .9 : .5;
+            return <circle key={i} cx={x} cy={y} r={r} fill="#e8e2d6" opacity={i % 3 === 0 ? .52 : .2} />;
+          })}
+        </svg>
+      </div>
+
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
+        initial={reduced ? false : { opacity: 0, y: 22 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative overflow-hidden rounded-[2rem] md:rounded-[3rem] border border-white/5 bg-neutral-900/40 backdrop-blur-xl p-8 sm:p-12 md:p-24 text-center group"
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: reduced ? 0 : .8, ease: [0.2, .75, .2, 1] }}
+        className="relative mx-auto max-w-6xl border-t border-white/10 pt-10 sm:pt-14"
       >
-        {/* Animated Background Glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-lg h-64 bg-blue-500/5 blur-[120px] rounded-full pointer-events-none group-hover:bg-blue-500/10 transition-colors duration-700" />
-        
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="relative z-10"
-        >
-          <div className="inline-block px-5 py-2 rounded-xl border border-white/5 bg-white/[0.02] mb-6 md:mb-10">
-            <span className="text-white/60 text-[10px] sm:text-xs font-bold uppercase tracking-widest">
-              Get in Touch
-            </span>
+        <p className="mb-7 text-[10px] uppercase tracking-[.2em] text-[#b5c2bd]/60">One last thing</p>
+        <div className="flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-3xl">
+            <h2 className="text-4xl font-light leading-[.98] tracking-[-.06em] text-[#f0eee8] sm:text-6xl md:text-7xl">
+              Have a thought? <span className="text-[#b5c2bd]/65">Make it my problem.</span>
+            </h2>
+            <p className="mt-6 max-w-lg text-sm leading-7 text-white/50 sm:text-base">
+              Projects, music, films, weird little ideas. Good questions welcome. “Hey” is a start, technically.
+            </p>
           </div>
-          
-          <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tighter mb-6 md:mb-8 text-white leading-[1.1]">
-            Let's build something <br className="hidden md:block" /> that actually matters.
-          </h2>
-          
-          <p className="text-lg sm:text-xl text-neutral-500 mb-10 md:mb-14 max-w-2xl mx-auto font-light leading-relaxed">
-            I'm always looking for interesting problems to solve. Whether it's real-time AI, 
-            system architecture, or a new project idea — let's talk.
-          </p>
-          
-          <div className="flex flex-col items-center gap-6">
-            <div className="flex flex-col items-center gap-4">
-              <motion.a 
-                href="https://mail.google.com/mail/?view=cm&fs=1&to=rishiraj.that236@gmail.com&su=Let%27s%20Build%20Something%20Real&body=Hey%20Rishi,%0A%0ACame%20across%20your%20portfolio%E2%80%94really%20like%20the%20direction%20you%27re%20building%20in.%0AWould%20be%20great%20to%20connect."
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="group/btn relative flex items-center gap-3 px-8 py-4 md:px-10 md:py-5 bg-white text-black font-bold rounded-full transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] overflow-hidden min-w-[200px] md:min-w-[220px] justify-center"
-              >
-                <Mail size={18} className="relative z-10" />
-                <span className="relative z-10 text-sm sm:text-base transition-all duration-300 group-hover/btn:hidden">
-                  Say Hello
-                </span>
-                <span className="relative z-10 hidden group-hover/btn:flex items-center gap-2 text-sm sm:text-base">
-                  Send an Email <ArrowUpRight size={18} />
-                </span>
-              </motion.a>
-              
-              <motion.p 
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="text-white/40 text-[9px] sm:text-[10px] font-semibold tracking-widest uppercase"
-                style={{ textShadow: "0 0 6px rgba(255,255,255,0.15)" }}
-              >
-                Best way to reach me: email.
-              </motion.p>
-            </div>
-            
-            <motion.a 
-              href="#journey"
-              whileHover={{ scale: 1.04, boxShadow: "0 0 15px rgba(255,255,255,0.15)" }}
-              className="text-neutral-400 hover:text-white transition-all font-bold text-base sm:text-lg tracking-tight border-b border-white/10 hover:border-white/30 pb-1 px-4 py-2 rounded-lg"
-              style={{ boxShadow: "0 0 10px rgba(255,255,255,0.12)" }}
+
+          <div className="shrink-0">
+            <motion.a
+              href={emailHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={reduced ? undefined : { x: 4 }}
+              whileTap={reduced ? undefined : { scale: .98 }}
+              className="group inline-flex items-center gap-4 border-b border-[#b5c2bd]/45 pb-3 text-base text-[#f0eee8] transition-colors hover:border-[#c29a82] sm:text-lg"
             >
-              View Journey
+              <Mail size={18} className="text-[#b5c2bd]/75" />
+              <span>Send me an email</span>
+              <ArrowUpRight size={18} className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
             </motion.a>
+            <p className="mt-3 text-[11px] text-white/30">I’ve even done the subject line for you. You’re welcome.</p>
           </div>
-        </motion.div>
+        </div>
+        <div className="mt-14 flex flex-col gap-2 border-t border-white/[.07] pt-5 text-[10px] text-white/30 sm:flex-row sm:items-center sm:justify-between">
+          <span>End of transmission. Probably.</span>
+          <a href="#journey" className="inline-flex items-center gap-2 self-start transition-colors hover:text-[#b5c2bd] sm:self-auto">Go back and snoop around <ArrowUpRight size={12} /></a>
+        </div>
       </motion.div>
     </section>
   );
