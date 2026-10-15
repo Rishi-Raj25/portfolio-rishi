@@ -133,26 +133,73 @@ export default function Skills() {
                 <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse at 50% 48%, rgba(3,5,10,.02), rgba(3,5,10,.08) 58%, #03050a 100%)" }} />
                 <motion.div
                   aria-hidden="true"
-                  className="pointer-events-none absolute left-1/2 top-[46%] aspect-square w-[min(96vw,760px)] -translate-x-1/2 -translate-y-1/2 sm:w-[min(72vw,900px)]"
-                  animate={reduced ? undefined : { rotate: 360 }}
-                  transition={reduced ? undefined : { duration: 180, repeat: Infinity, ease: "linear" }}
+                  className="pointer-events-none absolute inset-x-[-18%] top-[13%] h-[68%] overflow-visible sm:inset-x-[-12%] sm:top-[11%] sm:h-[76%]"
+                  animate={reduced ? undefined : { rotate: [0, 1.8, -1.2, 0], scale: [1, 1.035, .99, 1], x: [0, 8, -7, 0], y: [0, -5, 7, 0] }}
+                  transition={reduced ? undefined : { duration: 42, repeat: Infinity, ease: "easeInOut" }}
                   style={{ transformOrigin: "center center" }}
                 >
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      backgroundImage: "url('https://assets.science.nasa.gov/dynamicimage/assets/science/missions/hubble/releases/2017/05/STScI-01EVVBDBRVWMKBN234SXQ1MEA1.png?w=2000')",
-                      backgroundPosition: "center",
-                      backgroundRepeat: "no-repeat",
-                      backgroundSize: "contain",
-                      mixBlendMode: "screen",
-                      filter: "saturate(1.22) contrast(1.12) brightness(.94)",
-                      maskImage: "radial-gradient(ellipse at center, black 35%, rgba(0,0,0,.94) 49%, transparent 72%)",
-                      WebkitMaskImage: "radial-gradient(ellipse at center, black 35%, rgba(0,0,0,.94) 49%, transparent 72%)",
-                    }}
-                  />
-                  <div className="absolute inset-[10%] rounded-full" style={{ background: "radial-gradient(circle at 50% 48%, rgba(85,176,255,.14), transparent 34%), radial-gradient(ellipse at 28% 35%, rgba(54,180,222,.12), transparent 38%), radial-gradient(ellipse at 69% 67%, rgba(220,133,91,.12), transparent 38%)", mixBlendMode: "screen" }} />
-                  <div className="absolute inset-0 rounded-full" style={{ boxShadow: "inset 0 0 90px 40px #03050a, 0 0 70px rgba(63,141,225,.09)" }} />
+                  <svg className="absolute inset-0 h-full w-full" viewBox="0 0 1200 650" preserveAspectRatio="xMidYMid slice">
+                    <defs>
+                      <radialGradient id="nebula-blue">
+                        <stop offset="0" stopColor="#70d8ff" stopOpacity=".24" />
+                        <stop offset=".32" stopColor="#3689db" stopOpacity=".19" />
+                        <stop offset=".68" stopColor="#244b9b" stopOpacity=".09" />
+                        <stop offset="1" stopColor="#244b9b" stopOpacity="0" />
+                      </radialGradient>
+                      <radialGradient id="nebula-violet">
+                        <stop offset="0" stopColor="#d1a0ff" stopOpacity=".22" />
+                        <stop offset=".42" stopColor="#8554cb" stopOpacity=".16" />
+                        <stop offset="1" stopColor="#8554cb" stopOpacity="0" />
+                      </radialGradient>
+                      <radialGradient id="nebula-rose">
+                        <stop offset="0" stopColor="#ffbd91" stopOpacity=".19" />
+                        <stop offset=".42" stopColor="#d96f8b" stopOpacity=".11" />
+                        <stop offset="1" stopColor="#d96f8b" stopOpacity="0" />
+                      </radialGradient>
+                      <filter id="nebula-clouds" x="-25%" y="-35%" width="150%" height="170%">
+                        <feTurbulence type="fractalNoise" baseFrequency=".006 .018" numOctaves="4" seed="19" result="noise" />
+                        <feDisplacementMap in="SourceGraphic" in2="noise" scale="105" xChannelSelector="R" yChannelSelector="G" />
+                      </filter>
+                      <filter id="nebula-fine-dust" x="-20%" y="-20%" width="140%" height="140%">
+                        <feTurbulence type="fractalNoise" baseFrequency=".035 .075" numOctaves="3" seed="8" result="dust" />
+                        <feColorMatrix in="dust" type="saturate" values="0" />
+                        <feComponentTransfer><feFuncA type="table" tableValues="0 .16" /></feComponentTransfer>
+                      </filter>
+                      <linearGradient id="nebula-veil" x1="0" y1="0" x2="1" y2=".8">
+                        <stop offset="0" stopColor="#5abce8" stopOpacity="0" />
+                        <stop offset=".3" stopColor="#5abce8" stopOpacity=".14" />
+                        <stop offset=".55" stopColor="#bb8ce8" stopOpacity=".11" />
+                        <stop offset=".77" stopColor="#f4a77d" stopOpacity=".12" />
+                        <stop offset="1" stopColor="#f4a77d" stopOpacity="0" />
+                      </linearGradient>
+                      <mask id="nebula-fade">
+                        <rect width="1200" height="650" fill="url(#nebula-fade-gradient)" />
+                      </mask>
+                      <radialGradient id="nebula-fade-gradient">
+                        <stop offset=".12" stopColor="white" />
+                        <stop offset=".55" stopColor="white" stopOpacity=".82" />
+                        <stop offset="1" stopColor="black" />
+                      </radialGradient>
+                    </defs>
+                    <g filter="url(#nebula-clouds)" mask="url(#nebula-fade)">
+                      <ellipse cx="410" cy="315" rx="390" ry="190" fill="url(#nebula-blue)" transform="rotate(-22 410 315)" />
+                      <ellipse cx="650" cy="285" rx="390" ry="230" fill="url(#nebula-violet)" transform="rotate(18 650 285)" />
+                      <ellipse cx="820" cy="385" rx="300" ry="180" fill="url(#nebula-rose)" transform="rotate(-28 820 385)" />
+                      <path d="M55 395 C220 130 320 520 505 275 S820 150 1140 330" fill="none" stroke="url(#nebula-veil)" strokeWidth="100" strokeLinecap="round" />
+                      <path d="M110 460 C310 250 395 440 590 310 S900 220 1120 170" fill="none" stroke="#74cfff" strokeOpacity=".13" strokeWidth="36" strokeLinecap="round" />
+                      <path d="M120 250 C320 440 430 160 635 270 S900 440 1090 315" fill="none" stroke="#d2a5ff" strokeOpacity=".15" strokeWidth="56" strokeLinecap="round" />
+                    </g>
+                    <rect width="1200" height="650" filter="url(#nebula-fine-dust)" opacity=".55" />
+                    <g fill="#dcecff">
+                      {Array.from({length: 135}, (_, i) => {
+                        const x = (i * 173 + 31) % 1200;
+                        const y = (i * 97 + 19) % 650;
+                        const size = i % 19 === 0 ? 1.6 : i % 5 === 0 ? 1 : .55;
+                        return <circle key={i} cx={x} cy={y} r={size} opacity={i % 4 === 0 ? .58 : .26} />;
+                      })}
+                    </g>
+                  </svg>
+                  <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, transparent 25%, rgba(3,5,10,.08) 58%, #03050a 100%)" }} />
                 </motion.div>
 
                 <div className="relative z-10 flex min-h-[640px] flex-col items-center sm:min-h-[720px]">
