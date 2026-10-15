@@ -160,14 +160,14 @@ function TelescopeDive({ direction, onComplete }: { direction: "in" | "out"; onC
       className="relative flex min-h-[580px] items-center justify-center overflow-hidden bg-transparent sm:min-h-[700px]"
       initial={{ opacity: entering ? 0 : 1 }}
       animate={{ opacity: entering ? 1 : 0 }}
-      transition={{ duration: reduced ? 0 : 0.22, ease: "easeOut" }}
+      transition={{ duration: reduced ? 0 : entering ? 0.18 : 0.72, ease: entering ? "easeOut" : [0.7, 0, 0.25, 1] }}
     >
       <StarField />
       <motion.div
         className="absolute inset-0 will-change-transform"
-        initial={reduced ? { scale: 1, opacity: 1 } : { scale: entering ? 0.72 : 4.2, opacity: entering ? 0.7 : 0.18 }}
-        animate={reduced ? { scale: 1, opacity: 1 } : { scale: entering ? 4.2 : 0.72, opacity: entering ? 0.08 : 0.7 }}
-        transition={{ duration: reduced ? 0 : 0.78, ease: [0.2, 0.85, 0.25, 1] }}
+        initial={reduced ? { scale: 1, opacity: 1, rotate: 0 } : { scale: entering ? 0.72 : 4.2, opacity: entering ? 0.7 : 0.18, rotate: entering ? -7 : 8 }}
+        animate={reduced ? { scale: 1, opacity: 1, rotate: 0 } : { scale: entering ? 4.2 : 0.72, opacity: entering ? 0.08 : 0.7, rotate: entering ? 0 : -12 }}
+        transition={{ duration: reduced ? 0 : entering ? 0.78 : 0.94, ease: entering ? [0.2, 0.85, 0.25, 1] : [0.72, 0, 0.25, 1] }}
         onAnimationComplete={onComplete}
         style={{ transformOrigin: "50% 50%" }}
       >
@@ -346,10 +346,10 @@ export default function Projects() {
           )}
           {phase === "looking" && <TelescopeDive direction="in" onComplete={() => setPhase("galaxy")} />}\n          {phase === "closing" && <TelescopeDive direction="out" onComplete={() => setPhase("observatory")} />}\n          {phase === "galaxy" && (
             <motion.div key="galaxy" className="relative min-h-[580px] overflow-hidden bg-transparent px-4 py-8 sm:min-h-[700px] sm:px-8 sm:py-10"
-              initial={reduced ? undefined : { opacity: 0, scale: .72, filter: "blur(12px)" }}
-              animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-              exit={{ opacity: 0, scale: reduced ? 1 : 1.18, filter: reduced ? "none" : "blur(8px)" }}
-              transition={{ duration: reduced ? 0 : .9, ease: [.16, .8, .2, 1] }}>
+              initial={reduced ? undefined : { opacity: 0, scale: .82, y: 14 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: reduced ? 1 : 1.08, y: reduced ? 0 : -10 }}
+              transition={{ duration: reduced ? 0 : .68, ease: [.16, .8, .2, 1] }}>
               <StarField />
               <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse at 50% 48%, rgba(40,90,145,.22), transparent 55%), radial-gradient(ellipse at 72% 44%, rgba(141,75,165,.12), transparent 40%)" }} />
               <div className="relative z-10 mb-5 flex flex-wrap items-center justify-between gap-4">
@@ -366,10 +366,10 @@ export default function Projects() {
           )}
           {phase === "archive" && (
             <motion.div key={`archive-${activeWorld}`} className="relative min-h-[560px] overflow-hidden bg-transparent px-5 py-6 sm:px-9 sm:py-8"
-              initial={reduced ? undefined : { opacity: 0, scale: .84, filter: "blur(8px)" }}
-              animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-              exit={{ opacity: 0, scale: reduced ? 1 : .9, filter: reduced ? "none" : "blur(5px)" }}
-              transition={{ duration: reduced ? 0 : .6, ease: [.2, .75, .2, 1] }}>
+              initial={reduced ? undefined : { opacity: 0, scale: .94, y: 12 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: reduced ? 1 : .97, y: reduced ? 0 : 8 }}
+              transition={{ duration: reduced ? 0 : .52, ease: [.2, .75, .2, 1] }}>
               <StarField tone={world.tone} />
               <div className="pointer-events-none absolute inset-0" style={{ background: `radial-gradient(ellipse at 78% 8%, ${world.tone}12, transparent 42%)` }} />
               <div className="relative z-10">
