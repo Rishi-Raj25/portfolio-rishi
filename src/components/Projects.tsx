@@ -106,11 +106,11 @@ function StarField({ tone }: { tone?: string }) {
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
       {STARS.map((star, i) => (
         <motion.i key={i} className="absolute block rounded-full bg-[#e7e5df]"
-          style={{ left: \`\${star.x}%\`, top: \`\${star.y}%\`, width: star.size, height: star.size, boxShadow: star.size > 2 ? "0 0 11px rgba(230,230,230,.7)" : "0 0 5px rgba(230,230,230,.35)" }}
+          style={{ left: `${star.x}%`, top: `${star.y}%`, width: star.size, height: star.size, boxShadow: star.size > 2 ? "0 0 11px rgba(230,230,230,.7)" : "0 0 5px rgba(230,230,230,.35)" }}
           animate={reduced ? undefined : { opacity: [0.2, star.size > 2 ? 0.95 : 0.6, 0.2], scale: [1, 1.2, 1] }}
           transition={reduced ? undefined : { duration: 3.2 + star.delay, delay: star.delay, repeat: Infinity, ease: "easeInOut" }} />
       ))}
-      {tone && <div className="absolute inset-0 opacity-60" style={{ background: \`radial-gradient(ellipse at 55% 48%, \${tone}18, transparent 62%)\` }} />}
+      {tone && <div className="absolute inset-0 opacity-60" style={{ background: `radial-gradient(ellipse at 55% 48%, ${tone}18, transparent 62%)` }} />}
     </div>
   );
 }
@@ -176,7 +176,7 @@ function Constellation({ world, index, onSelect }: { world: (typeof WORLDS)[numb
       ? [[17, 45], [30, 28], [44, 55], [56, 24], [70, 49], [83, 34], [78, 73]]
       : [[23, 20], [50, 13], [76, 25], [32, 49], [61, 48], [46, 77], [78, 80]];
   return (
-    <motion.button type="button" onClick={onSelect} aria-label={\`Explore \${world.label} projects\`}
+    <motion.button type="button" onClick={onSelect} aria-label={`Explore ${world.label} projects`}
       className="group relative min-h-[290px] overflow-hidden border-t border-white/[.14] px-4 py-7 text-left sm:min-h-[340px] sm:px-6"
       initial={reduced ? undefined : { opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
       transition={{ duration: reduced ? 0 : .55, delay: reduced ? 0 : index * .12 }}>
@@ -186,7 +186,7 @@ function Constellation({ world, index, onSelect }: { world: (typeof WORLDS)[numb
         {world.id === "film" && <path d="M12 9 L88 9 L88 91 L12 91 Z" fill="none" stroke={world.tone} strokeOpacity=".13" strokeWidth=".35" />}
       </svg>
       {points.map((point, i) => <motion.i key={i} className="absolute block rounded-full"
-        style={{ left: \`\${point[0]}%\`, top: \`\${point[1]}%\`, width: i === 0 ? 5 : 3, height: i === 0 ? 5 : 3, background: world.tone, boxShadow: \`0 0 12px \${world.tone}88\` }}
+        style={{ left: `${point[0]}%`, top: `${point[1]}%`, width: i === 0 ? 5 : 3, height: i === 0 ? 5 : 3, background: world.tone, boxShadow: `0 0 12px ${world.tone}88` }}
         animate={reduced ? undefined : { opacity: [.4, 1, .4], scale: [1, i === 0 ? 1.25 : 1.12, 1] }}
         transition={reduced ? undefined : { duration: 2.8 + i * .31, delay: i * .1, repeat: Infinity, ease: "easeInOut" }} />)}
       <span className="relative z-10 flex items-center justify-between text-[9px] uppercase tracking-[.25em] text-white/35">
@@ -203,13 +203,13 @@ function ArchiveRow({ item, index, onClick }: { item: ArchiveItem; index: number
   const reduced = useReducedMotion();
   return (
     <motion.button type="button" onClick={onClick}
-      className={\`group relative grid w-full grid-cols-[34px_1fr_auto] items-center gap-3 border-b border-white/[.12] py-5 text-left sm:grid-cols-[56px_1fr_170px_auto] sm:gap-5 sm:py-7 \${item.featured ? "border-t border-t-white/35" : ""}\`}
+      className={`group relative grid w-full grid-cols-[34px_1fr_auto] items-center gap-3 border-b border-white/[.12] py-5 text-left sm:grid-cols-[56px_1fr_170px_auto] sm:gap-5 sm:py-7 ${item.featured ? "border-t border-t-white/35" : ""}`}
       initial={reduced ? undefined : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
       transition={{ duration: reduced ? 0 : .4, delay: reduced ? 0 : index * .06 }}>
-      <span className={\`font-mono text-[10px] \${item.featured ? "text-[#e8c9a0]" : "text-white/25"}\`}>{String(index + 1).padStart(2, "0")}</span>
+      <span className={`font-mono text-[10px] ${item.featured ? "text-[#e8c9a0]" : "text-white/25"}`}>{String(index + 1).padStart(2, "0")}</span>
       <span className="min-w-0">
         <span className="mb-2 flex flex-wrap items-center gap-x-3 gap-y-1">
-          <span className={\`text-[9px] uppercase tracking-[.19em] \${item.featured ? "text-[#e8c9a0]" : "text-white/35"}\`}>{item.tag}</span>
+          <span className={`text-[9px] uppercase tracking-[.19em] ${item.featured ? "text-[#e8c9a0]" : "text-white/35"}`}>{item.tag}</span>
           {item.featured && <span className="text-[8px] uppercase tracking-[.2em] text-[#e8c9a0]/70">✳ Highlighted</span>}
         </span>
         <span className="block text-lg font-light tracking-[-.025em] text-white/85 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-white sm:text-2xl">{item.title}</span>
@@ -283,13 +283,13 @@ export default function Projects() {
             </motion.div>
           )}
           {phase === "archive" && (
-            <motion.div key={\`archive-\${activeWorld}\`} className="relative min-h-[560px] overflow-hidden border border-white/[.1] bg-[#08090d] px-5 py-6 sm:px-9 sm:py-8"
+            <motion.div key={`archive-${activeWorld}`} className="relative min-h-[560px] overflow-hidden border border-white/[.1] bg-[#08090d] px-5 py-6 sm:px-9 sm:py-8"
               initial={reduced ? undefined : { opacity: 0, scale: .84, filter: "blur(8px)" }}
               animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
               exit={{ opacity: 0, scale: reduced ? 1 : .9, filter: reduced ? "none" : "blur(5px)" }}
               transition={{ duration: reduced ? 0 : .6, ease: [.2, .75, .2, 1] }}>
               <StarField tone={world.tone} />
-              <div className="pointer-events-none absolute inset-0" style={{ background: \`radial-gradient(ellipse at 78% 8%, \${world.tone}12, transparent 42%)\` }} />
+              <div className="pointer-events-none absolute inset-0" style={{ background: `radial-gradient(ellipse at 78% 8%, ${world.tone}12, transparent 42%)` }} />
               <div className="relative z-10">
                 <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/[.14] pb-5">
                   <button type="button" onClick={() => setPhase("galaxy")} className="group inline-flex items-center gap-2 py-2 text-[9px] uppercase tracking-[.2em] text-white/50 transition-colors hover:text-white"><ArrowLeft size={14} className="transition-transform group-hover:-translate-x-1" /> Back to constellations</button>
