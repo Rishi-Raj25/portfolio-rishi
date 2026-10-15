@@ -154,7 +154,12 @@ function TelescopeEntrance({ onEnter }: { onEnter: () => void }) {
 function TelescopeDive({ direction, onComplete }: { direction: "in" | "out"; onComplete: () => void }) {
   const reduced = useReducedMotion();
   const entering = direction === "in";
-  const duration = reduced ? 0 : entering ? 1.9 : 1.65;
+
+  // Keep the transition deliberately staged: establish the lens, travel through it,
+  // then let the destination settle before swapping the scene.
+  const travelDuration = reduced ? 0 : entering ? 3.25 : 3.05;
+  const easeIn = [0.45, 0.02, 0.22, 1] as const;
+  const easeOut = [0.22, 0.75, 0.25, 1] as const;
 
   return (
     <motion.div
@@ -162,47 +167,63 @@ function TelescopeDive({ direction, onComplete }: { direction: "in" | "out"; onC
       className="relative flex min-h-[580px] items-center justify-center overflow-hidden bg-transparent sm:min-h-[700px]"
       initial={{ opacity: entering ? 0 : 1 }}
       animate={{ opacity: entering ? 1 : 0 }}
-      transition={{ duration: reduced ? 0 : entering ? 0.55 : 1.25, ease: entering ? [0.22, 1, 0.36, 1] : [0.7, 0, 0.3, 1] }}
+      transition={{ duration: reduced ? 0 : entering ? 0.65 : travelDuration, ease: entering ? easeOut : easeIn }}
     >
       <StarField />
 
-      {/* The sky is revealed on the way back out; clouds drift past the lens instead of a plain zoom reversing. */}
+      {/* A real sense of atmosphere passing the lens: clouds move across the field instead of popping in at the end. */}
       <motion.div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-[-18%]"
-        initial={reduced ? { opacity: 0 } : { opacity: entering ? 0 : 0.72, scale: entering ? 1.18 : 0.9, rotate: entering ? -3 : 2 }}
-        animate={reduced ? { opacity: 0 } : { opacity: entering ? 0 : 0.88, scale: entering ? 1.45 : 1.08, rotate: entering ? 2 : -2 }}
-        transition={{ duration, ease: entering ? [0.22, 1, 0.36, 1] : [0.4, 0, 0.2, 1] }}
+        className="pointer-events-none absolute inset-[-22%]"
+        initial={reduced ? { opacity: 0 } : { opacity: entering ? 0.12 : 0.08, scale: entering ? 1.22 : 0.82, rotate: entering ? -4 : 3 }}
+        animate={reduced
+          ? { opacity: 0 }
+          : entering
+            ? { opacity: [0.12, 0.34, 0.18, 0.04], scale: [1.22, 1.12, 1.32, 1.5], rotate: [-4, -1, 1, 2] }
+            : { opacity: [0.08, 0.22, 0.58, 0.9], scale: [0.82, 0.9, 1.03, 1.12], rotate: [3, 1, -1, -2] }}
+        transition={{ duration: travelDuration, times: [0, 0.24, 0.7, 1], ease: entering ? easeIn : easeOut }}
         style={{
-          background: "radial-gradient(ellipse at 22% 32%, rgba(126,169,219,.28), transparent 30%), radial-gradient(ellipse at 76% 36%, rgba(184,150,219,.24), transparent 32%), radial-gradient(ellipse at 52% 75%, rgba(99,161,195,.25), transparent 34%), linear-gradient(180deg, #111b2b 0%, #0a1120 48%, #03050a 100%)",
+          background: "radial-gradient(ellipse at 22% 32%, rgba(126,169,219,.34), transparent 30%), radial-gradient(ellipse at 76% 36%, rgba(184,150,219,.3), transparent 32%), radial-gradient(ellipse at 52% 75%, rgba(99,161,195,.32), transparent 34%), linear-gradient(180deg, #111b2b 0%, #0a1120 48%, #03050a 100%)",
         }}
       >
         <motion.div
           className="absolute -left-[18%] top-[22%] h-[24%] w-[75%] rounded-full blur-2xl"
-          style={{ background: "radial-gradient(ellipse, rgba(211,226,245,.32), rgba(117,157,207,.12) 42%, transparent 72%)" }}
+          style={{ background: "radial-gradient(ellipse, rgba(211,226,245,.38), rgba(117,157,207,.14) 42%, transparent 72%)" }}
           initial={false}
-          animate={reduced ? undefined : entering ? { x: "15%", y: "12%", opacity: 0 } : { x: ["-8%", "24%"], y: ["0%", "-4%"], opacity: [0.18, 0.52] }}
-          transition={{ duration: entering ? 1.1 : 1.55, ease: "easeInOut" }}
+          animate={reduced ? undefined : entering
+            ? { x: ["-8%", "6%", "28%"], y: ["2%", "-5%", "-12%"], opacity: [0.28, 0.42, 0] }
+            : { x: ["-28%", "-8%", "18%"], y: ["-5%", "2%", "-2%"], opacity: [0.12, 0.35, 0.58] }}
+          transition={{ duration: travelDuration, times: [0, 0.55, 1], ease: "easeInOut" }}
         />
         <motion.div
           className="absolute -right-[16%] top-[48%] h-[28%] w-[78%] rounded-full blur-2xl"
-          style={{ background: "radial-gradient(ellipse, rgba(197,208,232,.25), rgba(122,119,177,.11) 42%, transparent 72%)" }}
+          style={{ background: "radial-gradient(ellipse, rgba(197,208,232,.3), rgba(122,119,177,.13) 42%, transparent 72%)" }}
           initial={false}
-          animate={reduced ? undefined : entering ? { x: "-18%", y: "-8%", opacity: 0 } : { x: ["12%", "-20%"], y: ["3%", "0%"], opacity: [0.12, 0.42] }}
-          transition={{ duration: entering ? 1.25 : 1.7, ease: "easeInOut", delay: 0.08 }}
+          animate={reduced ? undefined : entering
+            ? { x: ["12%", "-4%", "-25%"], y: ["4%", "0%", "-8%"], opacity: [0.22, 0.34, 0] }
+            : { x: ["22%", "4%", "-20%"], y: ["4%", "-3%", "0%"], opacity: [0.1, 0.28, 0.48] }}
+          transition={{ duration: travelDuration, times: [0, 0.5, 1], ease: "easeInOut", delay: reduced ? 0 : 0.12 }}
         />
       </motion.div>
 
-      {/* Concentric lens rings travel toward the viewer on entry, then recede as the open sky returns. */}
+      {/* The rings travel in readable beats, not one sudden scale jump. */}
       <motion.div
         className="absolute inset-0 will-change-transform"
-        initial={reduced ? { scale: 1, opacity: 1, rotate: 0 } : entering
-          ? { scale: 0.64, opacity: 0.9, rotate: -8 }
-          : { scale: 4.6, opacity: 0.1, rotate: 8 }}
-        animate={reduced ? { scale: 1, opacity: 1, rotate: 0 } : entering
-          ? { scale: 4.7, opacity: 0.02, rotate: 0 }
-          : { scale: 0.62, opacity: 0.84, rotate: -11 }}
-        transition={{ duration, ease: entering ? [0.22, 1, 0.36, 1] : [0.55, 0, 0.25, 1] }}
+        initial={reduced
+          ? { scale: 1, opacity: 1, rotate: 0 }
+          : entering
+            ? { scale: 0.64, opacity: 0.94, rotate: -7 }
+            : { scale: 4.4, opacity: 0.04, rotate: 7 }}
+        animate={reduced
+          ? { scale: 1, opacity: 1, rotate: 0 }
+          : entering
+            ? { scale: [0.64, 0.72, 1.08, 2.35, 4.7], opacity: [0.94, 1, 0.9, 0.48, 0.015], rotate: [-7, -5, -2, 0, 0] }
+            : { scale: [4.4, 3.3, 2.15, 1.08, 0.62], opacity: [0.04, 0.16, 0.36, 0.7, 0.9], rotate: [7, 5, 2, -5, -11] }}
+        transition={{
+          duration: travelDuration,
+          times: [0, 0.18, 0.42, 0.72, 1],
+          ease: entering ? easeIn : easeOut,
+        }}
         onAnimationComplete={onComplete}
         style={{ transformOrigin: "50% 50%" }}
       >
@@ -216,13 +237,18 @@ function TelescopeDive({ direction, onComplete }: { direction: "in" | "out"; onC
       <motion.div
         className="pointer-events-none absolute inset-0"
         initial={{ opacity: 0 }}
-        animate={{ opacity: entering ? 0 : reduced ? 0 : [0, 0.22, 0] }}
-        transition={{ duration: entering ? 0 : 1.45, ease: "easeInOut" }}
+        animate={entering || reduced ? { opacity: 0 } : { opacity: [0, 0.12, 0.28, 0.06] }}
+        transition={{ duration: reduced ? 0 : travelDuration, times: [0, 0.3, 0.7, 1], ease: "easeInOut" }}
         style={{ background: "radial-gradient(ellipse at 50% 50%, transparent 22%, rgba(1,3,8,.6) 100%)" }}
       />
-      <p className="relative z-10 mt-[330px] text-center text-[9px] uppercase tracking-[.32em] text-white/55 sm:mt-[390px]">
+      <motion.p
+        className="relative z-10 mt-[330px] text-center text-[9px] uppercase tracking-[.32em] text-white/55 sm:mt-[390px]"
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: reduced ? 1 : [0, 0.7, 0.7, 1], y: reduced ? 0 : [8, 0, 0, -2] }}
+        transition={{ duration: reduced ? 0 : travelDuration, times: [0, 0.22, 0.8, 1], ease: "easeOut" }}
+      >
         {entering ? "Through the lens · into another world" : "The sky returns · back to the observatory"}
-      </p>
+      </motion.p>
     </motion.div>
   );
 }
