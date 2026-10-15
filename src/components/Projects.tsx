@@ -197,7 +197,8 @@ function TelescopeDive({ onComplete }: { onComplete: () => void }) {
     </motion.div>
   );
 }
-\nfunction Constellation({ world, index, onSelect }: { world: (typeof WORLDS)[number]; index: number; onSelect: () => void }) {
+
+function Constellation({ world, index, onSelect }: { world: (typeof WORLDS)[number]; index: number; onSelect: () => void }) {
   const reduced = useReducedMotion();
   const points = world.id === "tech"
     ? [[50, 13], [28, 31], [72, 32], [39, 55], [65, 67], [25, 78], [82, 82]]
