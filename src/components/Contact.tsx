@@ -1,82 +1,92 @@
 "use client";
-import { motion } from "framer-motion";
-import { Mail, ArrowUpRight } from "lucide-react";
+
+import { motion, useReducedMotion } from "framer-motion";
+import { Mail, ArrowUpRight, Orbit, Sparkles } from "lucide-react";
 
 export default function Contact() {
+  const reduced = useReducedMotion();
+  const emailHref = "https://mail.google.com/mail/?view=cm&fs=1&to=rishiraj.that236@gmail.com&su=Signal%20from%20your%20corner%20of%20the%20universe&body=Hey%20Rishi%2C%0A%0AI%20found%20your%20little%20corner%20of%20the%20internet%20and%20thought%20I%27d%20send%20a%20signal.%0A%0AI%27d%20love%20to%20talk%20about%20%5Bthe%20idea%2C%20project%2C%20or%20story%20on%20my%20mind%5D.%0A%0AHere%27s%20a%20little%20context%3A%0A%0A%5BWrite%20a%20few%20lines%20here%5D%0A%0AUntil%20the%20stars%20align%2C%0A%5BYour%20name%5D";
+
   return (
-    <section id="contact" className="py-16 md:py-32 px-5 md:px-6 max-w-6xl mx-auto">
+    <section id="contact" className="relative isolate overflow-hidden px-5 py-20 md:px-6 md:py-32">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute -left-[12%] top-[8%] h-[420px] w-[70%] rounded-full bg-sky-500/[.07] blur-[100px]" />
+        <div className="absolute -right-[12%] bottom-[-4%] h-[460px] w-[65%] rounded-full bg-violet-500/[.08] blur-[110px]" />
+        <div className="absolute left-[25%] top-[40%] h-[260px] w-[50%] rounded-full bg-rose-400/[.035] blur-[90px]" />
+        <svg className="absolute inset-0 h-full w-full opacity-60" viewBox="0 0 1200 720" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="contact-dust-line" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stopColor="#77d5ff" stopOpacity="0" />
+              <stop offset=".42" stopColor="#77d5ff" stopOpacity=".32" />
+              <stop offset=".7" stopColor="#c9a2ff" stopOpacity=".28" />
+              <stop offset="1" stopColor="#ffb58a" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          <path d="M-40 520 C190 240 260 600 480 360 S830 120 1240 290" fill="none" stroke="url(#contact-dust-line)" strokeWidth="1.1" strokeDasharray="2 8" />
+          <path d="M-20 575 C210 330 335 650 560 410 S900 220 1230 370" fill="none" stroke="url(#contact-dust-line)" strokeWidth=".7" strokeDasharray="1 12" />
+          {Array.from({ length: 100 }, (_, i) => {
+            const x = (i * 193 + 37) % 1200;
+            const y = (i * 107 + 53) % 720;
+            const r = i % 17 === 0 ? 1.8 : i % 4 === 0 ? 1.1 : .55;
+            return <circle key={i} cx={x} cy={y} r={r} fill="#e6f1ff" opacity={i % 3 === 0 ? .65 : .25} />;
+          })}
+        </svg>
+      </div>
+
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative overflow-hidden rounded-[2rem] md:rounded-[3rem] border border-white/5 bg-neutral-900/40 backdrop-blur-xl p-8 sm:p-12 md:p-24 text-center group"
+        initial={reduced ? false : { opacity: 0, y: 32, rotateX: 4 }}
+        whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: reduced ? 0 : 1, ease: [0.2, 0.75, 0.2, 1] }}
+        className="relative mx-auto max-w-6xl border-y border-white/10 py-12 sm:py-16 md:py-24"
       >
-        {/* Animated Background Glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-lg h-64 bg-blue-500/5 blur-[120px] rounded-full pointer-events-none group-hover:bg-blue-500/10 transition-colors duration-700" />
-        
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="relative z-10"
-        >
-          <div className="inline-block px-5 py-2 rounded-xl border border-white/5 bg-white/[0.02] mb-6 md:mb-10">
-            <span className="text-white/60 text-[10px] sm:text-xs font-bold uppercase tracking-widest">
-              Get in Touch
-            </span>
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-white/[.025] via-transparent to-white/[.015]" />
+        <div className="grid gap-12 lg:grid-cols-[1.1fr_.9fr] lg:items-end lg:gap-16">
+          <div>
+            <p className="mb-7 flex items-center gap-3 text-[9px] uppercase tracking-[.32em] text-sky-100/60">
+              <span className="h-px w-8 bg-sky-200/45" /> Open channel <Orbit size={13} />
+            </p>
+            <h2 className="max-w-3xl text-4xl font-light leading-[.98] tracking-[-.06em] text-[#f4f1eb] sm:text-6xl md:text-7xl">
+              Some of the best things start with a <span className="text-sky-100/55">signal.</span>
+            </h2>
+            <p className="mt-7 max-w-xl text-sm leading-7 text-white/55 sm:text-base">
+              A project with a pulse. A strange idea that won’t leave you alone. A song, a story, a problem worth untangling. Send a little signal across the void — I’m listening.
+            </p>
           </div>
-          
-          <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tighter mb-6 md:mb-8 text-white leading-[1.1]">
-            Let's build something <br className="hidden md:block" /> that actually matters.
-          </h2>
-          
-          <p className="text-lg sm:text-xl text-neutral-500 mb-10 md:mb-14 max-w-2xl mx-auto font-light leading-relaxed">
-            I'm always looking for interesting problems to solve. Whether it's real-time AI, 
-            system architecture, or a new project idea — let's talk.
-          </p>
-          
-          <div className="flex flex-col items-center gap-6">
-            <div className="flex flex-col items-center gap-4">
-              <motion.a 
-                href="https://mail.google.com/mail/?view=cm&fs=1&to=rishiraj.that236@gmail.com&su=Let%27s%20Build%20Something%20Real&body=Hey%20Rishi,%0A%0ACame%20across%20your%20portfolio%E2%80%94really%20like%20the%20direction%20you%27re%20building%20in.%0AWould%20be%20great%20to%20connect."
+
+          <div className="relative">
+            <div aria-hidden="true" className="absolute -inset-5 border border-white/[.08]" style={{ clipPath: "polygon(0 8%, 92% 0, 100% 86%, 8% 100%)" }} />
+            <div className="relative border border-sky-100/15 bg-[#060a13]/80 p-6 backdrop-blur-xl sm:p-8">
+              <div className="mb-6 flex items-center justify-between gap-4">
+                <span className="flex items-center gap-2 text-[9px] uppercase tracking-[.24em] text-sky-100/65"><Sparkles size={13} /> Transmission ready</span>
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-200 shadow-[0_0_12px_rgba(167,243,208,.8)]" />
+              </div>
+              <p className="text-2xl font-light leading-snug tracking-[-.03em] text-white sm:text-3xl">
+                “Hello from somewhere out there.”
+              </p>
+              <p className="mt-4 text-xs leading-6 text-white/45">
+                The first message is already drafted. Add your own details, change the coordinates, make it yours.
+              </p>
+              <motion.a
+                href={emailHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="group/btn relative flex items-center gap-3 px-8 py-4 md:px-10 md:py-5 bg-white text-black font-bold rounded-full transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] overflow-hidden min-w-[200px] md:min-w-[220px] justify-center"
+                whileHover={reduced ? undefined : { y: -3, boxShadow: "0 0 34px rgba(108,190,255,.2)" }}
+                whileTap={reduced ? undefined : { scale: .98 }}
+                className="mt-7 inline-flex w-full items-center justify-between gap-4 border border-sky-100/25 bg-sky-100/[.08] px-5 py-4 text-sm text-white transition-colors hover:border-sky-100/55 hover:bg-sky-100/[.13] focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-100"
               >
-                <Mail size={18} className="relative z-10" />
-                <span className="relative z-10 text-sm sm:text-base transition-all duration-300 group-hover/btn:hidden">
-                  Say Hello
-                </span>
-                <span className="relative z-10 hidden group-hover/btn:flex items-center gap-2 text-sm sm:text-base">
-                  Send an Email <ArrowUpRight size={18} />
-                </span>
+                <span className="flex items-center gap-3"><Mail size={17} /> Send a signal to Rishi</span>
+                <ArrowUpRight size={17} />
               </motion.a>
-              
-              <motion.p 
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="text-white/40 text-[9px] sm:text-[10px] font-semibold tracking-widest uppercase"
-                style={{ textShadow: "0 0 6px rgba(255,255,255,0.15)" }}
-              >
-                Best way to reach me: email.
-              </motion.p>
+              <p className="mt-4 text-[9px] uppercase tracking-[.18em] text-white/30">Opens Gmail with a ready-to-edit message</p>
             </div>
-            
-            <motion.a 
-              href="#journey"
-              whileHover={{ scale: 1.04, boxShadow: "0 0 15px rgba(255,255,255,0.15)" }}
-              className="text-neutral-400 hover:text-white transition-all font-bold text-base sm:text-lg tracking-tight border-b border-white/10 hover:border-white/30 pb-1 px-4 py-2 rounded-lg"
-              style={{ boxShadow: "0 0 10px rgba(255,255,255,0.12)" }}
-            >
-              View Journey
-            </motion.a>
           </div>
-        </motion.div>
+        </div>
+
+        <div className="mt-12 flex flex-col gap-3 border-t border-white/[.08] pt-5 text-[9px] uppercase tracking-[.2em] text-white/30 sm:flex-row sm:items-center sm:justify-between">
+          <span>Coordinates: wherever a good idea begins</span>
+          <a href="#journey" className="inline-flex items-center gap-2 self-start transition-colors hover:text-white/70 sm:self-auto">Before you go, explore the journey <ArrowUpRight size={12} /></a>
+        </div>
       </motion.div>
     </section>
   );
