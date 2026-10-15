@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 
 type WorldId = "tech" | "music" | "film";
-type Phase = "observatory" | "looking" | "galaxy" | "archive";
+type Phase = "observatory" | "looking" | "closing" | "galaxy" | "archive";
 type ArchiveItem = {
   title: string;
   tag: string;
@@ -151,25 +151,26 @@ function TelescopeEntrance({ onEnter }: { onEnter: () => void }) {
   );
 }
 
-function TelescopeDive({ onComplete }: { onComplete: () => void }) {
+function TelescopeDive({ direction, onComplete }: { direction: "in" | "out"; onComplete: () => void }) {
   const reduced = useReducedMotion();
+  const entering = direction === "in";
   return (
     <motion.div
-      key="looking"
+      key={direction === "in" ? "looking-in" : "looking-out"}
       className="relative flex min-h-[580px] items-center justify-center overflow-hidden border border-white/[.08] bg-[#010207] sm:min-h-[700px]"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      onAnimationComplete={() => {
-        if (reduced) onComplete();
-      }}
+      initial={{ opacity: entering ? 0 : 1 }}
+      animate={{ opacity: entering ? 1 : 0 }}
+      transition={{ duration: reduced ? 0 : 0.45, ease: [0.22, 1, 0.36, 1] }}
     >
       <StarField />
       <motion.div
         className="absolute inset-0"
-        initial={{ scale: 0.2, opacity: 0 }}
-        animate={reduced ? { scale: 1, opacity: 1 } : { scale: [0.2, 0.65, 1.8, 7], opacity: [0, 1, 1, 0.15], filter: ["blur(0px)", "blur(0px)", "blur(2px)", "blur(12px)"] }}
-        transition={{ duration: reduced ? 0 : 2.05, times: [0, 0.22, 0.65, 1], ease: [0.16, 0.8, 0.2, 1] }}
-        onAnimationComplete={() => { if (!reduced) onComplete(); }}
+        initial={reduced ? { scale: 1, opacity: 1 } : entering ? { scale: 0.16, opacity: 0.35, filter: "blur(0px)" } : { scale: 7, opacity: 0.15, filter: "blur(12px)" }}
+        animate={reduced ? { scale: 1, opacity: 1 } : entering
+          ? { scale: [0.16, 0.48, 1.15, 2.7, 7], opacity: [0.35, 1, 1, 0.85, 0.12], filter: ["blur(0px)", "blur(0px)", "blur(0px)", "blur(3px)", "blur(12px)"] }
+          : { scale: [7, 2.7, 1.15, 0.48, 0.16], opacity: [0.12, 0.85, 1, 1, 0.35], filter: ["blur(12px)", "blur(3px)", "blur(0px)", "blur(0px)", "blur(0px)"] }}
+        transition={{ duration: reduced ? 0 : 1.65, times: [0, 0.18, 0.48, 0.76, 1], ease: [0.22, 1, 0.36, 1] }}
+        onAnimationComplete={onComplete}
         style={{ transformOrigin: "50% 50%" }}
       >
         <div className="absolute inset-[-45%] rounded-full border-[clamp(12px,4vw,42px)] border-[#202a3a] shadow-[0_0_0_3px_#718096,0_0_0_12px_#111722,0_0_0_15px_#4a5362,0_0_100px_rgba(83,142,213,.35)]" />
@@ -179,22 +180,78 @@ function TelescopeDive({ onComplete }: { onComplete: () => void }) {
         <div className="absolute inset-[8%] rounded-full border border-white/20 bg-[radial-gradient(circle_at_center,#050914_0%,#02040a_78%)] shadow-[0_0_70px_rgba(95,157,219,.2)]" />
       </motion.div>
       {!reduced && (
-        <>
-          <motion.div className="absolute inset-0 bg-[#02040a]"
-            initial={{ opacity: 0 }} animate={{ opacity: [0, 0, 0.85] }}
-            transition={{ duration: 2.05, times: [0, 0.72, 1] }} />
-          <motion.div className="absolute inset-0"
-            initial={{ opacity: 0 }} animate={{ opacity: [0, 0.65, 0] }}
-            transition={{ duration: 1.15, times: [0, 0.45, 1], delay: 0.45 }}
-            style={{ background: "radial-gradient(circle at center, rgba(170,205,255,.5), transparent 36%)" }} />
-        </>
+        <motion.div className="absolute inset-0"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: entering ? [0, 0, 0.82] : [0.82, 0, 0] }}
+          transition={{ duration: 1.65, times: [0, 0.68, 1], ease: "easeInOut" }}
+          style={{ background: "radial-gradient(circle at center, #02040a 0%, rgba(2,4,10,.25) 42%, transparent 72%)" }} />
       )}
       <motion.p className="relative z-10 mt-[330px] text-[9px] uppercase tracking-[.32em] text-white/45 sm:mt-[390px]"
-        initial={{ opacity: 0, y: 8 }} animate={{ opacity: [0, 1, 0], y: [8, 0, -5] }}
-        transition={{ duration: reduced ? 0 : 1.4, delay: reduced ? 0 : 0.25 }}>
-        Aligning the lens · entering the field
+        initial={{ opacity: 0 }} animate={{ opacity: reduced ? 0 : [0, 0.55, 0] }}
+        transition={{ duration: reduced ? 0 : 1.2, ease: "easeInOut" }}>
+        {entering ? "Looking through the lens" : "Returning to the observatory"}
       </motion.p>
     </motion.div>
+  );
+}
+
+function GalaxyWorld({ world, index, onSelect }: { world: (typeof WORLDS)[number]; index: number; onSelect: () => void }) {
+  const reduced = useReducedMotion();
+  const palettes: Record<WorldId, { core: string; haze: string; arm: string }> = {
+    tech: { core: "#d6f4ff", haze: "#3688e8", arm: "#71d9f5" },
+    music: { core: "#ffe3ff", haze: "#a34bdf", arm: "#e4a1ff" },
+    film: { core: "#fff0c9", haze: "#df7e48", arm: "#ffc58b" },
+  };
+  const palette = palettes[world.id];
+  const dust = Array.from({ length: 42 }, (_, i) => ({
+    x: (i * 37 + 9 + index * 13) % 100,
+    y: (i * 61 + 17 + index * 7) % 100,
+    size: i % 11 === 0 ? 2.2 : i % 4 === 0 ? 1.5 : 0.8,
+    delay: (i % 8) * 0.3,
+  }));
+  return (
+    <motion.button type="button" onClick={onSelect} aria-label={`Explore ${world.label} galaxy`}
+      className="group relative flex min-h-[340px] w-full flex-col items-center justify-center overflow-hidden text-center sm:min-h-[430px]"
+      initial={reduced ? undefined : { opacity: 0, y: 12, scale: 0.97 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: reduced ? 0 : 0.8, delay: reduced ? 0 : index * 0.12, ease: [0.22, 1, 0.36, 1] }}>
+      <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse at 50% 48%, ${palette.haze}18, transparent 58%)` }} />
+      {dust.map((star, i) => <motion.i key={i} className="absolute block rounded-full bg-white"
+        style={{ left: `${star.x}%`, top: `${star.y}%`, width: star.size, height: star.size, boxShadow: `0 0 7px ${palette.arm}99` }}
+        animate={reduced ? undefined : { opacity: [0.12, 0.8, 0.12], scale: [0.8, 1.35, 0.8] }}
+        transition={reduced ? undefined : { duration: 4 + star.delay, delay: star.delay, repeat: Infinity, ease: "easeInOut" }} />)}
+      <motion.div className="relative mb-[-12px] aspect-square w-[min(72vw,330px)] sm:w-[min(28vw,360px)]"
+        animate={reduced ? undefined : { rotate: 360 }}
+        transition={reduced ? undefined : { duration: world.id === "music" ? 110 : world.id === "film" ? 135 : 120, repeat: Infinity, ease: "linear" }}>
+        <div className="absolute inset-[8%] rounded-full opacity-80 blur-2xl" style={{ background: `radial-gradient(ellipse, ${palette.haze}66, transparent 68%)` }} />
+        <div className="absolute left-1/2 top-1/2 h-[20%] w-[86%] -translate-x-1/2 -translate-y-1/2 rotate-[-24deg] rounded-[50%] opacity-80 blur-xl" style={{ background: `linear-gradient(90deg, transparent, ${palette.arm}66, ${palette.core}cc, ${palette.arm}66, transparent)` }} />
+        <svg viewBox="0 0 320 320" className="absolute inset-0 h-full w-full overflow-visible" aria-hidden="true">
+          <defs>
+            <radialGradient id={`core-${world.id}`}><stop stopColor={palette.core} stopOpacity="1" /><stop offset=".16" stopColor={palette.arm} stopOpacity=".8" /><stop offset=".43" stopColor={palette.haze} stopOpacity=".28" /><stop offset="1" stopColor={palette.haze} stopOpacity="0" /></radialGradient>
+            <linearGradient id={`arm-${world.id}`} x1="0" y1="0" x2="1" y2="1"><stop stopColor={palette.core} stopOpacity=".05" /><stop offset=".45" stopColor={palette.arm} stopOpacity=".7" /><stop offset="1" stopColor={palette.haze} stopOpacity=".04" /></linearGradient>
+            <filter id={`glow-${world.id}`}><feGaussianBlur stdDeviation="4" /></filter>
+          </defs>
+          <ellipse cx="160" cy="160" rx="122" ry="42" transform="rotate(-24 160 160)" fill={palette.haze} opacity=".12" />
+          <ellipse cx="160" cy="160" rx="100" ry="30" transform="rotate(-24 160 160)" fill="none" stroke={palette.arm} strokeOpacity=".3" strokeWidth="1.2" />
+          <path d="M160 160 C212 111 263 151 235 190 C204 232 139 211 130 168 C120 112 190 73 233 113 C280 157 230 235 172 246 C98 260 50 190 84 125 C116 65 201 57 251 99" fill="none" stroke={`url(#arm-${world.id})`} strokeWidth="17" strokeLinecap="round" opacity=".56" filter={`url(#glow-${world.id})`} />
+          <path d="M160 160 C212 111 263 151 235 190 C204 232 139 211 130 168 C120 112 190 73 233 113 C280 157 230 235 172 246 C98 260 50 190 84 125 C116 65 201 57 251 99" fill="none" stroke={`url(#arm-${world.id})`} strokeWidth="5" strokeLinecap="round" opacity=".72" />
+          <path d="M160 160 C115 120 76 145 90 178 C106 219 167 219 190 177 C214 133 172 97 139 111 C98 129 105 180 135 194 C171 211 216 187 220 151" fill="none" stroke={palette.core} strokeOpacity=".36" strokeWidth="2" strokeLinecap="round" />
+          <circle cx="160" cy="160" r="49" fill={`url(#core-${world.id})`} />
+          <circle cx="160" cy="160" r="9" fill={palette.core} opacity=".9" filter={`url(#glow-${world.id})`} />
+          {Array.from({ length: 70 }, (_, i) => {
+            const angle = i * 2.399 + index * 0.8;
+            const radius = 15 + ((i * 29) % 120);
+            const x = 160 + Math.cos(angle) * radius;
+            const y = 160 + Math.sin(angle) * radius * 0.55;
+            return <circle key={i} cx={x} cy={y} r={i % 9 === 0 ? 1.4 : 0.65} fill={i % 3 === 0 ? palette.core : "#ffffff"} opacity={0.18 + (i % 6) * 0.1} />;
+          })}
+        </svg>
+        <div className="absolute inset-[12%] rounded-full border border-white/[.08]" />
+      </motion.div>
+      <span className="relative z-10 mt-3 text-xl font-light tracking-[-.035em] text-white/90 transition-colors group-hover:text-white sm:text-2xl">{world.label}</span>
+      <span className="relative z-10 mt-2 text-[9px] uppercase tracking-[.24em] text-white/45 group-hover:text-white/70">{world.line}</span>
+      <span className="relative z-10 mt-4 h-px w-8 transition-all duration-700 group-hover:w-16" style={{ background: palette.arm }} />
+    </motion.button>
   );
 }
 
@@ -294,7 +351,7 @@ export default function Projects() {
               <TelescopeEntrance onEnter={() => setPhase("looking")} />
             </motion.div>
           )}
-          {phase === "looking" && <TelescopeDive onComplete={() => setPhase("galaxy")} />}\n          {phase === "galaxy" && (
+          {phase === "looking" && <TelescopeDive direction="in" onComplete={() => setPhase("galaxy")} />}\n          {phase === "closing" && <TelescopeDive direction="out" onComplete={() => setPhase("observatory")} />}\n          {phase === "galaxy" && (
             <motion.div key="galaxy" className="relative min-h-[580px] overflow-hidden border border-white/[.08] bg-[#02040a] px-4 py-8 sm:min-h-[700px] sm:px-8 sm:py-10"
               initial={reduced ? undefined : { opacity: 0, scale: .72, filter: "blur(12px)" }}
               animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
@@ -304,39 +361,12 @@ export default function Projects() {
               <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse at 50% 48%, rgba(40,90,145,.22), transparent 55%), radial-gradient(ellipse at 72% 44%, rgba(141,75,165,.12), transparent 40%)" }} />
               <div className="relative z-10 mb-5 flex flex-wrap items-center justify-between gap-4">
                 <div><p className="mb-2 text-[9px] uppercase tracking-[.26em] text-white/35">Optical field · 001</p><h3 className="text-2xl font-light tracking-[-.04em] text-white/90 sm:text-4xl">The universe of things I make.</h3></div>
-                <button type="button" onClick={() => setPhase("observatory")} className="inline-flex items-center gap-2 py-2 text-[9px] uppercase tracking-[.18em] text-white/45 transition-colors hover:text-white"><ArrowLeft size={14} /> Back to telescope</button>
+                <button type="button" onClick={() => setPhase("closing")} className="inline-flex items-center gap-2 py-2 text-[9px] uppercase tracking-[.18em] text-white/45 transition-colors hover:text-white"><ArrowLeft size={14} /> Back to telescope</button>
               </div>
-              <div className="relative mx-auto flex aspect-square w-full max-w-[620px] items-center justify-center">
-                <div className="absolute inset-0 rounded-full border-[8px] border-[#252d3a] shadow-[0_0_0_2px_#697384,0_0_0_8px_#111722,0_0_0_10px_#4a5362,0_0_70px_rgba(83,142,213,.18)]" />
-                <div className="absolute inset-[3%] rounded-full border border-white/20 bg-[radial-gradient(ellipse_at_52%_49%,rgba(69,131,196,.35),transparent_37%),radial-gradient(ellipse_at_28%_55%,rgba(69,179,211,.22),transparent_29%),radial-gradient(ellipse_at_75%_40%,rgba(181,105,208,.24),transparent_31%),radial-gradient(circle_at_center,#0a1425_0%,#050914_66%,#010207_100%)] shadow-[inset_0_0_70px_#000]" />
-                <div className="absolute inset-[8%] rounded-full opacity-80" style={{ background: "conic-gradient(from 25deg at 52% 50%, transparent 0deg, rgba(72,154,211,.13) 35deg, transparent 76deg, rgba(183,110,207,.16) 128deg, transparent 170deg, rgba(66,168,206,.13) 220deg, transparent 270deg, rgba(202,157,220,.1) 315deg, transparent 360deg)", filter: "blur(12px)" }} />
-                <div className="absolute inset-[13%] rounded-full border border-white/[.08] opacity-70" />
-                <div className="absolute inset-[22%] rounded-full border border-white/[.06] opacity-60" />
-                <div className="absolute inset-[32%] rounded-full border border-white/[.05] opacity-50" />
-                <button type="button" onClick={() => enterWorld("tech")} aria-label="Explore Technology constellation"
-                  className="group absolute left-[15%] top-[48%] flex -translate-y-1/2 flex-col items-center gap-2 text-[#91d8ff] transition-transform duration-500 hover:scale-110 sm:left-[13%]">
-                  <span className="relative flex h-16 w-16 items-center justify-center rounded-full border border-[#91d8ff]/35 bg-[#7fcfff]/10 shadow-[0_0_34px_rgba(87,185,255,.22)] sm:h-24 sm:w-24"><span className="absolute inset-2 rounded-full border border-[#91d8ff]/20" /><Code2 size={22} strokeWidth={1.2} className="drop-shadow-[0_0_8px_rgba(145,216,255,.8)] sm:h-7 sm:w-7" /></span>
-                  <span className="text-sm font-medium tracking-wide drop-shadow-[0_0_12px_rgba(145,216,255,.8)] sm:text-lg">Technology</span>
-                  <span className="text-[8px] uppercase tracking-[.2em] text-white/45 sm:text-[9px]">Systems & ideas</span>
-                </button>
-                <button type="button" onClick={() => enterWorld("music")} aria-label="Explore Music constellation"
-                  className="group absolute left-1/2 top-[23%] flex -translate-x-1/2 flex-col items-center gap-2 text-[#e0b5ff] transition-transform duration-500 hover:scale-110">
-                  <span className="relative flex h-16 w-16 items-center justify-center rounded-full border border-[#d9aaff]/35 bg-[#d4a0ff]/10 shadow-[0_0_34px_rgba(201,131,255,.22)] sm:h-24 sm:w-24"><span className="absolute inset-2 rounded-full border border-[#d9aaff]/20" /><Headphones size={22} strokeWidth={1.2} className="drop-shadow-[0_0_8px_rgba(217,170,255,.8)] sm:h-7 sm:w-7" /></span>
-                  <span className="text-sm font-medium tracking-wide drop-shadow-[0_0_12px_rgba(217,170,255,.8)] sm:text-lg">Music</span>
-                  <span className="text-[8px] uppercase tracking-[.2em] text-white/45 sm:text-[9px]">Songs & sound</span>
-                </button>
-                <button type="button" onClick={() => enterWorld("film")} aria-label="Explore Film constellation"
-                  className="group absolute right-[13%] top-[55%] flex -translate-y-1/2 flex-col items-center gap-2 text-[#f3d4a3] transition-transform duration-500 hover:scale-110 sm:right-[12%]">
-                  <span className="relative flex h-16 w-16 items-center justify-center rounded-full border border-[#f3d4a3]/35 bg-[#f3d4a3]/10 shadow-[0_0_34px_rgba(243,212,163,.2)] sm:h-24 sm:w-24"><span className="absolute inset-2 rounded-full border border-[#f3d4a3]/20" /><Clapperboard size={22} strokeWidth={1.2} className="drop-shadow-[0_0_8px_rgba(243,212,163,.8)] sm:h-7 sm:w-7" /></span>
-                  <span className="text-sm font-medium tracking-wide drop-shadow-[0_0_12px_rgba(243,212,163,.8)] sm:text-lg">Film</span>
-                  <span className="text-[8px] uppercase tracking-[.2em] text-white/45 sm:text-[9px]">Worlds & stories</span>
-                </button>
-                <svg className="pointer-events-none absolute inset-[10%] h-[80%] w-[80%] opacity-40" viewBox="0 0 100 100" aria-hidden="true">
-                  <path d="M18 48 Q38 20 50 20 Q72 23 82 55" fill="none" stroke="#b6d8f2" strokeWidth=".25" strokeDasharray="1.2 1.2" />
-                  <path d="M18 48 Q48 82 82 55" fill="none" stroke="#b6d8f2" strokeWidth=".25" strokeDasharray="1.2 1.2" />
-                  <circle cx="18" cy="48" r="1.1" fill="#91d8ff" /><circle cx="50" cy="20" r="1.1" fill="#e0b5ff" /><circle cx="82" cy="55" r="1.1" fill="#f3d4a3" />
-                </svg>
-                <span className="pointer-events-none absolute bottom-[11%] left-1/2 -translate-x-1/2 text-center text-[8px] uppercase tracking-[.2em] text-white/30 sm:text-[9px]">Select a signal to enter its archive</span>
+              <div className="relative z-10 grid grid-cols-1 items-center sm:grid-cols-3 sm:gap-2">
+                {WORLDS.map((item, index) => (
+                  <GalaxyWorld key={item.id} world={item} index={index} onSelect={() => enterWorld(item.id)} />
+                ))}
               </div>
               <p className="relative z-10 mt-2 text-center text-[9px] uppercase tracking-[.18em] text-white/25">Three disciplines · one maker's universe</p>
             </motion.div>
