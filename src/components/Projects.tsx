@@ -21,9 +21,9 @@ type ArchiveItem = {
 };
 
 const WORLDS: { id: WorldId; number: string; label: string; line: string; tone: string }[] = [
-  { id: "tech", number: "01", label: "Technology", line: "Ideas made tangible.", tone: "#a9c7dd" },
-  { id: "music", number: "02", label: "Music", line: "Things I couldn't leave unsaid.", tone: "#d7b6e8" },
-  { id: "film", number: "03", label: "Film", line: "Stories that won't let go.", tone: "#e8c9a0" },
+  { id: "tech", number: "01", label: "Technology", line: "Ideas made tangible.", tone: "#9fc7c2" },
+  { id: "music", number: "02", label: "Music", line: "Things I couldn't leave unsaid.", tone: "#c2a4d5" },
+  { id: "film", number: "03", label: "Film", line: "Stories that won't let go.", tone: "#d69c87" },
 ];
 
 const ARCHIVES: Record<WorldId, ArchiveItem[]> = {
@@ -355,11 +355,11 @@ function ArchiveRow({ item, index, onClick }: { item: ArchiveItem; index: number
       whileHover={reduced ? undefined : { x: 4 }}
       whileTap={reduced ? undefined : { scale: 0.995 }}
       transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 240, damping: 22, delay: index * .04 }}>
-      <span className={`font-mono text-[10px] ${item.featured ? "text-[#e8c9a0]" : "text-white/25"}`}>{String(index + 1).padStart(2, "0")}</span>
+      <span className={`font-mono text-[10px] ${item.featured ? "text-[#d69c87]" : "text-white/25"}`}>{String(index + 1).padStart(2, "0")}</span>
       <span className="min-w-0">
         <span className="mb-2 flex flex-wrap items-center gap-x-3 gap-y-1">
-          <span className={`text-[9px] uppercase tracking-[.19em] ${item.featured ? "text-[#e8c9a0]" : "text-white/35"}`}>{item.tag}</span>
-          {item.featured && <span className="text-[8px] uppercase tracking-[.2em] text-[#e8c9a0]/70">✳ Highlighted</span>}
+          <span className={`text-[9px] uppercase tracking-[.19em] ${item.featured ? "text-[#d69c87]" : "text-white/35"}`}>{item.tag}</span>
+          {item.featured && <span className="text-[8px] uppercase tracking-[.2em] text-[#d69c87]/70">✳ Highlighted</span>}
         </span>
         <span className="block text-lg font-light tracking-[-.025em] text-white/85 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-white sm:text-2xl">{item.title}</span>
         <span className="mt-2 block max-w-2xl text-xs leading-6 text-white/55 sm:text-sm sm:leading-6">{item.line}</span>
@@ -493,12 +493,12 @@ export default function Projects() {
                 {activeWorld === "film" ? (
                   <div className="mt-10 border-t border-white/15 pt-6">
                     <p className="text-sm leading-7 text-white/65">If you're genuinely curious about the story, let's talk.</p>
-                    <a href="#contact" onClick={() => setSelectedItem(null)} className="mt-6 inline-flex items-center gap-3 border-b border-[#e8c9a0]/60 pb-2 text-[10px] uppercase tracking-[.2em] text-[#e8c9a0] transition-colors hover:text-white">Contact me <Mail size={14} /></a>
+                    <a href="#contact" onClick={() => setSelectedItem(null)} className="mt-6 inline-flex items-center gap-3 border-b border-[#d69c87]/60 pb-2 text-[10px] uppercase tracking-[.2em] text-[#d69c87] transition-colors hover:text-white">Contact me <Mail size={14} /></a>
                   </div>
                 ) : (
                   <div className="mt-10 flex flex-wrap gap-5 border-t border-white/15 pt-6">
                     {selectedItem.live && <a href={selectedItem.live} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[.18em] text-white/75 transition-colors hover:text-white">Live demo <ExternalLink size={13} /></a>}
-                    {selectedItem.code && <a href={selectedItem.code} target="_blank" rel="noreferrer" className="group/code inline-flex items-center gap-2 border border-white/15 bg-white/[.035] px-3 py-2 text-[10px] uppercase tracking-[.18em] text-white/65 shadow-[0_0_24px_rgba(110,165,220,.06)] transition-all hover:border-[#9bd8ff]/45 hover:bg-[#9bd8ff]/[.08] hover:text-[#d9f0ff] hover:shadow-[0_0_28px_rgba(110,165,220,.18)]">Source code <Code2 size={13} className="transition-transform group-hover/code:-translate-y-0.5 group-hover/code:translate-x-0.5" /></a>}
+                    {selectedItem.code && <a href={selectedItem.code} target="_blank" rel="noreferrer" className="group/code inline-flex items-center gap-2 border border-white/15 bg-white/[.035] px-3 py-2 text-[10px] uppercase tracking-[.18em] text-white/65 shadow-[0_0_24px_rgba(110,165,220,.06)] transition-all hover:border-[#9fc7c2]/45 hover:bg-[#9fc7c2]/[.08] hover:text-[#d5e6e2] hover:shadow-[0_0_28px_rgba(110,165,220,.18)]">Source code <Code2 size={13} className="transition-transform group-hover/code:-translate-y-0.5 group-hover/code:translate-x-0.5" /></a>}
                     {!selectedItem.live && !selectedItem.code && <span className="text-[9px] uppercase tracking-[.16em] text-white/30">No public demo or source link yet</span>}
                     {activeWorld === "music" && <span className="inline-flex items-center gap-2 text-[9px] uppercase tracking-[.16em] text-white/30"><Waves size={13} /> Work in progress</span>}
                   </div>
