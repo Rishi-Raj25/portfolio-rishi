@@ -40,7 +40,7 @@ export default function Footer() {
         {/* Left Side: Credits */}
         <div className="flex flex-col gap-2 items-center md:items-start text-center md:text-left">
           <div className="flex items-center gap-2 mb-1">
-            <div className="w-1 h-1 rounded-full bg-blue-500" />
+            <div className="w-1 h-1 rounded-full bg-[#a8b59a]" />
             <span className="text-xl font-bold tracking-tight text-white">
               Rishi Raj
             </span>
