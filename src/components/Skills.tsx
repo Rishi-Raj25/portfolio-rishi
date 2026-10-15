@@ -25,7 +25,8 @@ const PATHS: Record<PathId, { eyebrow: string; title: string; subtitle: string; 
       { name: "C / C++", description: "Programming fundamentals, control flow, object-oriented concepts, and structured problem-solving.", x: 10, y: 48 },
       { name: "DSA & CS foundations", description: "Data structures, algorithms, operating systems, networking, and core computer science concepts.", x: 25, y: 42 },
       { name: "Git & deployment", description: "Git, GitHub, branching, debugging, and deploying web projects with tools such as Vercel.", x: 51, y: 49 },
-    ],  },
+    ],
+  },
   create: {
     eyebrow: "FIELD 02 · CREATIVE + COMMUNICATION",
     title: "Create & Tell Stories",
@@ -38,7 +39,8 @@ const PATHS: Record<PathId, { eyebrow: string; title: string; subtitle: string; 
       { name: "Music & recording", description: "Making demos in BandLab, experimenting with harmonies and arrangements, and keeping the production raw and honest.", x: 78, y: 65 },
       { name: "Filmmaking", description: "Exploring short-film ideas, atmosphere, visual storytelling, scenes, and emotional pacing.", x: 27, y: 68 },
       { name: "Creative storytelling", description: "Finding human details and shaping mood, imagery, sound, and narrative into a coherent experience.", x: 50, y: 45 },
-    ],  },
+    ],
+  },
 };
 
 const PARTICLES = Array.from({ length: 74 }, (_, i) => ({
