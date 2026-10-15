@@ -119,7 +119,7 @@ function TelescopeEntrance({ onEnter }: { onEnter: () => void }) {
   const reduced = useReducedMotion();
   return (
     <motion.button type="button" onClick={onEnter} aria-label="Look through the telescope and enter the project universe"
-      className="group relative mx-auto flex min-h-[480px] w-full max-w-5xl flex-col items-center justify-center overflow-hidden border border-white/[.1] bg-[#03050a] px-5 py-12 text-center sm:min-h-[600px] sm:py-16"
+      className="group relative mx-auto flex min-h-[480px] w-full max-w-5xl flex-col items-center justify-center overflow-hidden bg-transparent px-5 py-12 text-center sm:min-h-[600px] sm:py-16"
       whileHover={reduced ? undefined : { borderColor: "rgba(210,220,235,.3)" }}
       whileTap={reduced ? undefined : { scale: 0.996 }}>
       <StarField />
@@ -157,7 +157,7 @@ function TelescopeDive({ direction, onComplete }: { direction: "in" | "out"; onC
   return (
     <motion.div
       key={direction === "in" ? "looking-in" : "looking-out"}
-      className="relative flex min-h-[580px] items-center justify-center overflow-hidden border border-white/[.08] bg-[#010207] sm:min-h-[700px]"
+      className="relative flex min-h-[580px] items-center justify-center overflow-hidden bg-transparent sm:min-h-[700px]"
       initial={{ opacity: entering ? 0 : 1 }}
       animate={{ opacity: entering ? 1 : 0 }}
       transition={{ duration: reduced ? 0 : 0.45, ease: [0.22, 1, 0.36, 1] }}
@@ -352,7 +352,7 @@ export default function Projects() {
             </motion.div>
           )}
           {phase === "looking" && <TelescopeDive direction="in" onComplete={() => setPhase("galaxy")} />}\n          {phase === "closing" && <TelescopeDive direction="out" onComplete={() => setPhase("observatory")} />}\n          {phase === "galaxy" && (
-            <motion.div key="galaxy" className="relative min-h-[580px] overflow-hidden bg-[#02040a] px-4 py-8 sm:min-h-[700px] sm:px-8 sm:py-10"
+            <motion.div key="galaxy" className="relative min-h-[580px] overflow-hidden bg-transparent px-4 py-8 sm:min-h-[700px] sm:px-8 sm:py-10"
               initial={reduced ? undefined : { opacity: 0, scale: .72, filter: "blur(12px)" }}
               animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
               exit={{ opacity: 0, scale: reduced ? 1 : 1.18, filter: reduced ? "none" : "blur(8px)" }}
@@ -372,7 +372,7 @@ export default function Projects() {
             </motion.div>
           )}
           {phase === "archive" && (
-            <motion.div key={`archive-${activeWorld}`} className="relative min-h-[560px] overflow-hidden border border-white/[.1] bg-[#08090d] px-5 py-6 sm:px-9 sm:py-8"
+            <motion.div key={`archive-${activeWorld}`} className="relative min-h-[560px] overflow-hidden bg-transparent px-5 py-6 sm:px-9 sm:py-8"
               initial={reduced ? undefined : { opacity: 0, scale: .84, filter: "blur(8px)" }}
               animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
               exit={{ opacity: 0, scale: reduced ? 1 : .9, filter: reduced ? "none" : "blur(5px)" }}
