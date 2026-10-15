@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowDownLeft, ArrowDownRight, ArrowLeft, ArrowUpRight, ChevronRight,
-  Clapperboard, Code2, ExternalLink, Headphones, Mail, Telescope, Waves, X,
+  Clapperboard, Code2, ExternalLink, Headphones, Mail, Waves, X,
 } from "lucide-react";
 
 type WorldId = "tech" | "music" | "film";
