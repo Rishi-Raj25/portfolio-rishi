@@ -164,12 +164,12 @@ function TelescopeDive({ direction, onComplete }: { direction: "in" | "out"; onC
     >
       <StarField />
       <motion.div
-        className="absolute inset-0"
-        initial={reduced ? { scale: 1, opacity: 1 } : entering ? { scale: 0.16, opacity: 0.35, filter: "blur(0px)" } : { scale: 7, opacity: 0.15, filter: "blur(12px)" }}
+        className="absolute inset-0 will-change-transform"
+        initial={reduced ? { scale: 1, opacity: 1 } : entering ? { scale: 0.2, opacity: 0.45 } : { scale: 6, opacity: 0.18 }}
         animate={reduced ? { scale: 1, opacity: 1 } : entering
-          ? { scale: [0.16, 0.48, 1.15, 2.7, 7], opacity: [0.35, 1, 1, 0.85, 0.12], filter: ["blur(0px)", "blur(0px)", "blur(0px)", "blur(3px)", "blur(12px)"] }
-          : { scale: [7, 2.7, 1.15, 0.48, 0.16], opacity: [0.12, 0.85, 1, 1, 0.35], filter: ["blur(12px)", "blur(3px)", "blur(0px)", "blur(0px)", "blur(0px)"] }}
-        transition={{ duration: reduced ? 0 : 1.65, times: [0, 0.18, 0.48, 0.76, 1], ease: [0.22, 1, 0.36, 1] }}
+          ? { scale: [0.2, 0.72, 1.65, 3.4, 6], opacity: [0.45, 1, 1, 0.72, 0.08] }
+          : { scale: [6, 3.4, 1.65, 0.72, 0.2], opacity: [0.08, 0.72, 1, 1, 0.45] }}
+        transition={{ duration: reduced ? 0 : 1.25, times: [0, 0.22, 0.5, 0.78, 1], ease: [0.16, 1, 0.3, 1] }}
         onAnimationComplete={onComplete}
         style={{ transformOrigin: "50% 50%" }}
       >
@@ -183,7 +183,7 @@ function TelescopeDive({ direction, onComplete }: { direction: "in" | "out"; onC
         <motion.div className="absolute inset-0"
           initial={{ opacity: 0 }}
           animate={{ opacity: entering ? [0, 0, 0.82] : [0.82, 0, 0] }}
-          transition={{ duration: 1.65, times: [0, 0.68, 1], ease: "easeInOut" }}
+          transition={{ duration: 1.25, times: [0, 0.68, 1], ease: [0.16, 1, 0.3, 1] }}
           style={{ background: "radial-gradient(circle at center, #02040a 0%, rgba(2,4,10,.25) 42%, transparent 72%)" }} />
       )}
       <motion.p className="relative z-10 mt-[330px] text-[9px] uppercase tracking-[.32em] text-white/45 sm:mt-[390px]"
