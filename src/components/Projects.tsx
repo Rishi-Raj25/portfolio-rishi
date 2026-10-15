@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 
 type WorldId = "tech" | "music" | "film";
-type Phase = "observatory" | "galaxy" | "archive";
+type Phase = "observatory" | "looking" | "galaxy" | "archive";
 type ArchiveItem = {
   title: string;
   tag: string;
@@ -150,7 +150,54 @@ function TelescopeEntrance({ onEnter }: { onEnter: () => void }) {
     </motion.button>
   );
 }
-function Constellation({ world, index, onSelect }: { world: (typeof WORLDS)[number]; index: number; onSelect: () => void }) {
+
+function TelescopeDive({ onComplete }: { onComplete: () => void }) {
+  const reduced = useReducedMotion();
+  return (
+    <motion.div
+      key="looking"
+      className="relative flex min-h-[580px] items-center justify-center overflow-hidden border border-white/[.08] bg-[#010207] sm:min-h-[700px]"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      onAnimationComplete={() => {
+        if (reduced) onComplete();
+      }}
+    >
+      <StarField />
+      <motion.div
+        className="absolute inset-0"
+        initial={{ scale: 0.2, opacity: 0 }}
+        animate={reduced ? { scale: 1, opacity: 1 } : { scale: [0.2, 0.65, 1.8, 7], opacity: [0, 1, 1, 0.15], filter: ["blur(0px)", "blur(0px)", "blur(2px)", "blur(12px)"] }}
+        transition={{ duration: reduced ? 0 : 2.05, times: [0, 0.22, 0.65, 1], ease: [0.16, 0.8, 0.2, 1] }}
+        onAnimationComplete={() => { if (!reduced) onComplete(); }}
+        style={{ transformOrigin: "50% 50%" }}
+      >
+        <div className="absolute inset-[-45%] rounded-full border-[clamp(12px,4vw,42px)] border-[#202a3a] shadow-[0_0_0_3px_#718096,0_0_0_12px_#111722,0_0_0_15px_#4a5362,0_0_100px_rgba(83,142,213,.35)]" />
+        <div className="absolute inset-[-36%] rounded-full border border-white/25 bg-[conic-gradient(from_20deg,#101a2b,#53648c,#161c2b,#8a6aa9,#111b2b,#2b7594,#101522,#6a77a2,#1a2031,#101a2b)] opacity-80" />
+        <div className="absolute inset-[-25%] rounded-full border border-white/20 bg-[radial-gradient(ellipse_at_42%_48%,rgba(125,185,232,.35),transparent_38%),radial-gradient(ellipse_at_58%_45%,rgba(182,119,214,.3),transparent_45%),radial-gradient(circle_at_center,#050914_0%,#090f1c_48%,#02040a_74%)]" />
+        <div className="absolute inset-[-10%] rounded-full border border-white/20 bg-[radial-gradient(ellipse_at_35%_42%,rgba(74,158,207,.25),transparent_25%),radial-gradient(ellipse_at_66%_59%,rgba(173,120,204,.25),transparent_28%),radial-gradient(circle_at_center,#101a2a_0%,#050914_64%,#02040a_100%)]" />
+        <div className="absolute inset-[8%] rounded-full border border-white/20 bg-[radial-gradient(circle_at_center,#050914_0%,#02040a_78%)] shadow-[0_0_70px_rgba(95,157,219,.2)]" />
+      </motion.div>
+      {!reduced && (
+        <>
+          <motion.div className="absolute inset-0 bg-[#02040a]"
+            initial={{ opacity: 0 }} animate={{ opacity: [0, 0, 0.85] }}
+            transition={{ duration: 2.05, times: [0, 0.72, 1] }} />
+          <motion.div className="absolute inset-0"
+            initial={{ opacity: 0 }} animate={{ opacity: [0, 0.65, 0] }}
+            transition={{ duration: 1.15, times: [0, 0.45, 1], delay: 0.45 }}
+            style={{ background: "radial-gradient(circle at center, rgba(170,205,255,.5), transparent 36%)" }} />
+        </>
+      )}
+      <motion.p className="relative z-10 mt-[330px] text-[9px] uppercase tracking-[.32em] text-white/45 sm:mt-[390px]"
+        initial={{ opacity: 0, y: 8 }} animate={{ opacity: [0, 1, 0], y: [8, 0, -5] }}
+        transition={{ duration: reduced ? 0 : 1.4, delay: reduced ? 0 : 0.25 }}>
+        Aligning the lens · entering the field
+      </motion.p>
+    </motion.div>
+  );
+}
+\nfunction Constellation({ world, index, onSelect }: { world: (typeof WORLDS)[number]; index: number; onSelect: () => void }) {
   const reduced = useReducedMotion();
   const points = world.id === "tech"
     ? [[50, 13], [28, 31], [72, 32], [39, 55], [65, 67], [25, 78], [82, 82]]
@@ -243,10 +290,10 @@ export default function Projects() {
             <motion.div key="observatory" initial={reduced ? undefined : { opacity: 0 }} animate={{ opacity: 1 }}
               exit={{ opacity: 0, scale: reduced ? 1 : .96, filter: reduced ? "none" : "blur(5px)" }}
               transition={{ duration: reduced ? 0 : .5 }}>
-              <TelescopeEntrance onEnter={() => setPhase("galaxy")} />
+              <TelescopeEntrance onEnter={() => setPhase("looking")} />
             </motion.div>
           )}
-          {phase === "galaxy" && (
+          {phase === "looking" && <TelescopeDive onComplete={() => setPhase("galaxy")} />}\n          {phase === "galaxy" && (
             <motion.div key="galaxy" className="relative min-h-[580px] overflow-hidden border border-white/[.08] bg-[#02040a] px-4 py-8 sm:min-h-[700px] sm:px-8 sm:py-10"
               initial={reduced ? undefined : { opacity: 0, scale: .72, filter: "blur(12px)" }}
               animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
