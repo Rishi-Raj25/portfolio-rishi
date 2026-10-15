@@ -283,7 +283,9 @@ function ArchiveRow({ item, index, onClick }: { item: ArchiveItem; index: number
     <motion.button type="button" onClick={onClick}
       className={`group relative grid w-full grid-cols-[34px_1fr_auto] items-center gap-3 border-b border-white/[.12] py-5 text-left sm:grid-cols-[56px_1fr_170px_auto] sm:gap-5 sm:py-7 ${item.featured ? "border-t border-t-white/35" : ""}`}
       initial={reduced ? undefined : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: reduced ? 0 : .4, delay: reduced ? 0 : index * .06 }}>
+      whileHover={reduced ? undefined : { x: 4 }}
+      whileTap={reduced ? undefined : { scale: 0.995 }}
+      transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 240, damping: 22, delay: index * .04 }}>
       <span className={`font-mono text-[10px] ${item.featured ? "text-[#e8c9a0]" : "text-white/25"}`}>{String(index + 1).padStart(2, "0")}</span>
       <span className="min-w-0">
         <span className="mb-2 flex flex-wrap items-center gap-x-3 gap-y-1">
@@ -418,8 +420,9 @@ export default function Projects() {
                   </div>
                 ) : (
                   <div className="mt-10 flex flex-wrap gap-5 border-t border-white/15 pt-6">
-                    {selectedItem.live && <a href={selectedItem.live} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[.18em] text-white/75 transition-colors hover:text-white">View live <ExternalLink size={13} /></a>}
+                    {selectedItem.live && <a href={selectedItem.live} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[.18em] text-white/75 transition-colors hover:text-white">Live demo <ExternalLink size={13} /></a>}
                     {selectedItem.code && <a href={selectedItem.code} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[.18em] text-white/50 transition-colors hover:text-white">Source code <Code2 size={13} /></a>}
+                    {!selectedItem.live && !selectedItem.code && <span className="text-[9px] uppercase tracking-[.16em] text-white/30">No public demo or source link yet</span>}
                     {activeWorld === "music" && <span className="inline-flex items-center gap-2 text-[9px] uppercase tracking-[.16em] text-white/30"><Waves size={13} /> Work in progress</span>}
                   </div>
                 )}
