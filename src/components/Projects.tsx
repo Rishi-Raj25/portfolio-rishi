@@ -1,335 +1,436 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
-  ArrowDownRight,
-  ArrowUpRight,
-  AudioLines,
-  Clapperboard,
-  Code2,
-  Film,
-  Music2,
-  Orbit,
-  Play,
-  Sparkles,
+  ArrowDownLeft, ArrowDownRight, ArrowLeft, ArrowUpRight, ChevronRight,
+  Clapperboard, Code2, ExternalLink, Headphones, Mail, Waves, X,
 } from "lucide-react";
-import ProjectCard from "./ProjectCard";
 
-type Discipline = "tech" | "music" | "film";
+type WorldId = "tech" | "music" | "film";
+type Phase = "observatory" | "looking" | "closing" | "galaxy" | "archive";
+type ArchiveItem = {
+  title: string;
+  tag: string;
+  meta: string;
+  line: string;
+  detail: string;
+  live?: string;
+  code?: string;
+  featured?: boolean;
+};
 
-const WORLDS: {
-  id: Discipline;
-  number: string;
-  label: string;
-  description: string;
-  prompt: string;
-}[] = [
-  {
-    id: "tech",
-    number: "01",
-    label: "Technology",
-    description: "Systems, experiments, and useful things built from ideas.",
-    prompt: "Explore the systems",
-  },
-  {
-    id: "music",
-    number: "02",
-    label: "Music",
-    description: "Songs, sketches, and sounds that are still finding their shape.",
-    prompt: "Enter the listening room",
-  },
-  {
-    id: "film",
-    number: "03",
-    label: "Film",
-    description: "Stories told through frames, edits, and the things left unsaid.",
-    prompt: "Enter the screening room",
-  },
+const WORLDS: { id: WorldId; number: string; label: string; line: string; tone: string }[] = [
+  { id: "tech", number: "01", label: "Technology", line: "Ideas made tangible.", tone: "#a9c7dd" },
+  { id: "music", number: "02", label: "Music", line: "Things I couldn't leave unsaid.", tone: "#d7b6e8" },
+  { id: "film", number: "03", label: "Film", line: "Stories that won't let go.", tone: "#e8c9a0" },
 ];
 
-const TECH_PROJECTS = [
-  {
-    title: "Karma AI Agent",
-    category: "Voice agent against scammers",
-    caseStudy: [
-      { label: "Overview", text: "Karma AI is a real-time voice agent that handles scam calls automatically." },
-      { label: "How It Works", text: "Instead of blocking them, it answers unknown calls and keeps the caller engaged using natural Hindi-English conversation, reducing disruption for the user." },
-      { label: "Current Focus", text: "A working MVP is already built and functional. I’m currently improving response latency, making interactions more natural, and evolving the system into a more scalable, upgradeable real-time AI pipeline." },
-    ],
-    image: "/images/karma-ai.png",
-    liveLink: "https://karma-ai-xi.vercel.app/",
-    codeLink: "https://github.com/Rishi-Raj25/Karma-Ai",
-    featured: true,
-    color: "#f59e0b",
-  },
-  {
-    title: "KrishiLens",
-    category: "Indian cattle & buffalo breed recognition",
-    caseStudy: [
-      { label: "Problem", text: "Identifying cattle and buffalo breeds can be difficult without accessible reference tools." },
-      { label: "Solution", text: "An image-based recognition project designed to identify Indian cattle and buffalo breeds from visual input." },
-      { label: "Explore", text: "Visit the project to see the current implementation and supported breeds." },
-    ],
-    image: "https://images.unsplash.com/photo-1560493676-04071c5f467b?q=80&w=1000&auto=format&fit=crop",
-    liveLink: "https://krishilens-wheat.vercel.app/",
-    codeLink: "https://github.com/Rishi-Raj25/Krishilens",
-    featured: false,
-    color: "#10b981",
-  },
-];
+const ARCHIVES: Record<WorldId, ArchiveItem[]> = {
+  tech: [
+    {
+      title: "Karma AI", tag: "FEATURED PROJECT", meta: "VOICE · CONVERSATIONAL AI",
+      line: "A real-time voice agent that keeps scam callers talking.",
+      detail: "Karma AI is a working MVP for a conversational scam-baiting agent. It uses natural Hindi-English dialogue to keep callers engaged. The current focus is making conversations feel more natural while improving latency and the real-time pipeline.",
+      live: "https://karma-ai-xi.vercel.app/", code: "https://github.com/Rishi-Raj25/Karma-Ai", featured: true,
+    },
+    {
+      title: "KrishiLens", tag: "COMPUTER VISION", meta: "AGRICULTURE · AI",
+      line: "Recognising Indian cattle and buffalo breeds from an image.",
+      detail: "An image-based breed recognition project designed to make visual identification of Indian cattle and buffalo breeds more accessible.",
+      live: "https://krishilens-wheat.vercel.app/", code: "https://github.com/Rishi-Raj25/Krishilens",
+    },
+    {
+      title: "ReLoop", tag: "CIRCULAR ECONOMY", meta: "E-WASTE · PLATFORM",
+      line: "Connecting local scrap collectors with authorised recyclers.",
+      detail: "A concept for bringing informal kabadiwalas into the formal recycling chain, with item lots, image-based listings, price guidance, and connections to verified buyers.",
+    },
+    {
+      title: "Jeeva", tag: "CREATOR ECONOMY", meta: "ARTISANS · MARKETPLACE",
+      line: "Giving local artisans a clearer path from craft to customer.",
+      detail: "An AI-assisted cataloguing and market-linkage concept for marginalized artisans, designed to help document handmade work and connect makers with buyers.",
+    },
+    {
+      title: "Atlas", tag: "INFORMATION SYSTEMS", meta: "CPSE · STANDARDS",
+      line: "Making CPSE material-standardisation codes easier to navigate.",
+      detail: "A structured approach to organising and standardising CPSE material codes so related materials are easier to identify, compare, and manage.",
+    },
+  ],
+  music: [
+    {
+      title: "Whenever You Go", tag: "FEATURED · ORIGINAL", meta: "SONG IN PROGRESS",
+      line: "The first page of a new musical chapter.",
+      detail: "An original song taking shape around a raw, honest sound. This space will grow with the recording as it becomes ready to share. It is a work in progress, not a released track.",
+      featured: true,
+    },
+    {
+      title: "Petrichor", tag: "ORIGINAL", meta: "SLOW · EMOTIONAL",
+      line: "A quieter song for the feeling that stays after the rain.",
+      detail: "A slow, emotional piece built around atmosphere and feeling. Still in progress; not presented as a released track.",
+    },
+    {
+      title: "Ukulele sketches & acoustic covers", tag: "LISTENING NOTES", meta: "ONGOING",
+      line: "Small arrangements, familiar songs, and ideas caught before they disappear.",
+      detail: "A home for ukulele sketches, acoustic covers, and informal musical experiments—kept deliberately close to their raw beginnings.",
+    },
+  ],
+  film: [
+    {
+      title: "The Pyramid Dream", tag: "FOLK HORROR", meta: "PRIVATE STORY",
+      line: "A dream that keeps borrowing details from the waking world.",
+      detail: "A strange village, a field at the edge of the forest, and a rusted swing become pieces of a nightmare. The deeper the protagonist goes, the less certain it becomes whether they ever woke up.",
+    },
+    {
+      title: "The Woman Who Killed My Mother", tag: "PSYCHOLOGICAL THRILLER", meta: "PRIVATE STORY",
+      line: "A disappearance becomes unbearable when the person who returns knows too much.",
+      detail: "After his mother vanishes, a young man is left alone with a woman who claims responsibility—and a truth he feels powerless to confront.",
+    },
+    {
+      title: "Untitled / Story fragment", tag: "IN DEVELOPMENT", meta: "EARLY NOTES",
+      line: "Some stories are still only a scene, a question, or an image that refuses to leave.",
+      detail: "This idea is still taking shape. The fragment is here as a marker for a story in progress, not a finished premise.",
+    },
+  ],
+};
 
-function WorldArtwork({ discipline }: { discipline: Discipline }) {
+const STARS = Array.from({ length: 86 }, (_, i) => ({
+  x: (i * 43 + 11) % 100,
+  y: (i * 67 + 5) % 100,
+  size: i % 13 === 0 ? 2.4 : i % 4 === 0 ? 1.6 : 1,
+  delay: (i % 9) * 0.21,
+}));
+
+function StarField({ tone }: { tone?: string }) {
   const reduced = useReducedMotion();
-
-  if (discipline === "music") {
-    const heights = [18, 31, 23, 48, 35, 68, 42, 28, 55, 78, 44, 25, 39, 62, 34, 20, 47, 72, 38, 25, 56, 33, 44, 19, 35, 63, 28, 46, 21, 39, 54, 30, 18, 43, 65, 29, 48, 23, 36, 57, 31, 20];
-    return (
-      <div className="relative flex min-h-[230px] items-center justify-center overflow-hidden border border-[#e8c9a0]/20 bg-[#17110f] px-5 sm:min-h-[290px] sm:px-8">
-        <div aria-hidden="true" className="absolute inset-0 opacity-70" style={{ background: "radial-gradient(ellipse at 50% 45%, rgba(192,119,79,.24), transparent 55%), linear-gradient(145deg, #17110f, #090a0d 75%)" }} />
-        <div aria-hidden="true" className="absolute -right-12 -top-16 h-64 w-64 rounded-full border border-[#e8c9a0]/10" />
-        <div aria-hidden="true" className="absolute -right-4 -top-8 h-48 w-48 rounded-full border border-[#e8c9a0]/10" />
-        <div className="relative z-10 w-full max-w-xl">
-          <div className="mb-7 flex items-center justify-between text-[9px] uppercase tracking-[0.24em] text-[#e8c9a0]/55">
-            <span>Listening room / 002</span>
-            <AudioLines size={15} strokeWidth={1.3} />
-          </div>
-          <div className="flex h-24 items-center justify-center gap-[3px] sm:h-32 sm:gap-1" aria-label="Decorative sound waveform">
-            {heights.map((height, i) => (
-              <motion.span
-                key={i}
-                className="w-full max-w-[7px] rounded-full bg-[#e8c9a0]"
-                style={{ height: `${height}%`, opacity: 0.28 + (i % 5) * 0.13, transformOrigin: "center" }}
-                animate={reduced ? undefined : { scaleY: [0.75, 1, 0.82] }}
-                transition={reduced ? undefined : { duration: 1.8 + (i % 6) * 0.18, repeat: Infinity, repeatType: "mirror", delay: i * 0.025, ease: "easeInOut" }}
-              />
-            ))}
-          </div>
-          <div className="mt-6 flex items-center justify-between border-t border-[#e8c9a0]/15 pt-4 text-[9px] uppercase tracking-[0.18em] text-[#e8c9a0]/50">
-            <span>Original music · works in progress</span>
-            <span>Side A</span>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (discipline === "film") {
-    return (
-      <div className="relative flex min-h-[230px] items-center justify-center overflow-hidden border border-white/10 bg-[#101114] px-5 sm:min-h-[290px] sm:px-8">
-        <div aria-hidden="true" className="absolute inset-0" style={{ background: "radial-gradient(ellipse at 50% 52%, rgba(170,170,170,.13), transparent 48%), linear-gradient(110deg, #090a0c, #17181b 50%, #08090b)" }} />
-        <div aria-hidden="true" className="absolute inset-x-0 top-4 flex justify-around opacity-20">
-          {Array.from({ length: 16 }).map((_, i) => <span key={i} className="h-2 w-4 rounded-[2px] border border-white/70" />)}
-        </div>
-        <div aria-hidden="true" className="absolute inset-x-0 bottom-4 flex justify-around opacity-20">
-          {Array.from({ length: 16 }).map((_, i) => <span key={i} className="h-2 w-4 rounded-[2px] border border-white/70" />)}
-        </div>
-        <div className="relative z-10 w-full max-w-xl">
-          <div className="mb-8 flex items-center justify-between text-[9px] uppercase tracking-[0.24em] text-white/45">
-            <span>Screening room / 003</span>
-            <Clapperboard size={16} strokeWidth={1.2} />
-          </div>
-          <div className="relative mx-auto flex aspect-[2.1/1] max-w-md items-center justify-center border border-white/20 bg-black/25">
-            <div aria-hidden="true" className="absolute inset-3 border border-white/[0.07]" />
-            <div className="text-center">
-              <Film size={25} strokeWidth={1} className="mx-auto mb-3 text-white/70" />
-              <p className="text-[10px] uppercase tracking-[0.3em] text-white/65">Stories in frames</p>
-              <p className="mt-2 text-[9px] tracking-[0.12em] text-white/35">Short film · visual experiments</p>
-            </div>
-          </div>
-          <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-4 text-[9px] uppercase tracking-[0.18em] text-white/40">
-            <span>Independent filmmaking</span>
-            <span>Take 01</span>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="relative flex min-h-[230px] items-center justify-center overflow-hidden border border-[#a9c2d7]/20 bg-[#090e14] px-5 sm:min-h-[290px] sm:px-8">
-      <div aria-hidden="true" className="absolute inset-0 opacity-80" style={{ backgroundImage: "linear-gradient(rgba(169,194,215,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(169,194,215,.06) 1px, transparent 1px)", backgroundSize: "24px 24px", maskImage: "linear-gradient(to bottom, transparent, black 25%, black 75%, transparent)" }} />
-      <div aria-hidden="true" className="absolute inset-0" style={{ background: "radial-gradient(ellipse at 50% 50%, rgba(67,121,161,.18), transparent 55%)" }} />
-      <div className="relative z-10 w-full max-w-xl">
-        <div className="mb-7 flex items-center justify-between text-[9px] uppercase tracking-[0.24em] text-[#a9c2d7]/55">
-          <span>Systems archive / 001</span>
-          <Orbit size={16} strokeWidth={1.2} />
-        </div>
-        <div className="grid grid-cols-3 gap-3 sm:gap-5">
-          {[
-            { icon: Code2, label: "Build", sub: "Interfaces" },
-            { icon: Sparkles, label: "Reason", sub: "Intelligence" },
-            { icon: AudioLines, label: "Connect", sub: "Signals" },
-          ].map(({ icon: Icon, label, sub }, i) => (
-            <div key={label} className="relative flex min-h-24 flex-col items-center justify-center border border-[#a9c2d7]/20 bg-[#101923]/80 p-3 text-center sm:min-h-28">
-              <Icon size={20} strokeWidth={1.25} className="mb-3 text-[#a9c2d7]" />
-              <span className="text-[10px] uppercase tracking-[0.15em] text-white/80">{label}</span>
-              <span className="mt-1 text-[9px] text-white/40">{sub}</span>
-              {i < 2 && <span aria-hidden="true" className="absolute -right-3 top-1/2 h-px w-3 bg-[#a9c2d7]/45 sm:-right-5 sm:w-5" />}
-            </div>
-          ))}
-        </div>
-        <div className="mt-6 flex items-center justify-between border-t border-[#a9c2d7]/15 pt-4 text-[9px] uppercase tracking-[0.18em] text-[#a9c2d7]/50">
-          <span>Software · AI · experiments</span>
-          <span>Build 01</span>
-        </div>
-      </div>
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+      {STARS.map((star, i) => (
+        <motion.i key={i} className="absolute block rounded-full bg-[#e7e5df]"
+          style={{ left: `${star.x}%`, top: `${star.y}%`, width: star.size, height: star.size, boxShadow: star.size > 2 ? "0 0 11px rgba(230,230,230,.7)" : "0 0 5px rgba(230,230,230,.35)" }}
+          animate={reduced ? undefined : { opacity: [0.2, star.size > 2 ? 0.95 : 0.6, 0.2], scale: [1, 1.2, 1] }}
+          transition={reduced ? undefined : { duration: 3.2 + star.delay, delay: star.delay, repeat: Infinity, ease: "easeInOut" }} />
+      ))}
+      {tone && <div className="absolute inset-0 opacity-60" style={{ background: `radial-gradient(ellipse at 55% 48%, ${tone}18, transparent 62%)` }} />}
     </div>
   );
 }
 
-function CreativeEntry({
-  discipline,
-  eyebrow,
-  title,
-  description,
-  status,
-  meta,
-}: {
-  discipline: "music" | "film";
-  eyebrow: string;
-  title: string;
-  description: string;
-  status: string;
-  meta: string;
-}) {
+function TelescopeEntrance({ onEnter }: { onEnter: () => void }) {
+  const reduced = useReducedMotion();
   return (
-    <article className="group overflow-hidden border border-white/[0.12] bg-[#08090d]/80">
-      <WorldArtwork discipline={discipline} />
-      <div className="grid gap-5 p-5 sm:grid-cols-[1fr_auto] sm:items-end sm:p-7">
-        <div>
-          <div className="mb-3 flex flex-wrap items-center gap-2">
-            <span className="text-[9px] uppercase tracking-[0.2em] text-white/40">{eyebrow}</span>
-            <span className="h-px w-5 bg-white/20" />
-            <span className="text-[9px] uppercase tracking-[0.16em] text-white/55">{status}</span>
-          </div>
-          <h3 className="text-2xl font-medium tracking-tight text-[#f4f1eb] sm:text-3xl">{title}</h3>
-          <p className="mt-3 max-w-xl text-sm leading-7 text-white/55">{description}</p>
-          <p className="mt-4 text-[10px] uppercase tracking-[0.16em] text-white/35">{meta}</p>
-        </div>
-        <span aria-hidden="true" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white/65 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1">
-          <ArrowDownRight size={17} strokeWidth={1.3} />
-        </span>
+    <motion.button type="button" onClick={onEnter} aria-label="Look through the telescope and enter the project universe"
+      className="group relative mx-auto flex min-h-[480px] w-full max-w-5xl flex-col items-center justify-center overflow-hidden bg-transparent px-5 py-12 text-center sm:min-h-[600px] sm:py-16"
+      whileHover={reduced ? undefined : { borderColor: "rgba(210,220,235,.3)" }}
+      whileTap={reduced ? undefined : { scale: 0.996 }}>
+      <StarField />
+      <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse at 50% 48%, rgba(60,95,150,.2), transparent 44%), linear-gradient(180deg, transparent 54%, rgba(0,0,0,.72))" }} />
+      <div className="relative z-10 mb-7 flex items-center gap-3 text-[9px] uppercase tracking-[.32em] text-white/40 sm:mb-9">
+        <span className="h-px w-7 bg-white/25" /> Observatory 01 <span className="h-px w-7 bg-white/25" />
       </div>
-    </article>
+      <motion.div className="relative z-10 mb-7 flex aspect-square w-[min(68vw,340px)] items-center justify-center sm:mb-9 sm:w-[360px]"
+        animate={reduced ? undefined : { rotate: [0, 1.5, 0], scale: [1, 1.012, 1] }}
+        transition={reduced ? undefined : { duration: 12, repeat: Infinity, ease: "easeInOut" }}>
+        <div className="absolute inset-0 rounded-full border-[10px] border-[#242a36] shadow-[0_0_0_2px_#697384,0_0_0_8px_#111722,0_0_0_10px_#515a69,0_0_45px_rgba(97,139,205,.25)]" />
+        <div className="absolute inset-[7%] rounded-full border-[3px] border-[#8b95a6]/70 bg-[conic-gradient(from_15deg,#101a2b_0deg,#53648c_30deg,#161c2b_55deg,#8a6aa9_78deg,#111b2b_112deg,#2b7594_150deg,#101522_195deg,#6a77a2_245deg,#1a2031_300deg,#101a2b_360deg)] shadow-[inset_0_0_35px_#02040a,0_0_24px_rgba(95,145,210,.25)]" />
+        <div className="absolute inset-[14%] rounded-full border border-white/20 bg-[radial-gradient(ellipse_at_42%_48%,rgba(125,185,232,.22),transparent_38%),radial-gradient(ellipse_at_58%_45%,rgba(182,119,214,.2),transparent_45%),radial-gradient(circle_at_center,#050914_0%,#090f1c_48%,#02040a_74%)] shadow-[inset_0_0_35px_#000]" />
+        <div className="absolute inset-[23%] rounded-full border border-white/10 bg-[radial-gradient(ellipse_at_35%_42%,rgba(74,158,207,.18),transparent_25%),radial-gradient(ellipse_at_66%_59%,rgba(173,120,204,.17),transparent_28%),radial-gradient(circle_at_center,#101a2a_0%,#050914_64%,#02040a_100%)]" />
+        <div className="absolute inset-[31%] rounded-full border border-white/10 bg-[radial-gradient(ellipse_at_30%_45%,#b9d9ed_0%,rgba(77,126,183,.35)_8%,transparent_30%),radial-gradient(ellipse_at_68%_58%,rgba(200,151,220,.5),transparent_30%),radial-gradient(circle_at_center,#050914_0%,#02040a_78%)] shadow-[0_0_30px_rgba(95,157,219,.15)]" />
+        <div className="absolute inset-[42%] rounded-full border border-white/20 bg-[#02040a] shadow-[0_0_25px_rgba(112,171,230,.25),inset_0_0_18px_#000]" />
+        <div className="absolute inset-[47%] rounded-full bg-[radial-gradient(circle,#6d91b7_0%,#18243a_45%,#02040a_75%)]" />
+        <span className="absolute left-[8%] top-[28%] h-3 w-3 rounded-full bg-[#9fd7ff] shadow-[0_0_18px_#9fd7ff]" />
+        <span className="absolute right-[12%] top-[60%] h-2 w-2 rounded-full bg-[#d9b5ff] shadow-[0_0_15px_#d9b5ff]" />
+        <span className="absolute right-[26%] top-[13%] h-1.5 w-1.5 rounded-full bg-[#f5dfbd] shadow-[0_0_12px_#f5dfbd]" />
+        <span className="absolute bottom-[15%] left-[31%] h-1 w-1 rounded-full bg-white shadow-[0_0_9px_white]" />
+      </motion.div>
+      <h3 className="relative z-10 text-3xl font-light tracking-[-.045em] text-[#f0eee8] sm:text-5xl">View the galaxy of projects?</h3>
+      <p className="relative z-10 mt-4 max-w-md text-sm leading-6 text-white/45">A closer look at the things I build, the music I make, and the stories I keep.</p>
+      <span className="relative z-10 mt-7 inline-flex items-center gap-3 text-[10px] uppercase tracking-[.24em] text-white/70 transition-colors group-hover:text-white">
+        Enter the observatory <ArrowDownRight size={14} className="transition-transform duration-500 group-hover:translate-x-1 group-hover:translate-y-1" />
+      </span>
+    </motion.button>
+  );
+}
+
+function TelescopeDive({ direction, onComplete }: { direction: "in" | "out"; onComplete: () => void }) {
+  const reduced = useReducedMotion();
+  const entering = direction === "in";
+  return (
+    <motion.div
+      key={direction === "in" ? "looking-in" : "looking-out"}
+      className="relative flex min-h-[580px] items-center justify-center overflow-hidden bg-transparent sm:min-h-[700px]"
+      initial={{ opacity: entering ? 0 : 1 }}
+      animate={{ opacity: entering ? 1 : 0 }}
+      transition={{ duration: reduced ? 0 : entering ? 0.18 : 0.72, ease: entering ? "easeOut" : [0.7, 0, 0.25, 1] }}
+    >
+      <StarField />
+      <motion.div
+        className="absolute inset-0 will-change-transform"
+        initial={reduced ? { scale: 1, opacity: 1, rotate: 0 } : { scale: entering ? 0.72 : 4.2, opacity: entering ? 0.7 : 0.18, rotate: entering ? -7 : 8 }}
+        animate={reduced ? { scale: 1, opacity: 1, rotate: 0 } : { scale: entering ? 4.2 : 0.72, opacity: entering ? 0.08 : 0.7, rotate: entering ? 0 : -12 }}
+        transition={{ duration: reduced ? 0 : entering ? 0.78 : 0.94, ease: entering ? [0.2, 0.85, 0.25, 1] : [0.72, 0, 0.25, 1] }}
+        onAnimationComplete={onComplete}
+        style={{ transformOrigin: "50% 50%" }}
+      >
+        <div className="absolute inset-[-45%] rounded-full border-[clamp(12px,4vw,42px)] border-[#202a3a] shadow-[0_0_0_3px_#718096,0_0_0_12px_#111722,0_0_0_15px_#4a5362,0_0_100px_rgba(83,142,213,.35)]" />
+        <div className="absolute inset-[-36%] rounded-full border border-white/25 bg-[conic-gradient(from_20deg,#101a2b,#53648c,#161c2b,#8a6aa9,#111b2b,#2b7594,#101522,#6a77a2,#1a2031,#101a2b)] opacity-80" />
+        <div className="absolute inset-[-25%] rounded-full border border-white/20 bg-[radial-gradient(ellipse_at_42%_48%,rgba(125,185,232,.35),transparent_38%),radial-gradient(ellipse_at_58%_45%,rgba(182,119,214,.3),transparent_45%),radial-gradient(circle_at_center,#050914_0%,#090f1c_48%,#02040a_74%)]" />
+        <div className="absolute inset-[-10%] rounded-full border border-white/20 bg-[radial-gradient(ellipse_at_35%_42%,rgba(74,158,207,.25),transparent_25%),radial-gradient(ellipse_at_66%_59%,rgba(173,120,204,.25),transparent_28%),radial-gradient(circle_at_center,#101a2a_0%,#050914_64%,#02040a_100%)]" />
+        <div className="absolute inset-[8%] rounded-full border border-white/20 bg-[radial-gradient(circle_at_center,#050914_0%,#02040a_78%)] shadow-[0_0_70px_rgba(95,157,219,.2)]" />
+      </motion.div>
+      <p className="relative z-10 mt-[330px] text-[9px] uppercase tracking-[.32em] text-white/45 sm:mt-[390px]">
+        {entering ? "Looking through the lens" : "Returning to the observatory"}
+      </p>
+    </motion.div>
+  );
+}
+
+function GalaxyWorld({ world, index, onSelect }: { world: (typeof WORLDS)[number]; index: number; onSelect: () => void }) {
+  const reduced = useReducedMotion();
+  const palettes: Record<WorldId, { core: string; haze: string; arm: string }> = {
+    tech: { core: "#d6f4ff", haze: "#3688e8", arm: "#71d9f5" },
+    music: { core: "#ffe3ff", haze: "#a34bdf", arm: "#e4a1ff" },
+    film: { core: "#fff0c9", haze: "#df7e48", arm: "#ffc58b" },
+  };
+  const palette = palettes[world.id];
+  const dust = Array.from({ length: 42 }, (_, i) => ({
+    x: (i * 37 + 9 + index * 13) % 100,
+    y: (i * 61 + 17 + index * 7) % 100,
+    size: i % 11 === 0 ? 2.2 : i % 4 === 0 ? 1.5 : 0.8,
+    delay: (i % 8) * 0.3,
+  }));
+  return (
+    <motion.button type="button" onClick={onSelect} aria-label={`Explore ${world.label} galaxy`}
+      className="group relative flex min-h-[340px] w-full flex-col items-center justify-center overflow-hidden text-center sm:min-h-[430px]"
+      initial={reduced ? undefined : { opacity: 0, y: 18, scale: 0.94 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      whileHover={reduced ? undefined : { y: -5, scale: 1.025 }}
+      whileTap={reduced ? undefined : { scale: 0.985 }}
+      transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 180, damping: 18, mass: 0.72, delay: index * 0.06 }}>
+      <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse at 50% 48%, ${palette.haze}18, transparent 58%)` }} />
+      {dust.map((star, i) => <motion.i key={i} className="absolute block rounded-full bg-white"
+        style={{ left: `${star.x}%`, top: `${star.y}%`, width: star.size, height: star.size, boxShadow: `0 0 7px ${palette.arm}99` }}
+        animate={reduced ? undefined : { opacity: [0.12, 0.8, 0.12], scale: [0.8, 1.35, 0.8] }}
+        transition={reduced ? undefined : { duration: 4 + star.delay, delay: star.delay, repeat: Infinity, ease: "easeInOut" }} />)}
+      <motion.div className="relative mb-[-12px] aspect-square w-[min(72vw,330px)] sm:w-[min(28vw,360px)]"
+        animate={reduced ? undefined : { rotate: 360 }}
+        transition={reduced ? undefined : { duration: world.id === "music" ? 110 : world.id === "film" ? 135 : 120, repeat: Infinity, ease: "linear" }}>
+        <div className="absolute inset-[8%] rounded-full opacity-80 blur-2xl" style={{ background: `radial-gradient(ellipse, ${palette.haze}66, transparent 68%)` }} />
+        <div className="absolute left-1/2 top-1/2 h-[20%] w-[86%] -translate-x-1/2 -translate-y-1/2 rotate-[-24deg] rounded-[50%] opacity-80 blur-xl" style={{ background: `linear-gradient(90deg, transparent, ${palette.arm}66, ${palette.core}cc, ${palette.arm}66, transparent)` }} />
+        <svg viewBox="0 0 320 320" className="absolute inset-0 h-full w-full overflow-visible" aria-hidden="true">
+          <defs>
+            <radialGradient id={`core-${world.id}`}><stop stopColor={palette.core} stopOpacity="1" /><stop offset=".16" stopColor={palette.arm} stopOpacity=".8" /><stop offset=".43" stopColor={palette.haze} stopOpacity=".28" /><stop offset="1" stopColor={palette.haze} stopOpacity="0" /></radialGradient>
+            <linearGradient id={`arm-${world.id}`} x1="0" y1="0" x2="1" y2="1"><stop stopColor={palette.core} stopOpacity=".05" /><stop offset=".45" stopColor={palette.arm} stopOpacity=".7" /><stop offset="1" stopColor={palette.haze} stopOpacity=".04" /></linearGradient>
+            <filter id={`glow-${world.id}`}><feGaussianBlur stdDeviation="4" /></filter>
+          </defs>
+          <ellipse cx="160" cy="160" rx="122" ry="42" transform="rotate(-24 160 160)" fill={palette.haze} opacity=".12" />
+          <ellipse cx="160" cy="160" rx="100" ry="30" transform="rotate(-24 160 160)" fill="none" stroke={palette.arm} strokeOpacity=".3" strokeWidth="1.2" />
+          <path d="M160 160 C212 111 263 151 235 190 C204 232 139 211 130 168 C120 112 190 73 233 113 C280 157 230 235 172 246 C98 260 50 190 84 125 C116 65 201 57 251 99" fill="none" stroke={`url(#arm-${world.id})`} strokeWidth="17" strokeLinecap="round" opacity=".56" filter={`url(#glow-${world.id})`} />
+          <path d="M160 160 C212 111 263 151 235 190 C204 232 139 211 130 168 C120 112 190 73 233 113 C280 157 230 235 172 246 C98 260 50 190 84 125 C116 65 201 57 251 99" fill="none" stroke={`url(#arm-${world.id})`} strokeWidth="5" strokeLinecap="round" opacity=".72" />
+          <path d="M160 160 C115 120 76 145 90 178 C106 219 167 219 190 177 C214 133 172 97 139 111 C98 129 105 180 135 194 C171 211 216 187 220 151" fill="none" stroke={palette.core} strokeOpacity=".36" strokeWidth="2" strokeLinecap="round" />
+          <circle cx="160" cy="160" r="49" fill={`url(#core-${world.id})`} />
+          <circle cx="160" cy="160" r="9" fill={palette.core} opacity=".9" filter={`url(#glow-${world.id})`} />
+          {Array.from({ length: 70 }, (_, i) => {
+            const angle = i * 2.399 + index * 0.8;
+            const radius = 15 + ((i * 29) % 120);
+            const x = 160 + Math.cos(angle) * radius;
+            const y = 160 + Math.sin(angle) * radius * 0.55;
+            return <circle key={i} cx={x} cy={y} r={i % 9 === 0 ? 1.4 : 0.65} fill={i % 3 === 0 ? palette.core : "#ffffff"} opacity={0.18 + (i % 6) * 0.1} />;
+          })}
+        </svg>
+        <div className="absolute inset-[12%] rounded-full border border-white/[.08]" />
+      </motion.div>
+      <span className="relative z-10 mt-3 text-xl font-light tracking-[-.035em] text-white/90 transition-colors group-hover:text-white sm:text-2xl">{world.label}</span>
+      <span className="relative z-10 mt-2 text-[9px] uppercase tracking-[.24em] text-white/45 group-hover:text-white/70">{world.line}</span>
+      <span className="relative z-10 mt-4 h-px w-8 transition-all duration-700 group-hover:w-16" style={{ background: palette.arm }} />
+    </motion.button>
+  );
+}
+
+function Constellation({ world, index, onSelect }: { world: (typeof WORLDS)[number]; index: number; onSelect: () => void }) {
+  const reduced = useReducedMotion();
+  const points = world.id === "tech"
+    ? [[50, 13], [28, 31], [72, 32], [39, 55], [65, 67], [25, 78], [82, 82]]
+    : world.id === "music"
+      ? [[17, 45], [30, 28], [44, 55], [56, 24], [70, 49], [83, 34], [78, 73]]
+      : [[23, 20], [50, 13], [76, 25], [32, 49], [61, 48], [46, 77], [78, 80]];
+  return (
+    <motion.button type="button" onClick={onSelect} aria-label={`Explore ${world.label} projects`}
+      className="group relative min-h-[290px] overflow-hidden border-t border-white/[.14] px-4 py-7 text-left sm:min-h-[340px] sm:px-6"
+      initial={reduced ? undefined : { opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: reduced ? 0 : .55, delay: reduced ? 0 : index * .12 }}>
+      <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-55 transition-opacity duration-500 group-hover:opacity-90" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        {points.slice(0, -1).map((point, i) => <line key={i} x1={point[0]} y1={point[1]} x2={points[i + 1][0]} y2={points[i + 1][1]} stroke={world.tone} strokeOpacity=".32" strokeWidth=".24" strokeDasharray={world.id === "film" ? "1 1" : "none"} />)}
+        {world.id === "music" && <path d="M8 62 C20 24 29 85 41 50 S62 20 72 53 S88 78 94 36" fill="none" stroke={world.tone} strokeOpacity=".24" strokeWidth=".4" />}
+        {world.id === "film" && <path d="M12 9 L88 9 L88 91 L12 91 Z" fill="none" stroke={world.tone} strokeOpacity=".13" strokeWidth=".35" />}
+      </svg>
+      {points.map((point, i) => <motion.i key={i} className="absolute block rounded-full"
+        style={{ left: `${point[0]}%`, top: `${point[1]}%`, width: i === 0 ? 5 : 3, height: i === 0 ? 5 : 3, background: world.tone, boxShadow: `0 0 12px ${world.tone}88` }}
+        animate={reduced ? undefined : { opacity: [.4, 1, .4], scale: [1, i === 0 ? 1.25 : 1.12, 1] }}
+        transition={reduced ? undefined : { duration: 2.8 + i * .31, delay: i * .1, repeat: Infinity, ease: "easeInOut" }} />)}
+      <span className="relative z-10 flex items-center justify-between text-[9px] uppercase tracking-[.25em] text-white/35">
+        <span>Constellation {world.number}</span><ArrowUpRight size={15} className="text-white/35 transition-transform duration-500 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-white" />
+      </span>
+      <span className="relative z-10 mt-32 block text-2xl font-light tracking-[-.035em] text-[#f0eee8] sm:mt-36 sm:text-3xl">{world.label}</span>
+      <span className="relative z-10 mt-2 block text-xs text-white/45 transition-colors duration-300 group-hover:text-white/75">{world.line}</span>
+      <span className="relative z-10 mt-4 block h-px w-8 origin-left transition-all duration-500 group-hover:w-16" style={{ background: world.tone }} />
+    </motion.button>
+  );
+}
+
+function ArchiveRow({ item, index, onClick }: { item: ArchiveItem; index: number; onClick: () => void }) {
+  const reduced = useReducedMotion();
+  return (
+    <motion.button type="button" onClick={onClick}
+      className={`group relative grid w-full grid-cols-[34px_1fr_auto] items-center gap-3 border-b border-white/[.12] py-5 text-left sm:grid-cols-[56px_1fr_170px_auto] sm:gap-5 sm:py-7 ${item.featured ? "border-t border-t-white/35" : ""}`}
+      initial={reduced ? undefined : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+      whileHover={reduced ? undefined : { x: 4 }}
+      whileTap={reduced ? undefined : { scale: 0.995 }}
+      transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 240, damping: 22, delay: index * .04 }}>
+      <span className={`font-mono text-[10px] ${item.featured ? "text-[#e8c9a0]" : "text-white/25"}`}>{String(index + 1).padStart(2, "0")}</span>
+      <span className="min-w-0">
+        <span className="mb-2 flex flex-wrap items-center gap-x-3 gap-y-1">
+          <span className={`text-[9px] uppercase tracking-[.19em] ${item.featured ? "text-[#e8c9a0]" : "text-white/35"}`}>{item.tag}</span>
+          {item.featured && <span className="text-[8px] uppercase tracking-[.2em] text-[#e8c9a0]/70">✳ Highlighted</span>}
+        </span>
+        <span className="block text-lg font-light tracking-[-.025em] text-white/85 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-white sm:text-2xl">{item.title}</span>
+        <span className="mt-2 block max-w-2xl text-xs leading-6 text-white/55 sm:text-sm sm:leading-6">{item.line}</span>
+      </span>
+      <span className="hidden text-[9px] uppercase leading-5 tracking-[.13em] text-white/30 sm:block">{item.meta}</span>
+      <span className="flex h-8 w-8 items-center justify-center text-white/40 transition-all duration-300 group-hover:translate-x-1 group-hover:text-white"><ArrowUpRight size={16} strokeWidth={1.2} /></span>
+    </motion.button>
   );
 }
 
 export default function Projects() {
-  const [active, setActive] = useState<Discipline>("tech");
+  const [phase, setPhase] = useState<Phase>("observatory");
+  const [activeWorld, setActiveWorld] = useState<WorldId>("tech");
+  const [selectedItem, setSelectedItem] = useState<ArchiveItem | null>(null);
   const reduced = useReducedMotion();
-  const selectedWorld = WORLDS.find((world) => world.id === active) ?? WORLDS[0];
+  const world = WORLDS.find((item) => item.id === activeWorld) ?? WORLDS[0];
+  const items = ARCHIVES[activeWorld];
+
+  useEffect(() => {
+    if (!selectedItem) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setSelectedItem(null);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [selectedItem]);
+
+  const enterWorld = (id: WorldId) => {
+    setActiveWorld(id);
+    setPhase("archive");
+  };
 
   return (
     <section id="projects" className="relative px-5 py-20 md:px-6 md:py-32">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute left-[8%] top-24 h-48 w-48 rounded-full bg-[#7f9bb8]/[0.035] blur-3xl" />
-        <div className="absolute right-[6%] top-[45%] h-56 w-56 rounded-full bg-[#b77f61]/[0.035] blur-3xl" />
-      </div>
-
-      <div className="relative z-10 mx-auto max-w-6xl">
-        <motion.div
-          className="mb-12 grid gap-6 md:mb-16 md:grid-cols-[1.15fr_.85fr] md:items-end"
-          initial={reduced ? undefined : { opacity: 0, y: 22 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.65 }}
-        >
+      <div className="mx-auto max-w-6xl">
+        <motion.div className="mb-10 flex flex-wrap items-end justify-between gap-5 sm:mb-14"
+          initial={reduced ? undefined : { opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: .2 }} transition={{ duration: .6 }}>
           <div>
-            <div className="mb-5 flex items-center gap-3 text-[10px] uppercase tracking-[0.25em] text-white/40">
-              <span className="h-px w-8 bg-white/35" />
-              The creation archive
-              <span className="text-white/20">/ 03 worlds</span>
-            </div>
-            <h2 className="max-w-3xl text-4xl font-medium leading-[0.98] tracking-[-0.055em] text-[#f4f1eb] sm:text-6xl md:text-7xl">
-              Things I&apos;ve brought
-              <span className="block text-white/45">into existence.</span>
-            </h2>
+            <p className="mb-4 flex items-center gap-3 text-[9px] uppercase tracking-[.28em] text-white/35"><span className="h-px w-7 bg-white/35" /> Projects / The observatory</p>
+            <h2 className="text-4xl font-light leading-[.98] tracking-[-.055em] text-[#f0eee8] sm:text-6xl md:text-7xl">Look closer.</h2>
           </div>
-          <p className="max-w-lg text-sm leading-7 text-white/55 md:justify-self-end md:text-base">
-            Some started with a problem. Some with a feeling. Others with a story I couldn&apos;t stop thinking about. Different mediums, one ongoing practice of making.
-          </p>
+          <p className="max-w-sm text-sm leading-6 text-white/45">A living archive of systems, songs, and stories. Start at the lens.</p>
         </motion.div>
 
-        <div className="mb-8 grid grid-cols-1 border-y border-white/[0.13] sm:grid-cols-3">
-          {WORLDS.map((world, index) => {
-            const selected = active === world.id;
-            return (
-              <button
-                key={world.id}
-                type="button"
-                onClick={() => setActive(world.id)}
-                aria-pressed={selected}
-                className={`group relative min-h-[124px] border-b border-white/[0.10] px-4 py-5 text-left transition-colors duration-300 last:border-b-0 sm:border-b-0 sm:border-r sm:px-5 sm:py-6 sm:last:border-r-0 ${selected ? "bg-white/[0.055]" : "hover:bg-white/[0.025]"}`}
-              >
-                <span className="mb-5 flex items-center justify-between">
-                  <span className={`text-[10px] uppercase tracking-[0.2em] ${selected ? "text-white/75" : "text-white/35"}`}>{world.number} / {world.label}</span>
-                  {selected ? <ArrowDownRight size={17} strokeWidth={1.2} className="text-white/75" /> : <ArrowUpRight size={16} strokeWidth={1.2} className="text-white/25 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />}
-                </span>
-                <span className={`block max-w-xs text-sm leading-6 ${selected ? "text-white/80" : "text-white/45"}`}>{world.description}</span>
-                {selected && <motion.span layoutId="project-world-indicator" className="absolute inset-x-0 bottom-0 h-px bg-[#d6c5a6]" transition={{ duration: reduced ? 0 : 0.25 }} />}
-              </button>
-            );
-          })}
-        </div>
-
-        <motion.div
-          key={active}
-          initial={reduced ? undefined : { opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: reduced ? 0 : 0.35 }}
-        >
-          <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="mb-2 text-[9px] uppercase tracking-[0.25em] text-white/35">World {selectedWorld.number}</p>
-              <h3 className="text-2xl font-medium tracking-tight text-[#f4f1eb] sm:text-3xl">{selectedWorld.label}</h3>
-            </div>
-            <p className="max-w-sm text-xs leading-6 text-white/40">{selectedWorld.prompt}</p>
-          </div>
-
-          {active === "tech" && (
-            <div className="grid grid-cols-1 gap-7 md:grid-cols-2 md:gap-8">
-              {TECH_PROJECTS.map((project, index) => (
-                <ProjectCard key={project.title} index={index} {...project} />
-              ))}
-            </div>
+        <AnimatePresence mode="wait">
+          {phase === "observatory" && (
+            <motion.div key="observatory" initial={reduced ? undefined : { opacity: 0 }} animate={{ opacity: 1 }}
+              exit={{ opacity: 0, scale: reduced ? 1 : .96, filter: reduced ? "none" : "blur(5px)" }}
+              transition={{ duration: reduced ? 0 : .5 }}>
+              <TelescopeEntrance onEnter={() => setPhase("looking")} />
+            </motion.div>
           )}
-
-          {active === "music" && (
-            <div className="space-y-5">
-              <CreativeEntry
-                discipline="music"
-                eyebrow="Original song / 001"
-                title="Whenever You Go"
-                description="A song at the beginning of a new musical chapter. The archive will grow with recordings, artwork, and notes as the work becomes ready to share."
-                status="In progress"
-                meta="Songwriting · vocals · production experiments"
-              />
-              <div className="flex items-start gap-3 border-l border-[#e8c9a0]/35 py-2 pl-4">
-                <Music2 size={16} strokeWidth={1.2} className="mt-1 shrink-0 text-[#e8c9a0]/65" />
-                <p className="max-w-2xl text-xs leading-6 text-white/40">Early sketches and unfinished recordings can live here too—clearly marked as works in progress, never dressed up as finished releases.</p>
+          {phase === "looking" && <TelescopeDive direction="in" onComplete={() => setPhase("galaxy")} />}\n          {phase === "closing" && <TelescopeDive direction="out" onComplete={() => setPhase("observatory")} />}\n          {phase === "galaxy" && (
+            <motion.div key="galaxy" className="relative min-h-[580px] overflow-hidden bg-transparent px-4 py-8 sm:min-h-[700px] sm:px-8 sm:py-10"
+              initial={reduced ? undefined : { opacity: 0, scale: .82, y: 14 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: reduced ? 1 : 1.08, y: reduced ? 0 : -10 }}
+              transition={{ duration: reduced ? 0 : .68, ease: [.16, .8, .2, 1] }}>
+              <StarField />
+              <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse at 50% 48%, rgba(40,90,145,.22), transparent 55%), radial-gradient(ellipse at 72% 44%, rgba(141,75,165,.12), transparent 40%)" }} />
+              <div className="relative z-10 mb-5 flex flex-wrap items-center justify-between gap-4">
+                <div><p className="mb-2 text-[9px] uppercase tracking-[.26em] text-white/35">Optical field · 001</p><h3 className="text-2xl font-light tracking-[-.04em] text-white/90 sm:text-4xl">The universe of things I make.</h3></div>
+                <button type="button" onClick={() => setPhase("closing")} className="inline-flex items-center gap-2 py-2 text-[9px] uppercase tracking-[.18em] text-white/45 transition-colors hover:text-white"><ArrowLeft size={14} /> Back to telescope</button>
               </div>
-            </div>
-          )}
-
-          {active === "film" && (
-            <div className="space-y-5">
-              <CreativeEntry
-                discipline="film"
-                eyebrow="Short film / 001"
-                title="A story told in frames."
-                description="An independent short film made for the Jharkhand Film Festival 2026. The screening archive can hold its synopsis, your role, selected stills, and production notes when you choose to share them."
-                status="Film archive"
-                meta="Filmmaking · visual storytelling"
-              />
-              <div className="flex items-start gap-3 border-l border-white/25 py-2 pl-4">
-                <Play size={15} strokeWidth={1.2} className="mt-1 shrink-0 text-white/55" />
-                <p className="max-w-2xl text-xs leading-6 text-white/40">No fabricated stills or trailer placeholders: real frames and film material should replace this visual treatment when they&apos;re available to publish.</p>
+              <div className="relative z-10 grid grid-cols-1 items-center sm:grid-cols-3 sm:gap-2">
+                {WORLDS.map((item, index) => (
+                  <GalaxyWorld key={item.id} world={item} index={index} onSelect={() => enterWorld(item.id)} />
+                ))}
               </div>
-            </div>
+              <p className="relative z-10 mt-2 text-center text-[9px] uppercase tracking-[.18em] text-white/25">Three disciplines · one maker's universe</p>
+            </motion.div>
           )}
-        </motion.div>
+          {phase === "archive" && (
+            <motion.div key={`archive-${activeWorld}`} className="relative min-h-[560px] overflow-hidden bg-transparent px-5 py-6 sm:px-9 sm:py-8"
+              initial={reduced ? undefined : { opacity: 0, scale: .94, y: 12 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: reduced ? 1 : .97, y: reduced ? 0 : 8 }}
+              transition={{ duration: reduced ? 0 : .52, ease: [.2, .75, .2, 1] }}>
+              <StarField tone={world.tone} />
+              <div className="pointer-events-none absolute inset-0" style={{ background: `radial-gradient(ellipse at 78% 8%, ${world.tone}12, transparent 42%)` }} />
+              <div className="relative z-10">
+                <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/[.14] pb-5">
+                  <button type="button" onClick={() => setPhase("galaxy")} className="group inline-flex items-center gap-2 py-2 text-[9px] uppercase tracking-[.2em] text-white/50 transition-colors hover:text-white"><ArrowLeft size={14} className="transition-transform group-hover:-translate-x-1" /> Back to constellations</button>
+                  <span className="text-[9px] uppercase tracking-[.2em]" style={{ color: world.tone }}>World {world.number} / {world.label}</span>
+                </div>
+                <div className="grid gap-5 py-8 sm:grid-cols-[1fr_auto] sm:items-end sm:py-10">
+                  <div><p className="mb-3 text-[9px] uppercase tracking-[.25em] text-white/35">Signal acquired</p><h3 className="text-4xl font-light tracking-[-.05em] text-[#f0eee8] sm:text-6xl">{world.label}</h3><p className="mt-3 text-sm text-white/45">{world.line}</p></div>
+                  <span className="flex items-center gap-2 text-[9px] uppercase tracking-[.18em] text-white/30">{activeWorld === "tech" ? <Code2 size={15} /> : activeWorld === "music" ? <Headphones size={15} /> : <Clapperboard size={15} />}{items.length} entries logged</span>
+                </div>
+                <div className="relative">
+                  {items.map((item, index) => <ArchiveRow key={item.title} item={item} index={index} onClick={() => setSelectedItem(item)} />)}
+                </div>
+                {activeWorld === "film" && <p className="mt-6 max-w-2xl text-xs leading-6 text-white/35">These are private story fragments, not published films. The fuller versions stay private for now.</p>}
+                <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-white/[.12] pt-5">
+                  <span className="text-[9px] uppercase tracking-[.18em] text-white/25">End of current archive</span>
+                  <div className="flex flex-wrap gap-4">
+                    {WORLDS.filter((item) => item.id !== activeWorld).map((item) => <button key={item.id} type="button" onClick={() => enterWorld(item.id)} className="text-[9px] uppercase tracking-[.13em] text-white/45 transition-colors hover:text-white">{item.label} <ChevronRight size={11} className="inline" /></button>)}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
+
+      <AnimatePresence>
+        {selectedItem && (
+          <motion.div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/80 px-4 py-8 backdrop-blur-sm"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            onClick={() => setSelectedItem(null)}>
+            <motion.div role="dialog" aria-modal="true" aria-labelledby="project-detail-title"
+              className="relative max-h-[85vh] w-full max-w-2xl overflow-y-auto border border-white/15 bg-[#090a0e] p-6 sm:p-10"
+              initial={reduced ? undefined : { opacity: 0, y: 24, scale: .97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 12, scale: .98 }}
+              onClick={(event) => event.stopPropagation()}>
+              <StarField tone={world.tone} />
+              <button type="button" aria-label="Close project details" onClick={() => setSelectedItem(null)} className="absolute right-4 top-4 z-20 p-2 text-white/45 transition-colors hover:text-white"><X size={18} /></button>
+              <div className="relative z-10">
+                <p className="mb-4 text-[9px] uppercase tracking-[.24em]" style={{ color: world.tone }}>{selectedItem.tag}</p>
+                <h3 id="project-detail-title" className="max-w-xl text-3xl font-light leading-tight tracking-[-.04em] text-white sm:text-5xl">{selectedItem.title}</h3>
+                <p className="mt-6 max-w-xl text-base leading-8 text-white/65">{activeWorld === "film" ? "I'm not gonna give you my idea this easily." : selectedItem.detail}</p>
+                {activeWorld === "film" ? (
+                  <div className="mt-10 border-t border-white/15 pt-6">
+                    <p className="text-sm leading-7 text-white/65">If you're genuinely curious about the story, let's talk.</p>
+                    <a href="#contact" onClick={() => setSelectedItem(null)} className="mt-6 inline-flex items-center gap-3 border-b border-[#e8c9a0]/60 pb-2 text-[10px] uppercase tracking-[.2em] text-[#e8c9a0] transition-colors hover:text-white">Contact me <Mail size={14} /></a>
+                  </div>
+                ) : (
+                  <div className="mt-10 flex flex-wrap gap-5 border-t border-white/15 pt-6">
+                    {selectedItem.live && <a href={selectedItem.live} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[.18em] text-white/75 transition-colors hover:text-white">Live demo <ExternalLink size={13} /></a>}
+                    {selectedItem.code && <a href={selectedItem.code} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[.18em] text-white/50 transition-colors hover:text-white">Source code <Code2 size={13} /></a>}
+                    {!selectedItem.live && !selectedItem.code && <span className="text-[9px] uppercase tracking-[.16em] text-white/30">No public demo or source link yet</span>}
+                    {activeWorld === "music" && <span className="inline-flex items-center gap-2 text-[9px] uppercase tracking-[.16em] text-white/30"><Waves size={13} /> Work in progress</span>}
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

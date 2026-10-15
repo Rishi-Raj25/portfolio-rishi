@@ -495,3 +495,68 @@ body.journey-archive-open .journey-mobile-menu {
   }
   .field-diary-margin { left: 8px; }
 }
+
+
+/* Shared deep-space atmosphere: one continuous field across the whole portfolio. */
+body {
+  background-color: #03050a;
+  background-image:
+    radial-gradient(ellipse 58% 38% at 12% 9%, rgba(42, 92, 160, .14), transparent 72%),
+    radial-gradient(ellipse 50% 34% at 88% 27%, rgba(123, 57, 145, .12), transparent 72%),
+    radial-gradient(ellipse 65% 42% at 38% 61%, rgba(37, 100, 118, .08), transparent 72%),
+    radial-gradient(ellipse 54% 40% at 82% 88%, rgba(154, 93, 57, .09), transparent 72%),
+    #03050a;
+  background-attachment: fixed;
+}
+.universe-backdrop {
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 46% 22% at 18% 8%, rgba(71, 120, 198, .15), transparent 74%),
+    radial-gradient(ellipse 38% 26% at 82% 22%, rgba(141, 71, 170, .13), transparent 76%),
+    radial-gradient(ellipse 52% 30% at 46% 48%, rgba(53, 112, 132, .075), transparent 76%),
+    radial-gradient(ellipse 48% 24% at 16% 77%, rgba(99, 69, 145, .08), transparent 74%),
+    radial-gradient(ellipse 46% 28% at 88% 91%, rgba(178, 105, 64, .09), transparent 76%),
+    #03050a;
+}
+.universe-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: -8%;
+  pointer-events: none;
+  opacity: .24;
+  background-image:
+    radial-gradient(1px 1px at 4% 12%, rgba(235,242,255,.95) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 18% 46%, rgba(213,230,255,.85) 50%, transparent 100%),
+    radial-gradient(1px 1px at 34% 19%, rgba(235,242,255,.8) 50%, transparent 100%),
+    radial-gradient(1px 1px at 51% 72%, rgba(235,242,255,.8) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 67% 33%, rgba(235,242,255,.9) 50%, transparent 100%),
+    radial-gradient(1px 1px at 83% 61%, rgba(235,242,255,.75) 50%, transparent 100%),
+    radial-gradient(1px 1px at 94% 17%, rgba(235,242,255,.85) 50%, transparent 100%);
+  background-size: 240px 260px, 310px 330px, 370px 310px, 280px 390px, 420px 350px, 330px 290px, 390px 360px;
+  background-position: 0 0, 40px 90px, 120px 10px, 20px 150px, 190px 60px, 90px 200px, 230px 30px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .universe-backdrop::after { animation: cosmic-dust-drift 150s linear infinite; }
+}
+@keyframes cosmic-dust-drift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(-22px, 28px, 0) scale(1.015); }
+}
+
+
+/* Navigation recedes into the page after the hero, without becoming inert. */
+.journey-global-nav { transform-origin: top center; transition: opacity 550ms ease, filter 550ms ease; }
+.journey-global-nav--receded { filter: saturate(.72); }
+.journey-global-nav--receded > div { pointer-events: auto; }
+.journey-global-nav--receded a, .journey-global-nav--receded button { text-shadow: 0 1px 12px rgba(0,0,0,.55); }
+@media (prefers-reduced-motion: reduce) { .journey-global-nav { transition: none !important; } }
+
+/* Slow nebula blooms add occasional colour without expensive particle systems. */
+.cosmic-bloom { inset: -12%; overflow: hidden; opacity: 0; contain: strict; transform: translate3d(0,0,0) scale(.82); will-change: transform, opacity; }
+.cosmic-bloom::before, .cosmic-bloom::after { content: ""; position: absolute; width: min(52vw,720px); aspect-ratio: 1; border-radius: 50%; filter: blur(24px); mix-blend-mode: screen; }
+.cosmic-bloom--blue::before { left: 2%; top: 18%; background: radial-gradient(circle,rgba(62,145,255,.17) 0,rgba(60,105,205,.08) 24%,rgba(65,105,190,.025) 48%,transparent 70%); animation: nebula-pulse 18s ease-in-out infinite; }
+.cosmic-bloom--blue::after { right: 4%; top: 52%; background: radial-gradient(circle,rgba(45,210,220,.12) 0,rgba(45,150,185,.045) 34%,transparent 70%); animation: nebula-pulse 22s ease-in-out -8s infinite; }
+.cosmic-bloom--violet::before { right: 0; top: 2%; background: radial-gradient(circle,rgba(190,91,255,.14) 0,rgba(143,70,205,.06) 32%,transparent 70%); animation: nebula-pulse 24s ease-in-out -4s infinite; }
+.cosmic-bloom--violet::after { left: 25%; bottom: -4%; background: radial-gradient(circle,rgba(255,167,96,.11) 0,rgba(210,100,115,.045) 34%,transparent 70%); animation: nebula-pulse 27s ease-in-out -12s infinite; }
+@keyframes nebula-pulse { 0%,100% { opacity:.28; transform:scale(.84) translate3d(0,0,0); } 48% { opacity:.85; transform:scale(1.08) translate3d(1.5%,-1%,0); } }
+@media (prefers-reduced-motion: reduce) { .cosmic-bloom::before, .cosmic-bloom::after { animation:none !important; } }
