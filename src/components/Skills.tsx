@@ -11,55 +11,34 @@ const PATHS: Record<PathId, { eyebrow: string; title: string; subtitle: string; 
   build: {
     eyebrow: "FIELD 01 · TECHNICAL + EXECUTION",
     title: "Build & Engineer",
-    subtitle: "Code, systems, AI, collaboration, and getting ideas into the world.",
+    subtitle: "A closer look at the technical tools and systems I work with.",
     color: "#9bd8ff",
     glow: "rgba(66, 153, 225, .34)",
     skills: [
-      { name: "Python", description: "Used for backend logic, scripting, and AI-powered prototypes, including work on Karma AI.", x: 16, y: 20 },
-      { name: "C / C++", description: "Programming fundamentals, control flow, object-oriented concepts, and structured problem-solving.", x: 39, y: 12 },
-      { name: "Java", description: "Academic programming practice and object-oriented programming concepts.", x: 63, y: 15 },
-      { name: "Web development", description: "HTML, CSS, JavaScript, React, and Next.js for responsive interfaces and interactive experiences.", x: 84, y: 25 },
-      { name: "Backend & APIs", description: "Flask, REST APIs, JSON, service integrations, and connecting the pieces behind an application.", x: 87, y: 49 },
-      { name: "Databases", description: "SQL, MySQL, PostgreSQL, DBMS concepts, schema thinking, and working with structured data.", x: 77, y: 72 },
-      { name: "AI integration", description: "Applying AI services to practical products, including conversational and voice-based workflows.", x: 55, y: 82 },
-      { name: "Voice AI & real-time", description: "Speech-to-text, text-to-speech, conversational flows, WebSockets, and experimenting with Twilio and Sarvam AI.", x: 31, y: 79 },
-      { name: "Computer vision", description: "Image-based breed recognition explored in KrishiLens, including work with AI/ML concepts and PyTorch.", x: 12, y: 65 },
-      { name: "DSA & CS foundations", description: "Data structures, algorithms, operating systems, networking, and core computer science concepts.", x: 9, y: 43 },
-      { name: "Git & deployment", description: "Git, GitHub, branching, debugging, and deploying web projects with tools such as Vercel.", x: 31, y: 49 },
-      { name: "Product thinking", description: "Turning a problem statement into a user flow, feature set, prototype, and practical solution.", x: 50, y: 34 },
-      { name: "Hackathons & teamwork", description: "Collaborating under time pressure, contributing as a Python backend developer, and building demonstrable prototypes.", x: 67, y: 48 },
-      { name: "Planning & coordination", description: "Organising tasks, coordinating with teammates, researching options, and keeping projects moving toward a deliverable.", x: 48, y: 63 },
-      { name: "Presenting & communicating", description: "Explaining ideas, preparing presentations, pitching project concepts, and making technical ideas easier to follow.", x: 29, y: 31 },
-      { name: "Community & events", description: "Student ambassador activities, helping peers explore AI tools, and contributing to campus events and creative programming.", x: 69, y: 30 },
-      { name: "Learning by building", description: "Rapid prototyping, debugging, iterating from feedback, and extending skills through real project work.", x: 48, y: 48 },
-    ],
-  },
+      { name: "Python", description: "Used for backend logic, scripting, and AI-powered prototypes, including Karma AI.", x: 18, y: 20 },
+      { name: "Web development", description: "HTML, CSS, JavaScript, React, and Next.js for responsive interfaces and interactive experiences.", x: 43, y: 13 },
+      { name: "Backend & APIs", description: "Flask, REST APIs, JSON, and service integrations that connect an application.", x: 70, y: 20 },
+      { name: "Databases", description: "SQL, MySQL, PostgreSQL, DBMS concepts, and working with structured data.", x: 84, y: 43 },
+      { name: "AI integration", description: "Applying AI services to practical products, including conversational and voice-based workflows.", x: 76, y: 70 },
+      { name: "Voice AI", description: "Speech-to-text, text-to-speech, conversational flows, WebSockets, and experiments with Sarvam AI and Twilio.", x: 50, y: 82 },
+      { name: "Computer vision", description: "Image-based breed recognition explored in KrishiLens, including PyTorch and AI/ML concepts.", x: 24, y: 73 },
+      { name: "C / C++", description: "Programming fundamentals, control flow, object-oriented concepts, and structured problem-solving.", x: 10, y: 48 },
+      { name: "DSA & CS foundations", description: "Data structures, algorithms, operating systems, networking, and core computer science concepts.", x: 25, y: 42 },
+      { name: "Git & deployment", description: "Git, GitHub, branching, debugging, and deploying web projects with tools such as Vercel.", x: 51, y: 49 },
+    ],  },
   create: {
     eyebrow: "FIELD 02 · CREATIVE + COMMUNICATION",
     title: "Create & Tell Stories",
-    subtitle: "Images, music, words, performance, and the feeling that ties them together.",
+    subtitle: "Music and film: the creative work I am still growing into.",
     color: "#e2b9ff",
     glow: "rgba(168, 85, 247, .32)",
     skills: [
-      { name: "Songwriting", description: "Developing original song ideas from emotions, observations, memorable lines, and melodic fragments.", x: 16, y: 20 },
-      { name: "Singing & vocals", description: "Working on vocal delivery and expression as part of building an identity as a performing artist.", x: 39, y: 12 },
-      { name: "Ukulele", description: "Writing and arranging acoustic foundations, sketches, and covers with an intimate, stripped-back feel.", x: 63, y: 15 },
-      { name: "Guitar", description: "Exploring electric guitar and guitar-based ideas alongside acoustic songwriting.", x: 84, y: 25 },
-      { name: "Arrangement & harmony", description: "Experimenting with song structure, layered vocals, harmonies, and how parts support the emotional centre.", x: 87, y: 49 },
-      { name: "Home recording", description: "Building song demos and shaping recordings in BandLab with a raw, honest production approach.", x: 77, y: 72 },
-      { name: "Music production", description: "Exploring texture, dynamics, and arrangements without locking into a single genre or over-polishing the performance.", x: 55, y: 82 },
-      { name: "Genre exploration", description: "Drawing inspiration from indie, alternative rock, pop-punk, acoustic music, blues, and jazz.", x: 31, y: 79 },
-      { name: "Filmmaking", description: "Developing short-film ideas and thinking about atmosphere, visual storytelling, scenes, and emotional pacing.", x: 12, y: 65 },
-      { name: "Script & story development", description: "Creating premises, character tension, story fragments, and narrative turns for film and other creative work.", x: 9, y: 43 },
-      { name: "Visual storytelling", description: "Using mood, framing, imagery, rhythm, and detail to communicate beyond dialogue alone.", x: 31, y: 49 },
-      { name: "Creative direction", description: "Bringing sound, visuals, language, and atmosphere together into a coherent experience.", x: 50, y: 34 },
-      { name: "Public speaking", description: "Speaking to groups, introducing ideas, and communicating with confidence and clarity.", x: 67, y: 48 },
-      { name: "Presentations & pitching", description: "Shaping an idea into a clear narrative that an audience, teammate, or judge can understand.", x: 48, y: 63 },
-      { name: "Event & community work", description: "Contributing to campus creative events, music-night programming, and student community engagement.", x: 29, y: 31 },
-      { name: "Story-first thinking", description: "Looking for the human detail that makes a song, film, project, or presentation feel memorable.", x: 69, y: 30 },
-      { name: "Creative experimentation", description: "Keeping early sketches imperfect enough to discover something unexpected, then developing the strongest ideas.", x: 48, y: 48 },
-    ],
-  },
+      { name: "Songwriting", description: "Developing original song ideas from emotions, observations, memorable lines, and melodic fragments.", x: 20, y: 24 },
+      { name: "Singing & instruments", description: "Singing, ukulele, and exploring electric guitar as part of an evolving musical identity.", x: 72, y: 24 },
+      { name: "Music & recording", description: "Making demos in BandLab, experimenting with harmonies and arrangements, and keeping the production raw and honest.", x: 78, y: 65 },
+      { name: "Filmmaking", description: "Exploring short-film ideas, atmosphere, visual storytelling, scenes, and emotional pacing.", x: 27, y: 68 },
+      { name: "Creative storytelling", description: "Finding human details and shaping mood, imagery, sound, and narrative into a coherent experience.", x: 50, y: 45 },
+    ],  },
 };
 
 const PARTICLES = Array.from({ length: 74 }, (_, i) => ({
@@ -278,12 +257,12 @@ export default function Skills() {
                         onClick={() => setSelectedSkill(skill.name)}
                         aria-pressed={selectedSkill === skill.name}
                         className="group absolute z-10 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2 rounded-md px-1 py-1 text-center focus-visible:outline focus-visible:outline-1 focus-visible:outline-white"
-                        style={{ left: `${skill.x}%`, top: `${skill.y}%`, maxWidth: "26%" }}
+                        style={{ left: `${skill.x}%`, top: `${skill.y}%`, maxWidth: activePath === "build" ? "31%" : "34%" }}
                         initial={reduced ? false : { opacity: 0, scale: 0.45, y: 8 }}
                         animate={{ opacity: 1, scale: selectedSkill === skill.name ? 1.12 : 1, y: 0 }}
                         transition={{ duration: reduced ? 0 : 0.5, delay: reduced ? 0 : i * 0.07, ease: [0.2, 0.8, 0.2, 1] }}
                       >
-                        <span className="relative flex h-7 w-7 items-center justify-center sm:h-9 sm:w-9">
+                        <span className={`relative flex items-center justify-center ${activePath === "build" ? "h-9 w-9 sm:h-11 sm:w-11" : "h-7 w-7 sm:h-9 sm:w-9"}`}>
                           <motion.span
                             className="absolute inset-1 rounded-full blur-md"
                             style={{ background: path.glow }}
@@ -291,15 +270,33 @@ export default function Skills() {
                             transition={reduced ? undefined : { duration: 3 + (i % 4) * 0.35, repeat: Infinity, ease: "easeInOut" }}
                           />
                           <motion.span
-                            className="relative h-2 w-2 rounded-full border border-white/80 sm:h-2.5 sm:w-2.5"
+                            className={`relative rounded-full border border-white/80 ${activePath === "build" ? "h-2.5 w-2.5 sm:h-3 sm:w-3" : "h-2 w-2 sm:h-2.5 sm:w-2.5"}`}
                             style={{ background: selectedSkill === skill.name ? "#fff" : path.color, boxShadow: `0 0 16px ${path.color}` }}
                             whileHover={reduced ? undefined : { scale: 1.8 }}
                           />
                         </span>
-                        <span className="max-w-full text-[9px] leading-4 text-white/65 transition-colors group-hover:text-white sm:text-[11px]">{skill.name}</span>
+                        <span className={`max-w-full leading-4 transition-colors group-hover:text-white ${activePath === "build" ? "text-[10px] text-white/80 sm:text-xs" : "text-[9px] text-white/65 sm:text-[11px]"}`}>{skill.name}</span>
                       </motion.button>
                     ))}
                   </div>
+
+                  {activePath === "build" && (
+                    <div className="relative z-20 mt-2 flex justify-center">
+                      <div className="group relative">
+                        <button type="button" className="inline-flex items-center gap-2 border border-white/15 bg-white/[.025] px-4 py-2.5 text-[10px] uppercase tracking-[.2em] text-white/55 transition-colors hover:border-[#9bd8ff]/40 hover:text-[#c7eaff] focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#9bd8ff]">
+                          <Sparkles size={12} /> Soft skills <span className="text-white/30">↗</span>
+                        </button>
+                        <div className="pointer-events-none absolute bottom-full left-1/2 mb-3 w-[min(290px,85vw)] -translate-x-1/2 translate-y-2 border border-white/15 bg-[#0b0d18]/95 p-4 text-left opacity-0 shadow-2xl backdrop-blur-xl transition-all duration-200 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                          <p className="mb-3 text-[9px] uppercase tracking-[.22em] text-[#9bd8ff]/75">How I work with people</p>
+                          <div className="flex flex-wrap gap-2">
+                            {["Project management", "Planning & coordination", "Public speaking", "Active listening", "Team leadership", "Communication", "Collaboration", "Presenting & pitching", "Community building"].map((item) => (
+                              <span key={item} className="border border-white/10 px-2 py-1 text-[10px] text-white/70">{item}</span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                   <AnimatePresence mode="wait">
                     {selected ? (
