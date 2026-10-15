@@ -560,3 +560,34 @@ body {
 .cosmic-bloom--violet::after { left: 25%; bottom: -4%; background: radial-gradient(circle,rgba(255,167,96,.11) 0,rgba(210,100,115,.045) 34%,transparent 70%); animation: nebula-pulse 27s ease-in-out -12s infinite; }
 @keyframes nebula-pulse { 0%,100% { opacity:.28; transform:scale(.84) translate3d(0,0,0); } 48% { opacity:.85; transform:scale(1.08) translate3d(1.5%,-1%,0); } }
 @media (prefers-reduced-motion: reduce) { .cosmic-bloom::before, .cosmic-bloom::after { animation:none !important; } }
+
+
+/* The receded navigation wakes up gently on hover, like a distant signal coming into focus. */
+.journey-nav-content {
+  transition: filter 420ms ease, text-shadow 420ms ease;
+}
+.journey-global-nav--receded:hover .journey-nav-content,
+.journey-global-nav--receded:focus-within .journey-nav-content {
+  filter: drop-shadow(0 0 12px rgba(91, 160, 255, .24)) drop-shadow(0 0 28px rgba(132, 94, 222, .16));
+}
+.journey-global-nav--receded:hover a,
+.journey-global-nav--receded:focus-within a,
+.journey-global-nav--receded:hover button,
+.journey-global-nav--receded:focus-within button {
+  text-shadow: 0 0 10px rgba(185, 216, 255, .36), 0 1px 12px rgba(0,0,0,.55);
+}
+@media (prefers-reduced-motion: reduce) {
+  .journey-nav-content { transition: none !important; }
+}
+
+
+/* A quieter clay accent for the story galaxy; no default gold glow. */
+.galaxy-clay .galaxy-core {
+  border-color: rgba(214, 156, 135, .28);
+  box-shadow: 0 0 42px rgba(214, 156, 135, .075), inset 0 0 22px rgba(214, 156, 135, .045);
+}
+.galaxy-clay:hover .galaxy-core,
+.galaxy-clay:focus-visible .galaxy-core {
+  border-color: rgba(214, 156, 135, .56);
+  box-shadow: 0 0 54px rgba(214, 156, 135, .14), inset 0 0 26px rgba(214, 156, 135, .07);
+}
