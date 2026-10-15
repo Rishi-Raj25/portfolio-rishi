@@ -124,80 +124,77 @@ export default function Skills() {
                 key="nebula-front"
                 initial={reduced ? { opacity: 1 } : { opacity: 0, scale: 0.88, rotateX: 9, y: 28 }}
                 animate={reduced ? { opacity: 1 } : { opacity: 1, scale: 1, rotateX: 0, y: 0 }}
-                exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 1.06, rotateY: -82, z: -120, filter: "blur(8px)" }}
-                transition={{ duration: reduced ? 0 : 1.15, ease: [0.16, 0.8, 0.2, 1] }}
-                className="relative min-h-[560px] overflow-hidden sm:min-h-[650px]"
+                exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 1.12, rotateY: 105, rotateZ: 12, z: -220, filter: "blur(10px)" }}
+                transition={{ duration: reduced ? 0 : 1.35, ease: [0.16, 0.8, 0.2, 1] }}
+                className="relative min-h-[640px] overflow-hidden sm:min-h-[720px]"
+                style={{ transformStyle: "preserve-3d", transformOrigin: "center center" }}
               >
                 <NebulaParticles />
+                <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse at 50% 48%, rgba(7,10,23,.04), rgba(2,4,10,.3) 75%, #03050a 100%)" }} />
                 <motion.div
                   aria-hidden="true"
-                  className="absolute left-1/2 top-[45%] h-[360px] w-[360px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[55px] sm:h-[520px] sm:w-[520px]"
-                  initial={reduced ? false : { scale: 0.08, opacity: 0 }}
-                  whileInView={reduced ? undefined : { scale: [0.08, 1.28, 1.08], opacity: [0, 0.95, 0.62] }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: reduced ? 0 : 2.3, times: [0, 0.56, 1], ease: [0.12, 0.75, 0.2, 1] }}
-                  style={{ background: "radial-gradient(ellipse at 48% 47%, rgba(242,232,255,.9) 0%, rgba(155,179,255,.55) 8%, rgba(115,95,207,.42) 22%, rgba(67,123,201,.24) 43%, rgba(143,82,177,.15) 60%, transparent 75%)" }}
-                />
-                <motion.div
-                  aria-hidden="true"
-                  className="absolute left-1/2 top-[45%] h-[270px] w-[480px] -translate-x-1/2 -translate-y-1/2 rounded-[50%] blur-[32px] sm:h-[350px] sm:w-[680px]"
-                  initial={reduced ? false : { scale: 0.12, rotate: -20, opacity: 0 }}
-                  whileInView={reduced ? undefined : { scale: [0.12, 1.18, 1], rotate: [-20, 12, 0], opacity: [0, 0.85, 0.52] }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: reduced ? 0 : 2.6, delay: 0.12, times: [0, 0.62, 1], ease: [0.12, 0.75, 0.2, 1] }}
-                  style={{ background: "radial-gradient(ellipse, rgba(112,174,237,.52), rgba(157,94,207,.24) 42%, rgba(216,174,230,.12) 58%, transparent 73%)" }}
-                />
-                <motion.div
-                  aria-hidden="true"
-                  className="absolute left-1/2 top-[45%] h-[180px] w-[580px] -translate-x-1/2 -translate-y-1/2 rounded-[50%] blur-[22px] sm:h-[220px] sm:w-[850px]"
-                  initial={reduced ? false : { scale: 0.05, rotate: 20, opacity: 0 }}
-                  whileInView={reduced ? undefined : { scale: [0.05, 1.1, 1], rotate: [20, -8, 0], opacity: [0, 0.56, 0.32] }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: reduced ? 0 : 2.8, delay: 0.18, times: [0, 0.6, 1], ease: [0.12, 0.75, 0.2, 1] }}
-                  style={{ background: "linear-gradient(90deg, transparent, rgba(120,184,239,.2), rgba(224,184,255,.35), rgba(126,155,228,.24), transparent)" }}
-                />
+                  className="pointer-events-none absolute left-1/2 top-[43%] aspect-square w-[min(92vw,650px)] -translate-x-1/2 -translate-y-1/2 sm:w-[min(62vw,720px)]"
+                  animate={reduced ? undefined : { rotate: 360 }}
+                  transition={reduced ? undefined : { duration: 150, repeat: Infinity, ease: "linear" }}
+                >
+                  <div className="absolute inset-0 rounded-full opacity-90" style={{ background: "radial-gradient(ellipse at 50% 50%, rgba(116,206,255,.98) 0%, rgba(75,151,236,.75) 5%, rgba(76,110,204,.52) 14%, rgba(95,83,180,.3) 27%, transparent 51%)", filter: "blur(14px)" }} />
+                  <div className="absolute inset-[4%] rounded-full opacity-90" style={{ background: "conic-gradient(from 12deg at 50% 50%, transparent 0deg, rgba(66,185,219,.2) 32deg, rgba(224,160,106,.66) 65deg, rgba(80,212,226,.7) 98deg, transparent 133deg, rgba(184,112,186,.4) 174deg, rgba(67,176,220,.55) 224deg, rgba(228,152,104,.5) 276deg, transparent 330deg)", filter: "blur(24px)" }} />
+                  <div className="absolute inset-[8%] rounded-full opacity-75" style={{ background: "radial-gradient(ellipse at 30% 32%, rgba(246,179,119,.82), transparent 24%), radial-gradient(ellipse at 70% 28%, rgba(66,218,229,.82), transparent 26%), radial-gradient(ellipse at 26% 72%, rgba(79,202,215,.7), transparent 27%), radial-gradient(ellipse at 75% 70%, rgba(214,130,101,.72), transparent 25%), radial-gradient(ellipse at center, transparent 22%, rgba(118,162,255,.45) 34%, transparent 57%)", filter: "blur(18px)" }} />
+                  <svg viewBox="0 0 600 600" className="absolute inset-0 h-full w-full" aria-hidden="true">
+                    <defs>
+                      <filter id="nebula-filaments">
+                        <feTurbulence type="fractalNoise" baseFrequency="0.012 0.035" numOctaves="3" seed="12" />
+                        <feColorMatrix values="1 0 0 0 .1  0 1 0 0 .25  0 0 1 0 .35  0 0 0 1 0" />
+                        <feGaussianBlur stdDeviation="1.4" />
+                      </filter>
+                      <radialGradient id="nebula-core">
+                        <stop stopColor="#b7f3ff" stopOpacity=".98" />
+                        <stop offset=".09" stopColor="#6fd7ff" stopOpacity=".86" />
+                        <stop offset=".25" stopColor="#718de5" stopOpacity=".42" />
+                        <stop offset=".58" stopColor="#8a6ab4" stopOpacity=".12" />
+                        <stop offset="1" stopColor="#050711" stopOpacity="0" />
+                      </radialGradient>
+                    </defs>
+                    <circle cx="300" cy="300" r="278" fill="url(#nebula-core)" />
+                    <path d="M300 28 C390 60 492 115 555 215 S520 420 438 502 S258 584 138 500 S25 333 68 220 S204 42 300 28Z" fill="none" stroke="#69d8ec" strokeWidth="38" strokeOpacity=".32" filter="url(#nebula-filaments)" />
+                    <path d="M300 45 C400 90 475 115 535 235 S485 420 412 486 S250 552 151 470 S54 325 86 225 S205 65 300 45Z" fill="none" stroke="#efb27d" strokeWidth="28" strokeOpacity=".45" filter="url(#nebula-filaments)" />
+                    <path d="M300 72 C380 102 466 160 498 245 S460 398 385 455 S252 508 170 442 S86 318 112 238 S213 94 300 72Z" fill="none" stroke="#82e6ed" strokeWidth="19" strokeOpacity=".55" filter="url(#nebula-filaments)" />
+                    <circle cx="300" cy="300" r="205" fill="none" stroke="#d2faff" strokeOpacity=".15" strokeWidth="1" />
+                  </svg>
+                  <div className="absolute inset-[20%] rounded-full" style={{ background: "radial-gradient(circle, rgba(183,238,255,.65), rgba(92,139,226,.28) 23%, rgba(8,12,28,.1) 54%, transparent 70%)", filter: "blur(18px)" }} />
+                </motion.div>
 
-                <div className="relative z-10 flex min-h-[560px] flex-col items-center justify-end pb-10 text-center sm:min-h-[650px] sm:pb-12">
-                  <motion.div
-                    initial={reduced ? undefined : { opacity: 0, y: 12 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: reduced ? 0 : 0.8, delay: 0.35 }}
-                    className="mb-5 flex items-center gap-2 text-[9px] uppercase tracking-[.3em] text-white/45"
-                  >
-                    <Sparkles size={12} /> Choose your trajectory
-                  </motion.div>
-                  <h3 className="max-w-2xl text-2xl font-light tracking-[-.04em] text-white/90 sm:text-4xl">Two ways to make a universe.</h3>
-                  <p className="mt-3 max-w-md text-xs leading-6 text-white/45 sm:text-sm">A little engineering. A little imagination. A lot of curiosity.</p>
-                  <div className="mt-8 grid w-full max-w-2xl grid-cols-1 gap-3 px-2 sm:grid-cols-2 sm:gap-8 sm:px-0">
-                    <motion.button
-                      type="button"
-                      onClick={() => choosePath("build")}
-                      whileHover={reduced ? undefined : { y: -5, scale: 1.025 }}
-                      whileTap={reduced ? undefined : { scale: 0.985 }}
-                      className="group relative overflow-hidden py-4 text-left focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#9bd8ff]"
-                    >
-                      <span className="absolute inset-0 bg-gradient-to-r from-[#6abaff]/[.08] via-transparent to-transparent opacity-70 transition-opacity group-hover:opacity-100" />
-                      <span className="relative flex items-center justify-between gap-3 border-b border-[#9bd8ff]/25 pb-3">
-                        <span className="text-[9px] uppercase tracking-[.22em] text-[#9bd8ff]/70">Field 01</span><ArrowUpRight size={15} className="text-[#9bd8ff]/60 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
-                      </span>
-                      <span className="relative mt-4 block text-xl font-light text-white/90 sm:text-2xl">Build & Engineer</span>
-                      <span className="relative mt-2 block text-xs leading-5 text-white/45">Code, systems, AI, and prototypes.</span>
+                <div className="relative z-10 flex min-h-[640px] flex-col items-center sm:min-h-[720px]">
+                  <div className="mt-8 text-center sm:mt-10">
+                    <p className="mb-4 flex items-center justify-center gap-2 text-[9px] uppercase tracking-[.3em] text-white/55"><Sparkles size={12} /> Choose your trajectory</p>
+                    <h3 className="text-2xl font-light tracking-[-.04em] text-white sm:text-4xl">Two ways to make a universe.</h3>
+                    <p className="mt-3 text-xs text-white/60 sm:text-sm">Enter the nebula. Follow what draws you in.</p>
+                  </div>
+
+                  <div className="absolute left-0 right-0 top-[42%] hidden -translate-y-1/2 items-center justify-between gap-8 lg:flex">
+                    <motion.button type="button" onClick={() => choosePath("build")} whileHover={reduced ? undefined : { x: 7, scale: 1.035 }} whileTap={reduced ? undefined : { scale: .98 }}
+                      className="group relative w-[245px] border-l border-[#9bd8ff]/55 bg-gradient-to-r from-[#9bd8ff]/[.12] to-transparent px-5 py-5 text-left backdrop-blur-sm focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#9bd8ff]">
+                      <span className="flex items-center justify-between text-[9px] uppercase tracking-[.22em] text-[#9bd8ff]/85"><span>Field 01</span><ArrowUpRight size={15} /></span>
+                      <span className="mt-3 block text-2xl font-light text-white drop-shadow-[0_2px_18px_rgba(0,0,0,.9)]">Build & Engineer</span>
+                      <span className="mt-2 block text-xs leading-5 text-white/70">Code, systems, AI, and prototypes.</span>
+                      <span className="mt-4 block h-px w-10 bg-[#9bd8ff]/55 transition-all duration-500 group-hover:w-full" />
                     </motion.button>
-                    <motion.button
-                      type="button"
-                      onClick={() => choosePath("create")}
-                      whileHover={reduced ? undefined : { y: -5, scale: 1.025 }}
-                      whileTap={reduced ? undefined : { scale: 0.985 }}
-                      className="group relative overflow-hidden py-4 text-left focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#e2b9ff]"
-                    >
-                      <span className="absolute inset-0 bg-gradient-to-r from-[#c48bff]/[.08] via-transparent to-transparent opacity-70 transition-opacity group-hover:opacity-100" />
-                      <span className="relative flex items-center justify-between gap-3 border-b border-[#e2b9ff]/25 pb-3">
-                        <span className="text-[9px] uppercase tracking-[.22em] text-[#e2b9ff]/70">Field 02</span><ArrowUpRight size={15} className="text-[#e2b9ff]/60 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
-                      </span>
-                      <span className="relative mt-4 block text-xl font-light text-white/90 sm:text-2xl">Create & Tell Stories</span>
-                      <span className="relative mt-2 block text-xs leading-5 text-white/45">Film, music, words, and ideas.</span>
+                    <motion.button type="button" onClick={() => choosePath("create")} whileHover={reduced ? undefined : { x: -7, scale: 1.035 }} whileTap={reduced ? undefined : { scale: .98 }}
+                      className="group relative w-[245px] border-r border-[#e2b9ff]/55 bg-gradient-to-l from-[#e2b9ff]/[.12] to-transparent px-5 py-5 text-right backdrop-blur-sm focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#e2b9ff]">
+                      <span className="flex items-center justify-between text-[9px] uppercase tracking-[.22em] text-[#e2b9ff]/85"><ArrowUpRight size={15} /><span>Field 02</span></span>
+                      <span className="mt-3 block text-2xl font-light text-white drop-shadow-[0_2px_18px_rgba(0,0,0,.9)]">Create & Tell Stories</span>
+                      <span className="mt-2 block text-xs leading-5 text-white/70">Film, music, words, and ideas.</span>
+                      <span className="mt-4 ml-auto block h-px w-10 bg-[#e2b9ff]/55 transition-all duration-500 group-hover:w-full" />
                     </motion.button>
+                  </div>
+
+                  <div className="mt-auto grid w-full grid-cols-1 gap-4 px-2 pb-8 pt-[300px] sm:grid-cols-2 sm:px-8 lg:hidden">
+                    <button type="button" onClick={() => choosePath("build")} className="border-l border-[#9bd8ff]/55 bg-gradient-to-r from-[#9bd8ff]/[.12] to-transparent px-4 py-4 text-left backdrop-blur-sm">
+                      <span className="text-[9px] uppercase tracking-[.22em] text-[#9bd8ff]/85">Field 01</span><span className="mt-2 block text-xl text-white">Build & Engineer</span><span className="mt-1 block text-xs text-white/65">Code, systems, AI, and prototypes.</span>
+                    </button>
+                    <button type="button" onClick={() => choosePath("create")} className="border-r border-[#e2b9ff]/55 bg-gradient-to-l from-[#e2b9ff]/[.12] to-transparent px-4 py-4 text-right backdrop-blur-sm">
+                      <span className="text-[9px] uppercase tracking-[.22em] text-[#e2b9ff]/85">Field 02</span><span className="mt-2 block text-xl text-white">Create & Tell Stories</span><span className="mt-1 block text-xs text-white/65">Film, music, words, and ideas.</span>
+                    </button>
                   </div>
                 </div>
               </motion.div>
