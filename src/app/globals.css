@@ -579,3 +579,15 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .journey-nav-content { transition: none !important; }
 }
+
+
+/* A quieter clay accent for the story galaxy; no default gold glow. */
+.galaxy-clay .galaxy-core {
+  border-color: rgba(214, 156, 135, .28);
+  box-shadow: 0 0 42px rgba(214, 156, 135, .075), inset 0 0 22px rgba(214, 156, 135, .045);
+}
+.galaxy-clay:hover .galaxy-core,
+.galaxy-clay:focus-visible .galaxy-core {
+  border-color: rgba(214, 156, 135, .56);
+  box-shadow: 0 0 54px rgba(214, 156, 135, .14), inset 0 0 26px rgba(214, 156, 135, .07);
+}
