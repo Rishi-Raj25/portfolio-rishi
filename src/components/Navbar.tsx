@@ -35,7 +35,7 @@ export default function Navbar() {
             ${isScrolled ? "bg-transparent border-transparent shadow-none" : "bg-transparent border-transparent"}
           `}>
             <Link href="/" className="group flex items-center gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+              <div className="w-1.5 h-1.5 rounded-full bg-[#a8b59a]" />
               <span className="text-base sm:text-lg font-bold tracking-tight text-white/90 group-hover:text-white transition-colors duration-300">
                 Rishi Raj
               </span>
@@ -74,7 +74,7 @@ export default function Navbar() {
           >
             <div className="flex items-center justify-between mb-16">
               <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                <div className="w-1.5 h-1.5 rounded-full bg-[#a8b59a]" />
                 <span className="text-xl font-bold tracking-tight">Rishi Raj</span>
               </Link>
               <button
@@ -100,7 +100,7 @@ export default function Navbar() {
               <Link
                 href="#contact"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-4xl font-bold tracking-tighter text-blue-400 hover:text-blue-300 transition-all hover:translate-x-2"
+                className="text-4xl font-bold tracking-tighter text-[#c29a82] hover:text-[#ddbaa4] transition-all hover:translate-x-2"
               >
                 Contact
               </Link>
